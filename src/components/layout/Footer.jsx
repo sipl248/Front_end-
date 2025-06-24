@@ -157,10 +157,10 @@ export default function Footer() {
           </div>
 
           {/* button */}
-          <div class="final-btn">
-            <div class="flex xxss:justify-start justify-end">
+          <div className="final-btn">
+            <div className="flex xxss:justify-start justify-end">
               <a href="/contactus">
-                <button class="text-white bg-[#dd003f] rounded-[20px] px-[25px] py-[11px] font-[600] text-[12px] xxss:py-[8px] xxss:px-[20px] max-md:px-[25px] max-md:py-[11px] max-lg:py-[11px] max-lg:px-[22px] max-xxl:py-[8px] max-xxl:px-[20px] ">
+                <button className="text-white bg-[#dd003f] rounded-[20px] px-[25px] py-[11px] font-[600] text-[12px] xxss:py-[8px] xxss:px-[20px] max-md:px-[25px] max-md:py-[11px] max-lg:py-[11px] max-lg:px-[22px] max-xxl:py-[8px] max-xxl:px-[20px] ">
                   CONTACT US
                 </button>
               </a>

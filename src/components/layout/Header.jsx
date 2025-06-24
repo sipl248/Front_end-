@@ -2,11 +2,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaGamepad, FaSearch } from "react-icons/fa";
+import { FaBars, FaGamepad, FaSearch, FaTimes } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 
 export default function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navLinks = [
+    { label: "HOME", href: "/" },
+    { label: "ABOUT US", href: "/aboutus" },
+    { label: "DEVELOPER", href: "/developer" },
+    { label: "AFFILIATES", href: "/affiliates" },
+    { label: "CONTACT US", href: "/contactus" },
+  ];
 
   return (
     <header
@@ -28,37 +36,61 @@ export default function Header() {
             />
           </div>
 
-          {/* Search and Actions */}
+          {/* Desktop Navigation */}
           <div className="flex font-semibold items-center gap-10 max-md:hidden text-[16px]">
             <ul className="capitalize  flex items-center gap-10 text-[#abb7c4]">
-              <li>HOME</li>
-              <li>ABOUT US</li>
-              <li>DEVELOPER</li>
-              <li>AFFILIATES</li>
-              <li>CONTACT US</li>
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href}>{link.label}</Link>
+                </li>
+              ))}
               <li>
                 <IoSearch fontSize={20} />
               </li>
             </ul>
           </div>
-        </div>
 
-        {/* Search Bar */}
-        {isSearchOpen && (
-          <div className="absolute top-16 left-0 right-0 bg-gradient-to-b from-gray-900/95 to-gray-900/80 backdrop-blur-xl p-3 border-b border-gray-800/30">
-            <div className="max-w-3xl mx-auto">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search games..."
-                  className="w-full bg-gray-800/50 text-white px-4 py-2 rounded-xl pl-12 focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-700/30 placeholder-gray-400"
-                />
-                <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              </div>
-            </div>
-          </div>
-        )}
+          {/* Hamburger Icon for Mobile */}
+          <button
+            className="md:hidden text-white text-2xl focus:outline-none"
+            onClick={() => setIsMenuOpen(true)}
+            aria-label="Open menu"
+          >
+            <FaBars />
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <div
+          className="absolute left-0 right-0 top-full bg-[#020c17] z-40 flex flex-col items-center border-t border-[#222c36] shadow-lg"
+          style={{ minHeight: "0", height: "auto" }}
+        >
+          <div className="w-full flex justify-end px-6 pt-4 pb-2">
+            <button
+              className="text-white text-2xl focus:outline-none"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <FaTimes />
+            </button>
+          </div>
+          <ul className="flex flex-col items-center gap-2 w-full pb-4">
+            {navLinks.map((link) => (
+              <li key={link.label} className="w-full text-center">
+                <Link
+                  href={link.href}
+                  className="block py-2 text-base font-semibold text-[#abb7c4] hover:text-[#dcf836] transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }
