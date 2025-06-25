@@ -4,7 +4,10 @@
 
 :root {
   --background: #ffffff;
+  --primary: #020C17;
   --foreground: #171717;
+
+  --color-primary:'#020C17';
 }
 
 @theme inline {
@@ -25,16 +28,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family:  "Dosis", sans-serif;
-  /* font-family: Arial, Helvetica, sans-serif; */
 }
 .nunito-fons {
   font-family: "Nunito", sans-serif;
 }
-/* .Footer_footerheading__0emrr h4 {
-  font-family: Dosis, sans-serif;
-  font-size: 18px;
-  color: #fff;
-  font-weight: 600;
-  text-transform: capitalize;
-  margin-bottom: 30px;
-} */
