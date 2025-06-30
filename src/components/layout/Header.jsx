@@ -4,9 +4,10 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
-// import {usepathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -54,14 +55,21 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="flex font-semibold items-center gap-10 max-md:hidden text-[16px]">
-            <ul className="capitalize flex items-center gap-10 text-[#abb7c4]">
+            <ul className="capitalize flex items-center gap-10 ">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link
+                    href={link.href}
+                    className={`${
+                      path === link?.href ? "text-[#dcf836]" : "text-[#abb7c4]"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
               <li>
-                <IoSearch fontSize={20} />
+                <IoSearch fontSize={20} className="text-white" />
               </li>
             </ul>
           </div>
