@@ -49,7 +49,7 @@ export default function Header() {
               height={40}
               width={40}
               alt="Logo"
-              className="w-[40px] h-[40px] max-lg:h-[34px] cursor-pointer"
+              className="w-[40px] h-[40px]  cursor-pointer"
             />
           </div>
 
