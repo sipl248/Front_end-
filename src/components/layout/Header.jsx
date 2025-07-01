@@ -45,11 +45,11 @@ export default function Header() {
           {/* Logo and Brand */}
           <div className="flex items-center">
             <Image
-              src="https://pokiigame.com/_next/static/media/mainlogo.e390ad58.svg"
+              src="/assets/pokii_game.webp"
               height={40}
-              width={60}
+              width={40}
               alt="Logo"
-              className="w-[60px] h-[40px] max-lg:h-[34px] cursor-pointer"
+              className="w-[40px] h-[40px] max-lg:h-[34px] cursor-pointer"
             />
           </div>
 

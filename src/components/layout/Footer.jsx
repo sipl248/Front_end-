@@ -18,7 +18,7 @@ export default function Footer() {
                 decoding="async"
                 data-nimg="1"
                 style="color:transparent"
-                src="https://pokiigame.com/_next/static/media/mainlogo.e390ad58.svg"
+                src="/assets/pokii_game.webp"
               />
             </a>
           </div>
