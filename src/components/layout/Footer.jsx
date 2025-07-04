@@ -129,7 +129,7 @@ export default function Footer() {
               <li className="mb-2 flex items-center gap-2">
                 <FaFacebook />
                 <a
-                  href="#"
+                  href="https://www.facebook.com/share/QcobMWNv9q53Max5/?mibextid=qi2Omg"
                   aria-label="Facebook : pokiigame"
                   className="hover:text-[#dcf836]"
                 >
@@ -139,7 +139,7 @@ export default function Footer() {
               <li className="mb-2 flex items-center gap-2">
                 <FaInstagram />
                 <a
-                  href="#"
+                  href="https://www.instagram.com/pokiigame"
                   aria-label="Instagram : pokiigame"
                   className="hover:text-[#dcf836]"
                 >
