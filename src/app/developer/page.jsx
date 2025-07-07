@@ -3,7 +3,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <div className="bg-[#020C17] text-white -mt-20">
+    <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img2.d48ea787.jpg"}
@@ -13,41 +13,39 @@ export default function page() {
           height={673}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
+          <h1>Developers - PokiiGame</h1>
         </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
+        <div className="text-[18px]">
+          <p className="h-auto">
+            PokiiGame is a top game development studio dedicated to making fun
+            and interesting gaming experiences. In addition to creating games,
+            we also have expertise in gaming apps and responsive game design,
+            which ensures seamless platform integration.
+            <br />
+            <br />
+            Content creators on the PokiiGame platform have unparalleled control
+            over their works. Posting, publishing, tracking, and monetizing
+            content is made simple by our user-friendly interface. But what
+            really sets us apart are the vibrant community and large number of
+            visitors to PokiiGame.com, which give creators unparalleled
+            visibility and audience access.
+            <br />
+            <br />
+            Imagine having the ease to bring your creations to a global
+            audience, monetize your labor of love, and increase traffic to your
+            games.
+            <br />
+            <br />
+            Developers can make a profitable business out of their passion for
+            games with the aid of our platform.
+          </p>
+        </div>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
+          <h1>Contact Us and Join Now</h1>
+          <p className="text-[18px] text-[#abb7c4] font-light mt-2">
+            help.pokiigame@gmail.com
+          </p>
         </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
-        </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
-        </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
       </div>
     </div>
   );

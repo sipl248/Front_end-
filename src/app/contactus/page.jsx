@@ -13,41 +13,78 @@ export default function page() {
           height={673}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
+          <h1 className="mb-3">Contact US</h1>
+          <div className="text-[18px] text-[#abb7c4] font-light">
+            <p className="mb-5">help.pokiigame@gmail.com</p>
+          </div>
         </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
+        <div className="font-semibold text-[32px] text-[#4280bf]">
+          <h1 className="mb-3">Copy Right Issue</h1>
+          <p className="text-[18px] text-[#abb7c4] font-light mb-2">
+            We own the Intellectual Property Rights (IPR) to a large number of
+            the games on Pokiigame.com{"'"} sites, and for certain games, we
+            requested and obtained licenses from the copyright holders known to
+            us. For some games, we could not find any copyright information, or,
+            due to general use on the internet, this information can no longer
+            be obtained.
+          </p>
+          <p className="text-[18px] text-[#abb7c4] font-light mb-2">
+            Some games may be used under special conditions, considering a
+            number of prerequisite constraints. These prerequisite constraints
+            are, as far as we could determine, met by Pokiigame.
+          </p>
+          <p className="text-[18px] text-[#abb7c4] font-light mb-2">
+            We do not change anything in the source code of the games. For
+            example, credit holders, brand names, or references to websites
+            remain unchanged. If any copyright or other IPR that you may have is
+            possibly being infringed by/on Pokkigame sites, please inform us
+            immediately, thereby providing us with the following:
+          </p>
+          <ol
+            type="i"
+            style={{ padding: "8px", margin: "4px", listStyle: "inside" }}
+          >
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              the electronic or physical signature of the owner of the IPR or
+              the person authorized to act on the owner{"'"}s behalf;
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              a description of the IP Right that has been infringed, and a
+              description of the infringing activity;
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              the location where the unauthorized copy of the copyrighted work
+              exists (for example, the URL of the Pokiigame website where it is
+              posted, or the name of the book in which it has been published,
+              or, in case of a registered brand name, an excerpt of such
+              register evidencing the registry);
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              a copy of a license in which you are granted the right to use and
+              to protect such IPR (if you are not the owner of the IPR);
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              the identification of the URL or other specific location on this
+              site where the material that you claim is infringing is located;
+              this information must be specific enough to enable us to locate
+              such material;
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              your name and full contact details; and
+            </li>
+            <li className="text-[18px] text-[#abb7c4] font-light mb-2">
+              a statement by you that you have a sincere and honest belief that
+              the disputed use is not authorized by the copyright owner, its
+              agent, or the law.
+            </li>
+          </ol>
+
+          <p className="text-[18px] text-[#abb7c4] font-light mb-2 mt-2">
+            Send above details at help.pokiigame@gmail.com. We will review it
+            and will start taking action on it as soon as possible. We will
+            reply you on any of the query within 7 days.
+          </p>
         </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
-        </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          About Pokki
-        </div>
-        <p className="text-[18px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          consequatur, obcaecati aliquid ab numquam quia fuga nulla quis velit
-          sapiente vero voluptatum fugit corporis similique nesciunt! Numquam
-          porro aliquam sunt?
-        </p>
         <div className="mt-4">
           <form>
             <input
