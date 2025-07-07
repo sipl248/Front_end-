@@ -6,7 +6,6 @@ import axios from "axios"; // <-- Import axios
 export default async function page({ params }) {
   const { name } = params;
   console.log("name", name);
-  const filterData = GAMES?.find((item) => item?.id === name);
   let gameDetails = null;
   try {
     const response = await axios.get(
