@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
-export default function GameDetail({ filterData, name }) {
+export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ export default function GameDetail({ filterData, name }) {
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
         <div className="flex justify-between items-center sm:border-transparent  max-md:flex-col max-lg:gap-10 max-xl:gap-4 max-sm:!gap-0 relative">
           <Image
-            src={filterData?.thumb}
+            src={gameDetails?.thumb}
             alt="background-poster"
             className="absolute inset-0 w-full h-[580px]  object-cover  rounded-[20px] max-sm:rounded-none"
             width={600}
@@ -28,10 +28,10 @@ export default function GameDetail({ filterData, name }) {
 
           <div className="w-full py-28 max-md:py-5 max-sm:!pt-[0.5rem] max-sm:!pb-[0.30rem] flex justify-center items-center flex-col">
             <div className="text-[60px] max-md:text-[32px] text-[#fff] font-semibold max-sm:mb-[4px] mb-[15px] text-center relative z-[5]">
-              FEED THE FROG
+              {gameDetails?.title}
             </div>
             <Image
-              src={filterData?.thumb}
+              src={gameDetails?.thumb}
               alt="background-poster"
               className="w-[200px] h-[200px] relative z-[5] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] max-xs:w-[155px] max-xs:h-[155px] max-xxs:h-[140px] max-xxs:w-[140px] rounded-[20px] opacity-100"
               width={172}
@@ -48,7 +48,7 @@ export default function GameDetail({ filterData, name }) {
               <div className="fixed top-0 left-0  z-[99] w-full h-full bg-black bg-opacity-90 flex justify-center items-center">
                 <div className="relative w-[100%] h-[100%] max-w-full">
                   <iframe
-                    src={filterData?.url}
+                    src={gameDetails?.url}
                     className="w-full h-full rounded-none"
                     allowFullScreen
                   />
@@ -64,20 +64,22 @@ export default function GameDetail({ filterData, name }) {
           </div>
         </div>
         {/* html */}
-        <div className="text-white  max-lg:px-5 text-lg text-justify pt-6 max-md:pt-80 max-sm:80 leading-relaxed ">
-          <p>{filterData?.description || ""}</p>
-        </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: gameDetails?.description || "",
+          }}
+          className="text-white  max-lg:px-5 text-lg text-justify pt-6 max-md:pt-80 max-sm:80 leading-relaxed "
+        ></div>
 
         <div className="flex justify-start items-center flex-wrap gap-3 mt-10 max-lg:px-5">
-          <div className="border border-solid border-white hover:border-[#dcf836] hover:text-[#dcf836] px-4 py-1 rounded-[15px]">
-            Frog Game
-          </div>
-          <div className="border border-solid border-white hover:border-[#dcf836] hover:text-[#dcf836] px-4 py-1 rounded-[15px]">
-            Frog Game
-          </div>
-          <div className="border border-solid border-white hover:border-[#dcf836] hover:text-[#dcf836] px-4 py-1 rounded-[15px]">
-            Frog Game
-          </div>
+          {gameDetails?.tags?.map((tag, index) => (
+            <div
+              key={index}
+              className="border border-solid border-white hover:border-[#dcf836] hover:text-[#dcf836] px-4 py-1 rounded-[15px]"
+            >
+              {tag}
+            </div>
+          ))}
         </div>
       </div>
     </div>
