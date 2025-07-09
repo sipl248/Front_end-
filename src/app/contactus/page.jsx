@@ -1,7 +1,42 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function page() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(null);
+    setError(null);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}contact/submit`,
+        form
+      );
+      setSuccess("Message sent successfully!");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      setError("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-[#020C17] text-white -mt-20">
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
@@ -86,35 +121,52 @@ export default function page() {
           </p>
         </div>
         <div className="mt-4">
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Your Name"
               className="w-full bg-[#0f2133] p-3 mb-2"
-              required=""
+              required
               name="name"
+              value={form.name}
+              onChange={handleChange}
             />
             <input
-              required=""
+              required
               type="text"
               placeholder="Your Email"
               className="w-full bg-[#0f2133] p-3 mb-2"
               name="email"
+              value={form.email}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              placeholder="Subject"
+              className="w-full bg-[#0f2133] p-3 mb-2"
+              name="subject"
+              value={form.subject}
+              onChange={handleChange}
             />
             <textarea
-              required=""
+              required
               rows="6"
               cols="100"
               className="w-full bg-[#0f2133] p-3 mb-2"
               placeholder="Your Message"
               name="message"
+              value={form.message}
+              onChange={handleChange}
             ></textarea>
             <button
               type="submit"
-              className="text-white bg-[#dd003f] rounded-[20px] px-[25px] py-[11px] font-[600] text-[14px]"
+              className="text-white cursor-pointer bg-[#dd003f] rounded-[20px] px-[25px] py-[11px] font-[600] text-[14px]"
+              disabled={loading}
             >
-              <span>Submit</span>
+              {loading ? <span>Loading...</span> : <span>Submit</span>}
             </button>
+            {success && <div className="text-green-500 mt-2">{success}</div>}
+            {error && <div className="text-red-500 mt-2">{error}</div>}
           </form>
         </div>
       </div>
