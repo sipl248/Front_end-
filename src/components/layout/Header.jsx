@@ -46,10 +46,10 @@ export default function Header() {
           <div className="flex items-center">
             <Image
               src="/assets/pokii_game.webp"
-              height={40}
-              width={40}
+              height={524}
+              width={391}
               alt="Logo"
-              className="w-[40px] h-[40px]  cursor-pointer"
+              className="w-[60px] h-[40px] max-lg:h-[34px]  cursor-pointer"
             />
           </div>
 

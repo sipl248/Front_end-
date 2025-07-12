@@ -31,3 +31,70 @@ body {
 .nunito-fons {
   font-family: "Nunito", sans-serif;
 }
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #433528;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track{
+  background-color: black; 
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: #eee;
+}
+
+.game_container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  place-items: center;
+  gap: 0.25rem;
+  padding-top: 32px;
+  /* margin: 32px 0 32px 0; */
+  padding-bottom: 32px;
+}
+
+@media (max-width: 1024px) {
+  .game_container {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .game_container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .game_container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .game_container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .game_container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .game_container {
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 0.25rem;
+  }
+}

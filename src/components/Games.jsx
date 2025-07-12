@@ -64,7 +64,7 @@ export default function Games() {
         PLAY YOUR FAVORITE GAME
       </div>
 
-      <div className="grid grid-cols-6 max-lg:grid-cols-5 max-md:grid-cols-3 max-sm:grid-cols-2 place-content-center place-items-center gap-1 pt-8 pb-8  px-[20.2rem]  max-lg:px-5">
+      <div className="game_container  px-[20.2rem]  max-lg:px-5">
         {games.map((item, index) => {
           return (
             <Link
@@ -73,10 +73,10 @@ export default function Games() {
               className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500  w-full h-full"
             >
               <Image
-                width={136}
-                height={136}
+                width={100}
+                height={100}
                 alt="game-poster"
-                className="size-[136px] mx-auto max-lg:size-auto max-md:size-[150px] max-sm:size-[150px] rounded-[20px] object-cover"
+                className="w-full h-[134px] rounded-[20px] object-cover"
                 src={item?.thumb}
               />
             </Link>
