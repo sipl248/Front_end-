@@ -68,9 +68,9 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              <li>
+              {/* <li>
                 <IoSearch fontSize={20} className="text-white" />
-              </li>
+              </li> */}
             </ul>
           </div>
 
