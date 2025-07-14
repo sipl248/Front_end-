@@ -54,7 +54,7 @@ export default function page() {
           </div>
         </div>
         <div className="font-semibold text-[32px] text-[#4280bf]">
-          <h1 className="mb-3">Copy Right Issue</h1>
+          <h2 className="mb-3">Copy Right Issue</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
             We own the Intellectual Property Rights (IPR) to a large number of
             the games on Pokiigame.com{"'"} sites, and for certain games, we

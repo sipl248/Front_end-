@@ -41,7 +41,7 @@ export default function page() {
           </p>
         </div>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          <h1>Contact Us and Join Now</h1>
+          <h2>Contact Us and Join Now</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mt-2">
             help.pokiigame@gmail.com
           </p>

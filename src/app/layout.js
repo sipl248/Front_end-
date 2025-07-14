@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Canonical from "@/components/seo/Canonical";
+import { SchemaMarkup } from "@/components/seo/SchemaMarkup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,13 +14,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.pokiifuns.com/";
 export const metadata = {
-  metadataBase: new URL(siteUrl), // Replace with your real domain
-  title: "Pokiifuns",
+  metadataBase: new URL(siteUrl),
+  title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
   description:
-    "Pokiifuns: Your ultimate gaming destination! Explore a vast collection of thrilling games, from action-packed adventures to brain-teasing puzzles. Dive into a world of fun and challenge your skills on Pokiifuns today!",
-  applicationName: "Pokiifuns",
+    "Enjoy the best free online games at Pokiifuns! Play action, puzzle, and casual games instantly. Fun, fast, and free—start gaming now!",
   authors: [{ name: "Pokiifuns Team", url: siteUrl }],
   generator: "Next.js 15",
   keywords: [
@@ -27,12 +28,14 @@ export const metadata = {
     "free games",
     "puzzle games",
     "action games",
+    "casual games",
+    "browser games",
     "Pokiifuns",
   ],
   openGraph: {
-    title: "Pokiifuns",
+    title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
     description:
-      "Play free online games instantly! From action to puzzle, enjoy the best casual gaming at Pokiifuns.",
+      "Play free online games instantly at Pokiifuns! From action-packed adventures to relaxing puzzle games, enjoy top titles in your browser.",
     url: siteUrl,
     siteName: "Pokiifuns",
     images: [
@@ -48,9 +51,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pokiifuns",
+    title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
     description:
-      "Play free online games instantly! From action to puzzle, enjoy the best casual gaming at Pokiifuns.",
+      "Discover top-rated free online games at Pokiifuns. Play action, puzzle, and casual games instantly—fun for all ages!",
     images: ["/assets/pokii_game.webp"],
   },
   icons: {
@@ -106,6 +109,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Canonical />
+        <SchemaMarkup />
         <Header />
         <div className="min-h-screen"> {children}</div>
 

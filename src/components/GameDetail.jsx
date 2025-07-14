@@ -27,9 +27,9 @@ export default function GameDetail({ gameDetails, name }) {
           ></div>
 
           <div className="w-full py-28 max-md:py-5 max-sm:!pt-[0.5rem] max-sm:!pb-[0.30rem] flex justify-center items-center flex-col">
-            <div className="text-[60px] max-md:text-[32px] text-[#fff] font-semibold max-sm:mb-[4px] mb-[15px] text-center relative z-[5]">
+            <h1 className="text-[60px] max-md:text-[32px] text-[#fff] font-semibold max-sm:mb-[4px] mb-[15px] text-center relative z-[5]">
               {gameDetails?.title}
-            </div>
+            </h1>
             <Image
               src={gameDetails?.thumb}
               alt="background-poster"

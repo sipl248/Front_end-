@@ -65,55 +65,55 @@ export default function Footer() {
             <div className="flex justify-between w-full gap-8 max-md:flex-col max-md:gap-0">
               <ul className="Footer_footertext__IQnDc nunito-fons ">
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    STRIKE BOWLING
+                  <a className="hover:text-[#dcf836]" href="/10065">
+                    MR RACER : Car Racing
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    KNIFE HIT EMOJI
+                  <a className="hover:text-[#dcf836]" href="/10162">
+                    Among Us
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    BLOCK BREAKER
+                  <a className="hover:text-[#dcf836]" href="/10133">
+                    Snake Color
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    SPEED BOAT
+                  <a className="hover:text-[#dcf836]" href="/10193">
+                    Stickman Ghost
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    GOAL MASTER
+                  <a className="hover:text-[#dcf836]" href="/10187">
+                    Magical Archer
                   </a>
                 </li>
               </ul>
               <ul className="Footer_footertext__IQnDc nunito-fons ">
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    LUDO ROYAL
+                  <a className="hover:text-[#dcf836]" href="/10149">
+                    Geometry Rash
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    LOVE'S QUEST
+                  <a className="hover:text-[#dcf836]" href="/10191">
+                    Survival Race
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    PET MERGE
+                  <a className="hover:text-[#dcf836]" href="/10114">
+                    Doors Awakening
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    BASKETBALL DUNK
+                  <a className="hover:text-[#dcf836]" href="/10079">
+                    Mini Tennis
                   </a>
                 </li>
                 <li className="mb-2">
-                  <a className="hover:text-[#dcf836]" href="#">
-                    EMOJI BINGO
+                  <a className="hover:text-[#dcf836]" href="/10126">
+                    Snow Plowing
                   </a>
                 </li>
               </ul>
@@ -139,9 +139,10 @@ export default function Footer() {
               <li className="mb-2 flex items-center gap-2">
                 <FaInstagram />
                 <a
-                  href="https://www.instagram.com/pokiigame"
+                  href="https://www.instagram.com/pokiifuns?igsh=MTE1bzhvNHk4bmRteQ=="
                   aria-label="Instagram : pokiigame"
                   className="hover:text-[#dcf836]"
+                  target="_blank"
                 >
                   Instagram
                 </a>

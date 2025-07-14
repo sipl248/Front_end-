@@ -29,14 +29,14 @@ export default function page() {
           </p>
         </div>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          <h1>Contact Us and Join our affiliate program</h1>
+          <h2>Contact Us and Join our affiliate program</h2>
           <p className="text-[18px] text-[#abb7c4] font-light">
             help.pokiigame@gmail.com
           </p>
         </div>
 
         <div className="mt-8 font-semibold text-[32px] text-[#4280bf]">
-          <h1 className="mb-2">About Pokii Game</h1>
+          <h2 className="mb-2">About Pokii Game</h2>
 
           <div className="text-[18px] text-[#abb7c4] font-light">
             <p className="mb-2">

@@ -60,9 +60,9 @@ export default function Games() {
 
   return (
     <div className="pt-20">
-      <div className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between  items-center text-center  pt-5">
+      <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between  items-center text-center  pt-5">
         PLAY YOUR FAVORITE GAME
-      </div>
+      </h1>
 
       <div className="game_container  px-[20.2rem]  max-lg:px-5">
         {games.map((item, index) => {

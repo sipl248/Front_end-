@@ -30,6 +30,6 @@ export async function generateMetadata({ params }) {
   const { name } = params;
   return {
     title: `Play ${name} - Pokiifuns Game`,
-    description: `Enjoy playing ${name} on Pokii Game!`,
+    description: `Enjoy playing ${name} on Pokiifuns Game!`,
   };
 }

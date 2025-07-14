@@ -29,7 +29,7 @@ export default function page() {
           </p>
         </div>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          <h1>Our Mission</h1>
+          <h2>Our Mission</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
             Our mission is to provide smooth gaming experience where users can
             instant play to all our games without downloads, login, popups or
@@ -54,7 +54,7 @@ export default function page() {
         </div>
 
         <div className="mt-8 font-semibold text-[32px] text-[#4280bf]">
-          <h1 className="mb-2">Have any issue?</h1>
+          <h2 className="mb-2">Have any issue?</h2>
 
           <div className="text-[18px] text-[#abb7c4] font-light">
             <p className="mb-2">
