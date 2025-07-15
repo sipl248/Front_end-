@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Canonical from "@/components/seo/Canonical";
 import { SchemaMarkup } from "@/components/seo/SchemaMarkup";
+import { keyword } from "../components/Constant";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,15 +24,7 @@ export const metadata = {
     "Enjoy the best free online games at Pokiifuns! Play action, puzzle, and casual games instantly. Fun, fast, and free—start gaming now!",
   authors: [{ name: "Pokiifuns Team", url: siteUrl }],
   generator: "Next.js 15",
-  keywords: [
-    "online games",
-    "free games",
-    "puzzle games",
-    "action games",
-    "casual games",
-    "browser games",
-    "Pokiifuns",
-  ],
+  keywords: keyword,
   openGraph: {
     title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
     description:
