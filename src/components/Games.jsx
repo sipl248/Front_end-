@@ -78,7 +78,7 @@ export default function Games() {
         PLAY YOUR FAVORITE GAME
       </h1>
       {/* Search Bar */}
-      <div className="flex justify-center text-white mt-4 mb-8">
+      <div className="flex justify-center text-white mt-4 ">
         <div className="relative w-full max-w-md">
           <input
             type="text"
@@ -120,15 +120,19 @@ export default function Games() {
             <Link
               href={`/${item?.gameId}`}
               key={index}
-              className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500  w-full h-full"
+              className="justify-between gap-5 cursor-pointer w-full h-full"
             >
-              <Image
-                width={100}
-                height={100}
-                alt="game-poster"
-                className="w-full h-[134px] rounded-[20px] object-cover"
-                src={item?.thumb}
-              />
+              <div className="relative group w-full h-full">
+                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500  w-full h-full">
+                  <Image
+                    width={200}
+                    height={200}
+                    alt="game-poster"
+                    className="w-full  object-cover"
+                    src={item?.thumb}
+                  />
+                </div>
+              </div>
             </Link>
           );
         })}
