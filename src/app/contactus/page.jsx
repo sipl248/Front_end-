@@ -39,7 +39,7 @@ export default function page() {
 
   return (
     <div className="bg-[#020C17] text-white -mt-20">
-      <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
+      <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/contact.833d1c6a.jpg"}
           alt="poster"

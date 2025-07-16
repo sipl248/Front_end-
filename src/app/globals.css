@@ -72,6 +72,15 @@ body {
   /* margin: 32px 0 32px 0; */
   padding-bottom: 32px;
 }
+.doc >p> strong{
+  color: #4280bf;
+}
+@media (max-width: 1500px) and (min-width: 1024px) {
+    .media_resp {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
 
 @media (max-width: 1024px) {
   .game_container {

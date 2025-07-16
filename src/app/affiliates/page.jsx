@@ -4,7 +4,7 @@ import React from "react";
 export default function page() {
   return (
     <div className="bg-[#020C17]  text-[#abb7c4] -mt-20">
-      <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
+      <div className="py-20  px-[20.2rem] media_resp   max-lg:px-5 max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img1.84a82450.jpg"}
           alt="poster"

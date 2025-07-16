@@ -41,9 +41,9 @@ export default function Header() {
       }`}
     >
       <div className="max-lg:flex items-center justify-between max-lg:py-[12px] py-[16px] max-lg:px-[14px] max-lg:pe-5 ">
-        <div className="flex items-center justify-between px-80 w-full max-lg:px-0">
+        <div className="flex items-center justify-between   px-80 media_resp w-full max-lg:px-0">
           {/* Logo and Brand */}
-          <div className="flex items-center">
+          <Link href={"/"} className="flex items-center">
             <Image
               src="/assets/pokii_game.webp"
               height={524}
@@ -51,7 +51,7 @@ export default function Header() {
               alt="Logo"
               className="w-[60px] h-[40px] max-lg:h-[34px]  cursor-pointer"
             />
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="flex font-semibold items-center gap-10 max-md:hidden text-[16px]">
