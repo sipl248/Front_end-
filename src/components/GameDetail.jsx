@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Script from "next/script";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -61,6 +62,25 @@ export default function GameDetail({ gameDetails, name }) {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+        <div className="game-detail">
+          <div className="game-ad">
+            <Script id="game-detail-ad-config" strategy="afterInteractive">
+              {`
+            atOptions = {
+              'key': '33c38de2503eaee4251a5962d435100d',
+              'format': 'iframe',
+              'height': 300,
+              'width': 160,
+              'params': {}
+            };
+          `}
+            </Script>
+            <Script
+              strategy="afterInteractive"
+              src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
+            />
           </div>
         </div>
         {/* html */}

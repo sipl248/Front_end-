@@ -4,6 +4,7 @@ import Link from "next/link";
 import { GAMES } from "./Constant";
 import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
+import Script from "next/script";
 
 export default function Games() {
   const [games, setGames] = useState([]);
@@ -77,6 +78,25 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between  items-center text-center  pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
+      <div className="game-detail">
+        <div className="game-ad">
+          <Script id="game-detail-ad-config" strategy="afterInteractive">
+            {`
+            atOptions = {
+              'key': '33c38de2503eaee4251a5962d435100d',
+              'format': 'iframe',
+              'height': 300,
+              'width': 160,
+              'params': {}
+            };
+          `}
+          </Script>
+          <Script
+            strategy="afterInteractive"
+            src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
+          />
+        </div>
+      </div>
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4 ">
         <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">

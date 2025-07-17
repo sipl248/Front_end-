@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import axios from "axios";
+import Script from "next/script";
 
 export default function page() {
   const [form, setForm] = useState({
@@ -40,6 +41,25 @@ export default function page() {
   return (
     <div className="bg-[#020C17] text-white -mt-20">
       <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
+        <div className="game-detail">
+          <div className="game-ad">
+            <Script id="game-detail-ad-config" strategy="afterInteractive">
+              {`
+            atOptions = {
+              'key': '33c38de2503eaee4251a5962d435100d',
+              'format': 'iframe',
+              'height': 300,
+              'width': 160,
+              'params': {}
+            };
+          `}
+            </Script>
+            <Script
+              strategy="afterInteractive"
+              src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
+            />
+          </div>
+        </div>
         <Image
           src={"https://pokiigame.com/_next/static/media/contact.833d1c6a.jpg"}
           alt="poster"

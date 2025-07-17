@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Canonical from "@/components/seo/Canonical";
 import { SchemaMarkup } from "@/components/seo/SchemaMarkup";
 import { keyword } from "../components/Constant";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -116,18 +117,47 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
         />
-        <meta name="google-adsense-account" content="ca-pub-7456682660420004"></meta>
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-7456682660420004"
+        ></meta>
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3785390617142950"
           crossorigin="anonymous"
         ></script>
+        <script
+          src="https://cmp.gatekeeperconsent.com/min.js"
+          data-cfasync="false"
+        ></script>
+        <script
+          src="https://the.gatekeeperconsent.com/cmp.min.js"
+          data-cfasync="false"
+        ></script>
+        <Script
+          src="//www.ezojs.com/ezoic/sa.min.js"
+          strategy="beforeInteractive"
+          async
+        />
+        <Script id="ezoic-init" strategy="beforeInteractive">
+          {`
+        window.ezstandalone = window.ezstandalone || {};
+        ezstandalone.cmd = ezstandalone.cmd || [];
+      `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script
+          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+          data-cfasync="false"
+          strategy="afterInteractive"
+          async
+        />
         <Canonical />
         <SchemaMarkup />
+        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
         <Header />
         <div className="min-h-screen"> {children}</div>
 

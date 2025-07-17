@@ -1,9 +1,29 @@
 import Image from "next/image";
+import Script from "next/script";
 import React from "react";
 
 export default function page() {
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
+      <div className="game-detail">
+        <div className="game-ad">
+          <Script id="game-detail-ad-config" strategy="afterInteractive">
+            {`
+            atOptions = {
+              'key': '33c38de2503eaee4251a5962d435100d',
+              'format': 'iframe',
+              'height': 300,
+              'width': 160,
+              'params': {}
+            };
+          `}
+          </Script>
+          <Script
+            strategy="afterInteractive"
+            src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
+          />
+        </div>
+      </div>
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img3.6d832745.jpg"}
