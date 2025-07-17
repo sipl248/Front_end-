@@ -130,6 +130,7 @@ export default function Footer() {
                 <FaFacebook />
                 <a
                   href="https://www.facebook.com/profile.php?id=61578035056259"
+                  target="_blank"
                   aria-label="Facebook : pokiifuns"
                   className="hover:text-[#dcf836]"
                 >
