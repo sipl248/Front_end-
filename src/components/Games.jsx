@@ -79,7 +79,7 @@ export default function Games() {
       </h1>
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4 ">
-        <div className="relative w-full max-w-md">
+        <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
           <input
             type="text"
             value={search}

@@ -13,21 +13,21 @@ export default function page() {
           height={673}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          <h1>Developers - PokiiGame</h1>
+          <h1>Developers - pokiifuns</h1>
         </div>
         <div className="text-[18px]">
           <p className="h-auto">
-            PokiiGame is a top game development studio dedicated to making fun
+            pokiifuns is a top game development studio dedicated to making fun
             and interesting gaming experiences. In addition to creating games,
             we also have expertise in gaming apps and responsive game design,
             which ensures seamless platform integration.
             <br />
             <br />
-            Content creators on the PokiiGame platform have unparalleled control
+            Content creators on the pokiifuns platform have unparalleled control
             over their works. Posting, publishing, tracking, and monetizing
             content is made simple by our user-friendly interface. But what
             really sets us apart are the vibrant community and large number of
-            visitors to PokiiGame.com, which give creators unparalleled
+            visitors to pokiifuns.com, which give creators unparalleled
             visibility and audience access.
             <br />
             <br />
@@ -43,7 +43,7 @@ export default function page() {
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h2>Contact Us and Join Now</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mt-2">
-            help.pokiigame@gmail.com
+            help.pokiifuns@gmail.com
           </p>
         </div>
       </div>

@@ -17,12 +17,12 @@ export default function page() {
         </div>
         <div className="text-[18px]">
           <p className="mb-2">
-            Welcome to Pokiigame.com, web based gaming platform! With over 1000+
+            Welcome to pokiifuns.com, web based gaming platform! With over 1000+
             games accross 25+ categories we provide exllent gaming experience to
             users.
           </p>
           <p className="mb-2">
-            At Pokiigame.com, we understand the power of gaming to create
+            At pokiifuns.com, we understand the power of gaming to create
             memorable experiences and forge connections between people. Whether
             you{"'"}re a fan of cars or bike racing, adventure games, actionable
             and thrilling games, we{"'"}ve covered everything for you.
@@ -66,7 +66,7 @@ export default function page() {
             </p>
             <p className="mb-2">
               So, whether you{"'"}re seeking an adrenaline rush, a mental
-              challenge, or simply a momentary escape, Pokiigame.com is your
+              challenge, or simply a momentary escape, pokiifuns.com is your
               go-to destination. Prepare to embark on unforgettable gaming
               adventures and unlock a world of limitless possibilities. Join us
               today and let the games begin!

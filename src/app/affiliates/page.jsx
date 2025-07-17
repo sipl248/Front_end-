@@ -31,7 +31,7 @@ export default function page() {
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h2>Contact Us and Join our affiliate program</h2>
           <p className="text-[18px] text-[#abb7c4] font-light">
-            help.pokiigame@gmail.com
+            help.pokiifuns@gmail.com
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function page() {
 
           <div className="text-[18px] text-[#abb7c4] font-light">
             <p className="mb-2">
-              PokiiGame has a team of 25 people working on our gaming platform.
+              pokiifuns has a team of 25 people working on our gaming platform.
               Our mission is simple - to create a browser-gaming platform that
               works seamlessly for users around the world, and rewards
               developers both big and small.

@@ -50,14 +50,14 @@ export default function page() {
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1 className="mb-3">Contact US</h1>
           <div className="text-[18px] text-[#abb7c4] font-light">
-            <p className="mb-5">help.pokiigame@gmail.com</p>
+            <p className="mb-5">help.pokiifuns@gmail.com</p>
           </div>
         </div>
         <div className="font-semibold text-[32px] text-[#4280bf]">
           <h2 className="mb-3">Copy Right Issue</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
             We own the Intellectual Property Rights (IPR) to a large number of
-            the games on Pokiigame.com{"'"} sites, and for certain games, we
+            the games on pokiifuns.com{"'"} sites, and for certain games, we
             requested and obtained licenses from the copyright holders known to
             us. For some games, we could not find any copyright information, or,
             due to general use on the internet, this information can no longer
@@ -66,13 +66,13 @@ export default function page() {
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
             Some games may be used under special conditions, considering a
             number of prerequisite constraints. These prerequisite constraints
-            are, as far as we could determine, met by Pokiigame.
+            are, as far as we could determine, met by pokiifuns.
           </p>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
             We do not change anything in the source code of the games. For
             example, credit holders, brand names, or references to websites
             remain unchanged. If any copyright or other IPR that you may have is
-            possibly being infringed by/on Pokkigame sites, please inform us
+            possibly being infringed by/on Pokkifuns sites, please inform us
             immediately, thereby providing us with the following:
           </p>
           <ol
@@ -89,7 +89,7 @@ export default function page() {
             </li>
             <li className="text-[18px] text-[#abb7c4] font-light mb-2">
               the location where the unauthorized copy of the copyrighted work
-              exists (for example, the URL of the Pokiigame website where it is
+              exists (for example, the URL of the pokiifuns website where it is
               posted, or the name of the book in which it has been published,
               or, in case of a registered brand name, an excerpt of such
               register evidencing the registry);
@@ -115,7 +115,7 @@ export default function page() {
           </ol>
 
           <p className="text-[18px] text-[#abb7c4] font-light mb-2 mt-2">
-            Send above details at help.pokiigame@gmail.com. We will review it
+            Send above details at help.pokiifuns@gmail.com. We will review it
             and will start taking action on it as soon as possible. We will
             reply you on any of the query within 7 days.
           </p>
