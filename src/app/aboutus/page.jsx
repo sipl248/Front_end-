@@ -44,12 +44,12 @@ export default function page() {
             information and provide a safe environment for all users.
           </p>
           <p className="text-[18px] text-[#abb7c4] font-light">
-            Pokii Game is more than just a gaming platform; it{"'"}s a vibrant
-            community. Join our growing community of gamers, where you can
-            connect with like-minded individuals, share your achievements, and
-            participate in lively discussions. Engage in friendly competitions,
-            collaborate with fellow players, or simply find a place to relax and
-            have fun.
+            Pokiifuns Game is more than just a gaming platform; it{"'"}s a
+            vibrant community. Join our growing community of gamers, where you
+            can connect with like-minded individuals, share your achievements,
+            and participate in lively discussions. Engage in friendly
+            competitions, collaborate with fellow players, or simply find a
+            place to relax and have fun.
           </p>
         </div>
 

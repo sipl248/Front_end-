@@ -13,7 +13,7 @@ export default function page() {
           height={673}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
-          <h1>Affiliate Program for Pokii Game</h1>
+          <h1>Affiliate Program for Pokiifuns Game</h1>
         </div>
         <div className="text-[18px]">
           <p className="mb-2">
@@ -36,7 +36,7 @@ export default function page() {
         </div>
 
         <div className="mt-8 font-semibold text-[32px] text-[#4280bf]">
-          <h2 className="mb-2">About Pokii Game</h2>
+          <h2 className="mb-2">About Pokiifuns Game</h2>
 
           <div className="text-[18px] text-[#abb7c4] font-light">
             <p className="mb-2">
