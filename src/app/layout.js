@@ -149,16 +149,16 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Canonical />
+        <SchemaMarkup />
+        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+        <Header />
         <Script
           src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
           data-cfasync="false"
           strategy="afterInteractive"
           async
         />
-        <Canonical />
-        <SchemaMarkup />
-        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
-        <Header />
         <div className="min-h-screen"> {children}</div>
 
         <Footer />
