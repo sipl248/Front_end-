@@ -178,7 +178,6 @@ export default function Games() {
         strategy="afterInteractive"
         async
       />
-      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
 
       {/* Loading Spinner */}
       {loading && (
@@ -228,7 +227,6 @@ export default function Games() {
         />
         <div id="container-5d5abcca14de57540562622c80497b3d"></div>
       </div>
-      <div id="container-5d5abcca14de57540562622c80497b3d"></div>
 
       {/* Sticky Footer Ad */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-black">
