@@ -152,7 +152,7 @@ export default function Games() {
 
         {/* Inline Ad (300x250) */}
         <div className="w-full flex justify-center my-8">
-          <Script strategy="afterInteractive" id="ad-300x250">
+          <script strategy="afterInteractive" id="ad-300x250">
             {`
               atOptions = {
                 'key': 'ecba41c690f4c72c724c02b884fe6e13',
@@ -162,8 +162,9 @@ export default function Games() {
                 'params': {}
               };
             `}
-          </Script>
-          <Script
+          </script>
+          <script
+            async
             strategy="afterInteractive"
             src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
           />
