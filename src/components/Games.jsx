@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
-import { GAMES } from "./Constant";
+import Script from "next/script";
 import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
-import Script from "next/script";
+import { useRouter } from "next/navigation";
 
 export default function Games() {
+  const router = useRouter();
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
@@ -21,7 +21,7 @@ export default function Games() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
-    }, 500); // 500ms debounce
+    }, 500);
     return () => clearTimeout(handler);
   }, [search]);
 
@@ -43,13 +43,11 @@ export default function Games() {
     }
   }, []);
 
-  // Fetch games on mount and when debouncedSearch changes
   useEffect(() => {
     getGames(1, debouncedSearch);
     setPage(1);
   }, [getGames, debouncedSearch]);
 
-  // Fetch more games on page change (except for first page)
   useEffect(() => {
     if (page === 1) return;
     getGames(page, debouncedSearch);
@@ -73,32 +71,28 @@ export default function Games() {
     };
   }, [hasNext, loading]);
 
+  const handleClick = (e, gameId) => {
+    e.preventDefault();
+    const adScript = document.createElement("script");
+    adScript.type = "text/javascript";
+    adScript.src =
+      "//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js";
+    adScript.async = true;
+    document.body.appendChild(adScript);
+
+    setTimeout(() => {
+      router.push(`/${gameId}`);
+    }, 1500);
+  };
+
   return (
     <div className="pt-20">
-      <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between  items-center text-center  pt-5">
+      <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
-      <div className="game-detail">
-        <div className="game-ad">
-          <Script id="game-detail-ad-config" strategy="afterInteractive">
-            {`
-            atOptions = {
-              'key': '33c38de2503eaee4251a5962d435100d',
-              'format': 'iframe',
-              'height': 300,
-              'width': 160,
-              'params': {}
-            };
-          `}
-          </Script>
-          <Script
-            strategy="afterInteractive"
-            src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-          />
-        </div>
-      </div>
+
       {/* Search Bar */}
-      <div className="flex justify-center text-white mt-4 ">
+      <div className="flex justify-center text-white mt-4">
         <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
           <input
             type="text"
@@ -114,7 +108,6 @@ export default function Games() {
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none"
               aria-label="Clear search"
             >
-              {/* SVG Close Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -134,36 +127,107 @@ export default function Games() {
           )}
         </div>
       </div>
-      <div className="game_container  px-[20.2rem] media_resp   max-lg:px-5">
-        {games.map((item, index) => {
-          return (
-            <Link
-              href={`/${item?.gameId}`}
-              key={index}
-              className="justify-between gap-5 cursor-pointer w-full h-full"
-            >
-              <div className="relative group w-full h-full">
-                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500  w-full h-full">
-                  <Image
-                    width={200}
-                    height={200}
-                    alt="game-poster"
-                    className="w-full  object-cover"
-                    src={item?.thumb}
-                  />
-                </div>
+
+      {/* Game Grid */}
+      <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
+        {games.map((item, index) => (
+          <div
+            onClick={(e) => handleClick(e, item?.gameId)}
+            key={index}
+            className="justify-between gap-5 cursor-pointer w-full h-full"
+          >
+            <div className="relative group w-full h-full">
+              <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                <Image
+                  width={200}
+                  height={200}
+                  alt="game-poster"
+                  className="w-full object-cover"
+                  src={item?.thumb}
+                />
               </div>
-            </Link>
-          );
-        })}
+            </div>
+          </div>
+        ))}
+
+        {/* Inline Ad (300x250) */}
+        <div className="w-full flex justify-center my-8">
+          <Script strategy="afterInteractive" id="ad-300x250">
+            {`
+              atOptions = {
+                'key': 'ecba41c690f4c72c724c02b884fe6e13',
+                'format': 'iframe',
+                'height': 250,
+                'width': 300,
+                'params': {}
+              };
+            `}
+          </Script>
+          <Script
+            strategy="afterInteractive"
+            src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
+          />
+        </div>
       </div>
+
+      {/* Loading Spinner */}
       {loading && (
         <div className="flex justify-center pb-8">
           <div className="loader border-4 border-t-4 border-gray-200 h-8 w-8 rounded-full animate-spin border-t-[#DCF836]" />
         </div>
       )}
-      {/* Sentinel for Intersection Observer */}
+
+      {/* Sentinel */}
       <div ref={sentinelRef} style={{ height: 1 }} />
+
+      {/* Bottom Ad (468x60) */}
+      <div className="flex justify-center  ">
+        <Script strategy="afterInteractive" id="ad-468x60">
+          {`
+            atOptions = {
+              'key': 'c0957bab1658f4edf3a744cc4ab8e9f7',
+              'format': 'iframe',
+              'height': 60,
+              'width': 468,
+              'params': {}
+            };
+          `}
+        </Script>
+        <Script
+          strategy="afterInteractive"
+          src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
+        />
+      </div>
+
+      {/* Mobile Ad (320x50) */}
+      <div className="flex justify-center mb-8 sm:hidden">
+        <Script strategy="afterInteractive" id="ad-320x50">
+          {`
+            atOptions = {
+              'key': '5d5abcca14de57540562622c80497b3d',
+              'format': 'iframe',
+              'height': 50,
+              'width': 320,
+              'params': {}
+            };
+          `}
+        </Script>
+        <Script
+          strategy="afterInteractive"
+          src="//www.highperformanceformat.com/5d5abcca14de57540562622c80497b3d/invoke.js"
+        />
+      </div>
+
+      {/* Sticky Footer Ad */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-black">
+        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+        <Script
+          async
+          data-cfasync="false"
+          strategy="afterInteractive"
+          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        />
+      </div>
     </div>
   );
 }
