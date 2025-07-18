@@ -171,6 +171,15 @@ export default function Games() {
         </div>
       </div>
 
+      {/* layout ad for demo */}
+      <Script
+        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        data-cfasync="false"
+        strategy="afterInteractive"
+        async
+      />
+      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+
       {/* Loading Spinner */}
       {loading && (
         <div className="flex justify-center pb-8">
