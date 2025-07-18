@@ -167,6 +167,7 @@ export default function Games() {
             strategy="afterInteractive"
             src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
           />
+          <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
         </div>
       </div>
 
@@ -216,7 +217,9 @@ export default function Games() {
           strategy="afterInteractive"
           src="//www.highperformanceformat.com/5d5abcca14de57540562622c80497b3d/invoke.js"
         />
+        <div id="container-5d5abcca14de57540562622c80497b3d"></div>
       </div>
+      <div id="container-5d5abcca14de57540562622c80497b3d"></div>
 
       {/* Sticky Footer Ad */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-black">

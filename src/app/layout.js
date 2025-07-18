@@ -152,13 +152,13 @@ export default function RootLayout({ children }) {
         <Canonical />
         <SchemaMarkup />
         <Header />
-        {/* <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div> */}
-        {/* <Script
+        <Script
           src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
           data-cfasync="false"
           strategy="afterInteractive"
           async
-        /> */}
+        />
+        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
         <div className="min-h-screen"> {children}</div>
 
         <Footer />
