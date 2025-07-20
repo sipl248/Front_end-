@@ -153,20 +153,12 @@ export default function Games() {
             </div>
           ))
         )}
-        {/* working ads
-         */}
-        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
-        <Script
-          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-          data-cfasync="false"
-          strategy="afterInteractive"
-          async
-        />
+      </div>
 
-        {/* Inline Ad (300x250) */}
-        <div className="w-full flex justify-center">
-          <script strategy="afterInteractive" id="ad-300x250">
-            {`
+      {/* Inline Ad (300x250) */}
+      <div className="w-full flex justify-center">
+        <Script strategy="afterInteractive" id="ad-300x250">
+          {`
               atOptions = {
                 'key': 'ecba41c690f4c72c724c02b884fe6e13',
                 'format': 'iframe',
@@ -175,14 +167,13 @@ export default function Games() {
                 'params': {}
               };
             `}
-          </script>
-          <script
-            async
-            strategy="afterInteractive"
-            src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
-          />
-          <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
-        </div>
+        </Script>
+        <Script
+          async
+          strategy="afterInteractive"
+          src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
+        />
+        <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
       </div>
 
       {/* Pagination Buttons */}
@@ -213,6 +204,15 @@ export default function Games() {
           Next
         </button>
       </div>
+
+      {/* working ads*/}
+      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+      <Script
+        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        data-cfasync="false"
+        strategy="afterInteractive"
+        async
+      />
 
       {/* Bottom Ad (468x60) */}
       <div className="flex justify-center  ">
