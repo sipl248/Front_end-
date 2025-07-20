@@ -235,7 +235,8 @@ export default function Games() {
       </div>
 
       {/* Mobile Ad (320x50) */}
-      <div className="flex justify-center  ">
+      {/* footer ad */}
+      {/* <div className="flex justify-center  ">
         <div id="container-5d5abcca14de57540562622c80497b3d"></div>
         <Script strategy="afterInteractive" id="ad-320x50">
           {`
@@ -253,7 +254,7 @@ export default function Games() {
           src="//www.highperformanceformat.com/5d5abcca14de57540562622c80497b3d/invoke.js"
         />
         <div id="container-5d5abcca14de57540562622c80497b3d"></div>
-      </div>
+      </div> */}
 
       {/* Sticky Footer Ad */}
       {/* <div className=" flex justify-center bg-black"> */}
