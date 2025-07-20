@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Script from "next/script";
 import axios from "axios";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Games() {
@@ -10,12 +10,10 @@ export default function Games() {
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
+  const [hasPrev, setHasPrev] = useState(false);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-
-  const observerRef = useRef(null);
-  const sentinelRef = useRef(null);
 
   // Debounce search input
   useEffect(() => {
@@ -28,14 +26,15 @@ export default function Games() {
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
     try {
-      let url = `${process.env.NEXT_PUBLIC_BASE_URL}games?page=${pageNum}&limit=30`;
+      let url = `${process.env.NEXT_PUBLIC_BASE_URL}games?page=${pageNum}&limit=24`;
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
       const response = await axios.get(url);
       const newGames = response?.data?.data?.games || [];
-      setGames((prev) => (pageNum === 1 ? newGames : [...prev, ...newGames]));
+      setGames(newGames);
       setHasNext(response?.data?.data?.pagination?.hasNext);
+      setHasPrev(pageNum > 1);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -48,41 +47,34 @@ export default function Games() {
     setPage(1);
   }, [getGames, debouncedSearch]);
 
-  useEffect(() => {
-    if (page === 1) return;
-    getGames(page, debouncedSearch);
-  }, [page, getGames, debouncedSearch]);
-
-  useEffect(() => {
-    if (observerRef.current) observerRef.current.disconnect();
-    observerRef.current = new window.IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNext && !loading) {
-          setPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 1 }
-    );
-    if (sentinelRef.current) {
-      observerRef.current.observe(sentinelRef.current);
+  const handleNextPage = () => {
+    if (hasNext && !loading) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      getGames(nextPage, debouncedSearch);
     }
-    return () => {
-      if (observerRef.current) observerRef.current.disconnect();
-    };
-  }, [hasNext, loading]);
+  };
+
+  const handlePrevPage = () => {
+    if (hasPrev && !loading) {
+      const prevPage = page - 1;
+      setPage(prevPage);
+      getGames(prevPage, debouncedSearch);
+    }
+  };
 
   const handleClick = (e, gameId) => {
     e.preventDefault();
-    const adScript = document.createElement("script");
-    adScript.type = "text/javascript";
-    adScript.src =
-      "//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js";
-    adScript.async = true;
-    document.body.appendChild(adScript);
+    // const adScript = document.createElement("script");
+    // adScript.type = "text/javascript";
+    // adScript.src =
+    //   "//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js";
+    // adScript.async = true;
+    // document.body.appendChild(adScript);
 
-    setTimeout(() => {
-      router.push(`/${gameId}`);
-    }, 1500);
+    // setTimeout(() => {
+    router.push(`/${gameId}`);
+    // }, 1500);
   };
 
   return (
@@ -90,6 +82,12 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
+      <Script
+        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        data-cfasync="false"
+        strategy="afterInteractive"
+        async
+      />
 
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4">
@@ -127,31 +125,43 @@ export default function Games() {
           )}
         </div>
       </div>
+      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+      <Script
+        strategy="afterInteractive"
+        src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
+      />
+      <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
 
       {/* Game Grid */}
       <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
-        {games.map((item, index) => (
-          <div
-            onClick={(e) => handleClick(e, item?.gameId)}
-            key={index}
-            className="justify-between gap-5 cursor-pointer w-full h-full"
-          >
-            <div className="relative group w-full h-full">
-              <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
-                <Image
-                  width={200}
-                  height={200}
-                  alt="game-poster"
-                  className="w-full object-cover"
-                  src={item?.thumb}
-                />
+        {loading ? (
+          <div className="flex justify-center items-center w-full h-64 col-span-full">
+            <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
+          </div>
+        ) : (
+          games.map((item, index) => (
+            <div
+              onClick={(e) => handleClick(e, item?.gameId)}
+              key={index}
+              className="justify-between gap-5 cursor-pointer w-full h-full"
+            >
+              <div className="relative group w-full h-full">
+                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                  <Image
+                    width={200}
+                    height={200}
+                    alt="game-poster"
+                    className="w-full object-cover"
+                    src={item?.thumb}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
 
         {/* Inline Ad (300x250) */}
-        <div className="w-full flex justify-center my-8">
+        <div className="w-full flex justify-center">
           <script strategy="afterInteractive" id="ad-300x250">
             {`
               atOptions = {
@@ -172,23 +182,34 @@ export default function Games() {
         </div>
       </div>
 
-      {/* layout ad for demo */}
-      <Script
-        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        data-cfasync="false"
-        strategy="afterInteractive"
-        async
-      />
+      {/* Pagination Buttons */}
+      <div className="flex justify-center items-center gap-4 my-8">
+        <button
+          onClick={handlePrevPage}
+          disabled={!hasPrev || loading}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+            hasPrev && !loading
+              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+              : "bg-gray-600 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Previous
+        </button>
 
-      {/* Loading Spinner */}
-      {loading && (
-        <div className="flex justify-center pb-8">
-          <div className="loader border-4 border-t-4 border-gray-200 h-8 w-8 rounded-full animate-spin border-t-[#DCF836]" />
-        </div>
-      )}
+        <span className="text-white font-medium">Page {page}</span>
 
-      {/* Sentinel */}
-      <div ref={sentinelRef} style={{ height: 1 }} />
+        <button
+          onClick={handleNextPage}
+          disabled={!hasNext || loading}
+          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+            hasNext && !loading
+              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+              : "bg-gray-600 text-gray-400 cursor-not-allowed"
+          }`}
+        >
+          Next
+        </button>
+      </div>
 
       {/* Bottom Ad (468x60) */}
       <div className="flex justify-center  ">
@@ -210,7 +231,7 @@ export default function Games() {
       </div>
 
       {/* Mobile Ad (320x50) */}
-      <div className="flex justify-center mb-8 sm:hidden">
+      <div className="flex justify-center mb-8 ">
         <Script strategy="afterInteractive" id="ad-320x50">
           {`
             atOptions = {
