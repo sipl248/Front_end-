@@ -156,9 +156,10 @@ export default function Games() {
       </div>
 
       {/* Inline Ad (300x250) */}
-      <div className="w-full flex justify-center">
-        <Script strategy="afterInteractive" id="ad-300x250">
-          {`
+      {/* <div className="w-full flex justify-center"> */}
+      <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
+      <Script strategy="afterInteractive" id="ad-300x250">
+        {`
               atOptions = {
                 'key': 'ecba41c690f4c72c724c02b884fe6e13',
                 'format': 'iframe',
@@ -167,14 +168,13 @@ export default function Games() {
                 'params': {}
               };
             `}
-        </Script>
-        <Script
-          async
-          strategy="afterInteractive"
-          src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
-        />
-        <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
-      </div>
+      </Script>
+      <Script
+        async
+        strategy="afterInteractive"
+        src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
+      />
+      {/* </div> */}
 
       {/* Pagination Buttons */}
       <div className="flex justify-center items-center gap-4 my-8">
