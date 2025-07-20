@@ -231,7 +231,7 @@ export default function Games() {
       </div>
 
       {/* Mobile Ad (320x50) */}
-      <div className="flex justify-center mb-8 ">
+      <div className="flex justify-center  ">
         <Script strategy="afterInteractive" id="ad-320x50">
           {`
             atOptions = {
