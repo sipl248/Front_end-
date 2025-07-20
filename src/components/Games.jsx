@@ -82,13 +82,6 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
-      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
-      <Script
-        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        data-cfasync="false"
-        strategy="afterInteractive"
-        async
-      />
 
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4">
@@ -160,13 +153,15 @@ export default function Games() {
             </div>
           ))
         )}
-
-        <Script
-          async="async"
-          data-cfasync="false"
-          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        ></Script>
+        {/* working ads
+         */}
         <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+        <Script
+          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+          data-cfasync="false"
+          strategy="afterInteractive"
+          async
+        />
 
         {/* Inline Ad (300x250) */}
         <div className="w-full flex justify-center">
@@ -261,13 +256,13 @@ export default function Games() {
       </div>
 
       {/* Sticky Footer Ad */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-black">
-        <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
-        <Script
-          type="text/javascript"
-          src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
-        ></Script>
-      </div>
+      {/* <div className=" flex justify-center bg-black"> */}
+      <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
+      <Script
+        type="text/javascript"
+        src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
+      ></Script>
     </div>
+    // </div>
   );
 }
