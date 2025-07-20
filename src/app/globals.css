@@ -123,3 +123,26 @@ body {
     gap: 0.25rem;
   }
 }
+@media (max-width: 768px) {
+    .md\:flex-col {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-grid {
+        display: flex
+;
+        flex-direction: column;
+    }
+}
+.footer-grid {
+    display: flex
+;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}

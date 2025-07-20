@@ -215,7 +215,7 @@ export default function Games() {
       />
 
       {/* Bottom Ad (468x60) */}
-      <div className="flex justify-center  ">
+      {/* <div className="flex justify-center  ">
         <div id="container-33c38de2503eaee4251a5962d435100d"></div>
         <Script strategy="afterInteractive" id="ad-468x60">
           {`
@@ -232,7 +232,7 @@ export default function Games() {
           strategy="afterInteractive"
           src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
         />
-      </div>
+      </div> */}
 
       {/* Mobile Ad (320x50) */}
       {/* footer ad */}

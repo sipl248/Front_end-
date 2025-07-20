@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#020c17]">
       <div className="mx-auto w-full max-w-screen px-[20.2rem]   max-lg:px-5 border-t border-[#ffffff1c] text-[#abb7c4] text-[14px] ">
-        <div className="flex flex-wrap items-start justify-between gap-8 py-10">
+        <div className="footer-grid max-md:flex-col">
           {/*img  */}
           <div>
             <a href="/">
