@@ -126,7 +126,7 @@ export default function Games() {
           )}
         </div>
       </div>
-      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+      <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
       <Script
         strategy="afterInteractive"
         src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
@@ -221,21 +221,21 @@ export default function Games() {
 
       {/* Bottom Ad (468x60) */}
       <div className="flex justify-center  ">
-        <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
+        <div id="container-33c38de2503eaee4251a5962d435100d"></div>
         <Script strategy="afterInteractive" id="ad-468x60">
           {`
             atOptions = {
-              'key': 'c0957bab1658f4edf3a744cc4ab8e9f7',
+              'key': '33c38de2503eaee4251a5962d435100d',
               'format': 'iframe',
-              'height': 60,
-              'width': 468,
+              'height': 300,
+              'width': 160,
               'params': {}
             };
           `}
         </Script>
         <Script
           strategy="afterInteractive"
-          src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
+          src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
         />
       </div>
 
@@ -262,13 +262,11 @@ export default function Games() {
 
       {/* Sticky Footer Ad */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center bg-black">
-        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+        <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
         <Script
-          async
-          data-cfasync="false"
-          strategy="afterInteractive"
-          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        />
+          type="text/javascript"
+          src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
+        ></Script>
       </div>
     </div>
   );
