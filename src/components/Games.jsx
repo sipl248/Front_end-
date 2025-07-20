@@ -82,6 +82,7 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
+      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
       <Script
         src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
         data-cfasync="false"
@@ -213,6 +214,7 @@ export default function Games() {
 
       {/* Bottom Ad (468x60) */}
       <div className="flex justify-center  ">
+        <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
         <Script strategy="afterInteractive" id="ad-468x60">
           {`
             atOptions = {
@@ -232,6 +234,7 @@ export default function Games() {
 
       {/* Mobile Ad (320x50) */}
       <div className="flex justify-center  ">
+        <div id="container-5d5abcca14de57540562622c80497b3d"></div>
         <Script strategy="afterInteractive" id="ad-320x50">
           {`
             atOptions = {
