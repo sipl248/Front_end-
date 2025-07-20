@@ -161,6 +161,13 @@ export default function Games() {
           ))
         )}
 
+        <Script
+          async="async"
+          data-cfasync="false"
+          src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        ></Script>
+        <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+
         {/* Inline Ad (300x250) */}
         <div className="w-full flex justify-center">
           <script strategy="afterInteractive" id="ad-300x250">
