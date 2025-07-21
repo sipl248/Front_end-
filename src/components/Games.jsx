@@ -96,7 +96,7 @@ export default function Games() {
       <AdsterraAd
         keyId="33c38de2503eaee4251a5962d435100d"
         width={160}
-        height={300}
+        height={50}
       />
 
       {/* Search Bar */}
@@ -142,7 +142,7 @@ export default function Games() {
       />
       <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
       {/* Game Grid */}
-      <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
+      <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />

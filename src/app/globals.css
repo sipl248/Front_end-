@@ -68,9 +68,8 @@ body {
   grid-template-columns: repeat(6, 1fr);
   place-items: center;
   gap: 0.25rem;
-  padding-top: 32px;
   /* margin: 32px 0 32px 0; */
-  padding-bottom: 32px;
+  /* padding-bottom: 32px; */
 }
 .doc >p> strong{
   color: #4280bf;
