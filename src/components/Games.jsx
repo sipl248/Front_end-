@@ -237,25 +237,11 @@ export default function Games() {
         height={50}
       />
 
-      {/* Bottom Ad (468x60) */}
-      {/* <div className="flex justify-center  ">
-        <div id="container-33c38de2503eaee4251a5962d435100d"></div>
-        <Script strategy="afterInteractive" id="ad-468x60">
-          {`
-            atOptions = {
-              'key': '33c38de2503eaee4251a5962d435100d',
-              'format': 'iframe',
-              'height': 300,
-              'width': 160,
-              'params': {}
-            };
-          `}
-        </Script>
-        <Script
-          strategy="afterInteractive"
-          src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-        />
-      </div> */}
+      <AdsterraAd
+        keyId="33c38de2503eaee4251a5962d435100d"
+        width={160}
+        height={300}
+      />
 
       {/* social bar ads */}
       <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
