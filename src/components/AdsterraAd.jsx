@@ -15,7 +15,7 @@ export default function AdsterraAd() {
   return (
     <div className="flex justify-center items-center my-4">
       {/* ✅ The div where the ad will be injected */}
-      <div id="container-33c38de2503eaee4251a5962d435100d" />
+      <div id="atContainer-33c38de2503eaee4251a5962d435100d" />
 
       {/* ✅ Config required by Adsterra */}
       <Script id="adsterra-config" strategy="afterInteractive">
