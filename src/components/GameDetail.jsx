@@ -64,7 +64,7 @@ export default function GameDetail({ gameDetails, name }) {
             )}
           </div>
         </div>
-        <div className="game-detail">
+        {/* <div className="game-detail">
           <div className="game-ad">
             <Script id="game-detail-ad-config" strategy="afterInteractive">
               {`
@@ -82,7 +82,7 @@ export default function GameDetail({ gameDetails, name }) {
               src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
             />
           </div>
-        </div>
+        </div> */}
         {/* html */}
         <div
           dangerouslySetInnerHTML={{
