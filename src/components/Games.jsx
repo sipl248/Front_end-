@@ -82,7 +82,6 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
-
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4">
         <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
@@ -125,7 +124,6 @@ export default function Games() {
         src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
       />
       <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
-
       {/* Game Grid */}
       <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
@@ -133,7 +131,7 @@ export default function Games() {
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
           </div>
         ) : (
-          games.map((item, index) => (
+          games?.slice(0, 12).map((item, index) => (
             <div
               onClick={(e) => handleClick(e, item?.gameId)}
               key={index}
@@ -154,10 +152,43 @@ export default function Games() {
           ))
         )}
       </div>
-
+      {/* working ads*/}
+      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+      <Script
+        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
+        data-cfasync="false"
+        strategy="afterInteractive"
+        async
+      />
+      <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
+        {loading ? (
+          <div className="flex justify-center items-center w-full h-64 col-span-full">
+            <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
+          </div>
+        ) : (
+          games?.slice(12, 25).map((item, index) => (
+            <div
+              onClick={(e) => handleClick(e, item?.gameId)}
+              key={index}
+              className="justify-between gap-5 cursor-pointer w-full h-full"
+            >
+              <div className="relative group w-full h-full">
+                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                  <Image
+                    width={200}
+                    height={200}
+                    alt="game-poster"
+                    className="w-full object-cover"
+                    src={item?.thumb}
+                  />
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
       {/* Inline Ad (300x250) */}
-      {/* <div className="w-full flex justify-center"> */}
-      <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
+      {/* <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
       <Script strategy="afterInteractive" id="ad-300x250">
         {`
               atOptions = {
@@ -173,11 +204,9 @@ export default function Games() {
         async
         strategy="afterInteractive"
         src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
-      />
-      {/* </div> */}
-
+      /> */}
       {/* Pagination Buttons */}
-      <div className="flex justify-center items-center gap-4 my-8">
+      <div className="flex justify-center items-center gap-4 py-8">
         <button
           onClick={handlePrevPage}
           disabled={!hasPrev || loading}
@@ -205,15 +234,6 @@ export default function Games() {
         </button>
       </div>
 
-      {/* working ads*/}
-      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
-      <Script
-        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        data-cfasync="false"
-        strategy="afterInteractive"
-        async
-      />
-
       {/* Bottom Ad (468x60) */}
       {/* <div className="flex justify-center  ">
         <div id="container-33c38de2503eaee4251a5962d435100d"></div>
@@ -233,7 +253,6 @@ export default function Games() {
           src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
         />
       </div> */}
-
       {/* Mobile Ad (320x50) */}
       {/* footer ad */}
       {/* <div className="flex justify-center  ">
@@ -255,14 +274,13 @@ export default function Games() {
         />
         <div id="container-5d5abcca14de57540562622c80497b3d"></div>
       </div> */}
-
       {/* Sticky Footer Ad */}
       {/* <div className=" flex justify-center bg-black"> */}
-      <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
+      {/* <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
       <Script
         type="text/javascript"
         src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
-      ></Script>
+      ></Script> */}
     </div>
     // </div>
   );
