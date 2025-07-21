@@ -197,24 +197,12 @@ export default function Games() {
           ))
         )}
       </div>
-      {/* Inline Ad (300x250) */}
-      {/* <div id="container-ecba41c690f4c72c724c02b884fe6e13"></div>
-      <Script strategy="afterInteractive" id="ad-300x250">
-        {`
-              atOptions = {
-                'key': 'ecba41c690f4c72c724c02b884fe6e13',
-                'format': 'iframe',
-                'height': 250,
-                'width': 300,
-                'params': {}
-              };
-            `}
-      </Script>
-      <Script
-        async
-        strategy="afterInteractive"
-        src="//www.highperformanceformat.com/ecba41c690f4c72c724c02b884fe6e13/invoke.js"
-      /> */}
+
+      <AdsterraAd
+        keyId="ecba41c690f4c72c724c02b884fe6e13"
+        width={300}
+        height={250}
+      />
       {/* Pagination Buttons */}
       <div className="flex justify-center items-center gap-4 py-8">
         <button
@@ -267,27 +255,6 @@ export default function Games() {
           strategy="afterInteractive"
           src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
         />
-      </div> */}
-      {/* Mobile Ad (320x50) */}
-      {/* footer ad */}
-      {/* <div className="flex justify-center  ">
-        <div id="container-5d5abcca14de57540562622c80497b3d"></div>
-        <Script strategy="afterInteractive" id="ad-320x50">
-          {`
-            atOptions = {
-              'key': '5d5abcca14de57540562622c80497b3d',
-              'format': 'iframe',
-              'height': 50,
-              'width': 320,
-              'params': {}
-            };
-          `}
-        </Script>
-        <Script
-          strategy="afterInteractive"
-          src="//www.highperformanceformat.com/5d5abcca14de57540562622c80497b3d/invoke.js"
-        />
-        <div id="container-5d5abcca14de57540562622c80497b3d"></div>
       </div> */}
 
       {/* social bar ads */}
