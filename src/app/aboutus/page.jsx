@@ -1,34 +1,17 @@
+"use client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Script from "next/script";
 import React from "react";
+const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
+  ssr: false, // ✅ Disable SSR so React doesn’t break the DOM injected by script
+});
 
 export default function page() {
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
       <div className="game-detail">
-        <div className="game-ad">
-          {/* This is where the ad will render */}
-          <div id="container-33c38de2503eaee4251a5962d435100d"></div>
-
-          {/* Adsterra config
-          <Script id="game-detail-ad-config" strategy="afterInteractive">
-            {`
-        atOptions = {
-          'key': '33c38de2503eaee4251a5962d435100d',
-          'format': 'iframe',
-          'height': 300,
-          'width': 160,
-          'params': {}
-        };
-      `}
-          </Script> */}
-
-          {/* Adsterra script loader */}
-          <Script
-            strategy="afterInteractive"
-            src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-          />
-        </div>
+        <AdsterraAd />
       </div>
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
         <Image
