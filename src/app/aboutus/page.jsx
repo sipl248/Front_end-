@@ -31,9 +31,6 @@ export default function page() {
   }, [banner]);
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
-      <div className="game-detail" ref={banner}>
-        {/* <AdsterraAd /> */}
-      </div>
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img3.6d832745.jpg"}
@@ -42,6 +39,9 @@ export default function page() {
           width={1200}
           height={673}
         />
+        <div className="game-detail" ref={banner}>
+          {/* <AdsterraAd /> */}
+        </div>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>About Pokii</h1>
         </div>
