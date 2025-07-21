@@ -79,6 +79,13 @@ export default function Games() {
 
   return (
     <div className="pt-20">
+      {/* pop-up ads */}
+      <Script
+        type="text/javascript"
+        src="//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js"
+      ></Script>
+      {/* pop-up ads */}
+
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
@@ -274,13 +281,13 @@ export default function Games() {
         />
         <div id="container-5d5abcca14de57540562622c80497b3d"></div>
       </div> */}
-      {/* Sticky Footer Ad */}
-      {/* <div className=" flex justify-center bg-black"> */}
-      {/* <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
+
+      {/* social bar ads */}
+      <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
       <Script
         type="text/javascript"
         src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
-      ></Script> */}
+      ></Script>
     </div>
     // </div>
   );
