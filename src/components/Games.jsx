@@ -92,6 +92,13 @@ export default function Games() {
       <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
         PLAY YOUR FAVORITE GAME
       </h1>
+
+      <AdsterraAd
+        keyId="33c38de2503eaee4251a5962d435100d"
+        width={160}
+        height={300}
+      />
+
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4">
         <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
@@ -197,12 +204,6 @@ export default function Games() {
           ))
         )}
       </div>
-
-      <AdsterraAd
-        keyId="33c38de2503eaee4251a5962d435100d"
-        width={160}
-        height={300}
-      />
 
       <AdsterraAd
         keyId="ecba41c690f4c72c724c02b884fe6e13"
