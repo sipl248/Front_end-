@@ -4,7 +4,10 @@ import Script from "next/script";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-
+import dynamic from "next/dynamic";
+const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
+  ssr: false,
+});
 export default function Games() {
   const router = useRouter();
   const [games, setGames] = useState([]);
@@ -240,6 +243,11 @@ export default function Games() {
           Next
         </button>
       </div>
+      <AdsterraAd
+        keyId="5d5abcca14de57540562622c80497b3d"
+        width={320}
+        height={50}
+      />
 
       {/* Bottom Ad (468x60) */}
       {/* <div className="flex justify-center  ">

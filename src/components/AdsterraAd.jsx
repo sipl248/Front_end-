@@ -35,7 +35,7 @@ export default function AdBanner({
   return (
     <div
       ref={bannerRef}
-      className={`mx-auto my-4 ${className}`}
+      className={`mx-auto  ${className}`}
       style={{ width: `${width}px`, height: `${height}px` }}
     />
   );

@@ -1,34 +1,11 @@
 "use client";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Script from "next/script";
-import React, { useEffect, useRef } from "react";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
-  ssr: false, // ✅ Disable SSR so React doesn’t break the DOM injected by script
+  ssr: false,
 });
 
 export default function page() {
-  const banner = useRef();
-
-  const atOptions = {
-    key: "33c38de2503eaee4251a5962d435100d",
-    format: "iframe",
-    height: 50,
-    width: 320,
-    params: {},
-  };
-  useEffect(() => {
-    if (banner.current && !banner.current.firstChild) {
-      const conf = document.createElement("script");
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = `//www.highperformanceformat.com/${atOptions.key}/invoke.js`;
-      conf.innerHTML = `atOptions = ${JSON.stringify(atOptions)}`;
-
-      banner.current.append(conf);
-      banner.current.append(script);
-    }
-  }, [banner]);
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
