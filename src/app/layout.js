@@ -153,7 +153,7 @@ export default function RootLayout({ children }) {
         <SchemaMarkup />
         <Header />
 
-        <div className="min-h-screen"> {children}</div>
+        <div className=""> {children}</div>
 
         <Footer />
       </body>
