@@ -10,7 +10,7 @@ export default function page() {
           {/* This is where the ad will render */}
           <div id="container-33c38de2503eaee4251a5962d435100d"></div>
 
-          {/* Adsterra config */}
+          {/* Adsterra config
           <Script id="game-detail-ad-config" strategy="afterInteractive">
             {`
         atOptions = {
@@ -21,7 +21,7 @@ export default function page() {
           'params': {}
         };
       `}
-          </Script>
+          </Script> */}
 
           {/* Adsterra script loader */}
           <Script
