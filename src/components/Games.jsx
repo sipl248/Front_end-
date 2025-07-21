@@ -199,10 +199,17 @@ export default function Games() {
       </div>
 
       <AdsterraAd
+        keyId="33c38de2503eaee4251a5962d435100d"
+        width={160}
+        height={300}
+      />
+
+      <AdsterraAd
         keyId="ecba41c690f4c72c724c02b884fe6e13"
         width={300}
         height={250}
       />
+
       {/* Pagination Buttons */}
       <div className="flex justify-center items-center gap-4 py-8">
         <button
@@ -235,12 +242,6 @@ export default function Games() {
         keyId="5d5abcca14de57540562622c80497b3d"
         width={320}
         height={50}
-      />
-
-      <AdsterraAd
-        keyId="33c38de2503eaee4251a5962d435100d"
-        width={160}
-        height={300}
       />
 
       {/* social bar ads */}
