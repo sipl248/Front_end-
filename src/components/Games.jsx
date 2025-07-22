@@ -166,13 +166,13 @@ export default function Games() {
         )}
       </div>
       {/* working ads*/}
-      <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
+      {/* <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
       <Script
         src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
         data-cfasync="false"
         strategy="afterInteractive"
         async
-      />
+      /> */}
       <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
