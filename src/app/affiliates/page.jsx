@@ -1,29 +1,13 @@
 import Image from "next/image";
 import Script from "next/script";
 import React from "react";
-
+import dynamic from "next/dynamic";
+const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
+  ssr: false,
+});
 export default function page() {
   return (
     <div className="bg-[#020C17]  text-[#abb7c4] -mt-20">
-      <div className="game-detail">
-        <div className="game-ad">
-          <Script id="game-detail-ad-config" strategy="afterInteractive">
-            {`
-            atOptions = {
-              'key': '33c38de2503eaee4251a5962d435100d',
-              'format': 'iframe',
-              'height': 300,
-              'width': 160,
-              'params': {}
-            };
-          `}
-          </Script>
-          <Script
-            strategy="afterInteractive"
-            src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-          />
-        </div>
-      </div>
       <div className="py-20  px-[20.2rem] media_resp   max-lg:px-5 max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img1.84a82450.jpg"}
@@ -31,6 +15,11 @@ export default function page() {
           className="rounded-[25px] h-[45vh] object-cover"
           width={1200}
           height={673}
+        />
+        <AdsterraAd
+          keyId="e4c6a559d1e3bb3542525683b029023f"
+          width={728}
+          height={90}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>Affiliate Program for Pokiifuns Game</h1>

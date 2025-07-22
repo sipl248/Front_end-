@@ -93,11 +93,11 @@ export default function Games() {
         PLAY YOUR FAVORITE GAME
       </h1>
 
-      <AdsterraAd
+      {/* <AdsterraAd
         keyId="33c38de2503eaee4251a5962d435100d"
         width={160}
         height={50}
-      />
+      /> */}
 
       {/* Search Bar */}
       <div className="flex justify-center text-white mt-4">
@@ -135,11 +135,7 @@ export default function Games() {
           )}
         </div>
       </div>
-      <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
-      <Script
-        strategy="afterInteractive"
-        src="//www.highperformanceformat.com/c0957bab1658f4edf3a744cc4ab8e9f7/invoke.js"
-      />
+
       <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
       {/* Game Grid */}
       <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
@@ -205,11 +201,11 @@ export default function Games() {
         )}
       </div>
 
-      <AdsterraAd
+      {/* <AdsterraAd
         keyId="ecba41c690f4c72c724c02b884fe6e13"
         width={300}
         height={250}
-      />
+      /> */}
 
       {/* Pagination Buttons */}
       <div className="flex justify-center items-center gap-4 py-8">

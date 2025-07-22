@@ -3,7 +3,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import axios from "axios";
 import Script from "next/script";
-
+import dynamic from "next/dynamic";
+const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
+  ssr: false,
+});
 export default function page() {
   const [form, setForm] = useState({
     name: "",
@@ -41,31 +44,17 @@ export default function page() {
   return (
     <div className="bg-[#020C17] text-white -mt-20">
       <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
-        <div className="game-detail">
-          <div className="game-ad">
-            <Script id="game-detail-ad-config" strategy="afterInteractive">
-              {`
-            atOptions = {
-              'key': '33c38de2503eaee4251a5962d435100d',
-              'format': 'iframe',
-              'height': 300,
-              'width': 160,
-              'params': {}
-            };
-          `}
-            </Script>
-            <Script
-              strategy="afterInteractive"
-              src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-            />
-          </div>
-        </div>
         <Image
           src={"https://pokiigame.com/_next/static/media/contact.833d1c6a.jpg"}
           alt="poster"
           className="rounded-[25px] h-[45vh] object-cover"
           width={1200}
           height={673}
+        />
+        <AdsterraAd
+          keyId="5d5abcca14de57540562622c80497b3d"
+          width={320}
+          height={50}
         />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1 className="mb-3">Contact US</h1>
