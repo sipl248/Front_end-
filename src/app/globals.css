@@ -40,7 +40,8 @@
   src: url('../../public/fonts/dosis-v33-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 body {
-  background: var(--background);
+  /* background: var(--background); */
+  background: #020C17;
   color: var(--foreground);
   font-family:  "Dosis", sans-serif;
 }

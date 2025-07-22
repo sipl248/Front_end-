@@ -35,7 +35,7 @@ export default function AdBanner({
   return (
     <div
       ref={bannerRef}
-      className={`mx-auto  ${className}`}
+      className={`mx-auto flex justify-center items-center  ${className}`}
       //   style={{ width: `${width}px`, height: `${height}px` }}
     />
   );

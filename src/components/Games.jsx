@@ -113,7 +113,7 @@ export default function Games() {
             <button
               type="button"
               onClick={() => setSearch("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none"
+              className="absolute right-3 max-md:right-5 cursor-pointer top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none"
               aria-label="Clear search"
             >
               <svg
