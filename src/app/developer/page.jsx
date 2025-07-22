@@ -17,11 +17,11 @@ export default function page() {
           width={1200}
           height={673}
         />
-        <AdsterraAd
+        {/* <AdsterraAd
           keyId="c0957bab1658f4edf3a744cc4ab8e9f7"
           width={468}
           height={60}
-        />
+        /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>Developers - pokiifuns</h1>
         </div>

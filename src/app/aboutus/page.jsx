@@ -16,7 +16,7 @@ export default function page() {
           width={1200}
           height={673}
         />
-        <AdsterraAd keyId="33c38de2503eaee4251a5962d435100d" />
+        {/* <AdsterraAd keyId="33c38de2503eaee4251a5962d435100d" /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>About Pokii</h1>
         </div>

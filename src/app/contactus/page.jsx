@@ -51,11 +51,11 @@ export default function page() {
           width={1200}
           height={673}
         />
-        <AdsterraAd
+        {/* <AdsterraAd
           keyId="5d5abcca14de57540562622c80497b3d"
           width={320}
           height={50}
-        />
+        /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1 className="mb-3">Contact US</h1>
           <div className="text-[18px] text-[#abb7c4] font-light">
