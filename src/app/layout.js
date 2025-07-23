@@ -126,15 +126,15 @@ export default function RootLayout({ children }) {
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3785390617142950"
           crossorigin="anonymous"
         ></script>
-        <script
+        {/* <script
           src="https://cmp.gatekeeperconsent.com/min.js"
           data-cfasync="false"
         ></script>
         <script
           src="https://the.gatekeeperconsent.com/cmp.min.js"
           data-cfasync="false"
-        ></script>
-        <Script
+        ></script> */}
+        {/* <Script
           src="//www.ezojs.com/ezoic/sa.min.js"
           strategy="beforeInteractive"
           async
@@ -144,7 +144,7 @@ export default function RootLayout({ children }) {
         window.ezstandalone = window.ezstandalone || {};
         ezstandalone.cmd = ezstandalone.cmd || [];
       `}
-        </Script>
+        </Script> */}
         {/* ✅ Google Tag Manager script */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`
