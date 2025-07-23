@@ -2,6 +2,11 @@ import React from "react";
 import fs from "fs";
 import path from "path";
 import mammoth from "mammoth";
+export const metadata = {
+  title: "Privacy Policy | Pokiifuns Free Online Games Website",
+  description:
+    "Review our privacy policy for Pokiifuns, your go-to site for fun and free online games, browser games, mobile games to play without download, and more fun.",
+};
 
 export default async function Page() {
   // Read and convert the docx file to HTML
@@ -38,6 +43,7 @@ export default async function Page() {
   return (
     <div className="bg-[#020C17] text-white -mt-20 min-h-screen">
       <div className="py-20 px-[20.2rem] media_resp  max-lg:px-5 max-md:px-2">
+        <h1 className="text-[32px] max-md:text-2xl">Privacy-Policy</h1>
         <div
           className="max-w-none doc"
           dangerouslySetInnerHTML={{

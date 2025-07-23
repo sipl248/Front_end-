@@ -20,14 +20,14 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.pokiifuns.com/";
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
+  title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
   description:
-    "Enjoy the best free online games at Pokiifuns! Play action, puzzle, and casual games instantly. Fun, fast, and free—start gaming now!",
+    "Play free online games at Pokiifuns! Enjoy fun games to play online without downloading—cool web games, browser games, mobile games & more, all for free!",
   authors: [{ name: "Pokiifuns Team", url: siteUrl }],
   generator: "Next.js 15",
   keywords: keyword,
   openGraph: {
-    title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
+    title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
     description:
       "Play free online games instantly at Pokiifuns! From action-packed adventures to relaxing puzzle games, enjoy top titles in your browser.",
     url: siteUrl,
@@ -45,7 +45,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Play Free Online Games – Action & Puzzle Fun | Pokiifuns",
+    title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
     description:
       "Discover top-rated free online games at Pokiifuns. Play action, puzzle, and casual games instantly—fun for all ages!",
     images: ["/assets/pokii_game.webp"],

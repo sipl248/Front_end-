@@ -84,11 +84,21 @@ export default function GameDetail({ gameDetails, name }) {
           </div>
         </div> */}
         {/* html */}
+
         <div
           dangerouslySetInnerHTML={{
             __html: gameDetails?.description || "",
           }}
           className="text-white  max-lg:px-5 text-lg text-justify pt-6 max-md:pt-80 max-sm:80 leading-relaxed "
+        ></div>
+        <div className="text-4xl my-2 text-[#4280bf]   max-lg:px-5 text-primary">
+          Instructions
+        </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: gameDetails?.instructions || "",
+          }}
+          className="text-white  max-lg:px-5 text-lg text-justify pt-3 leading-relaxed "
         ></div>
 
         <div className="flex justify-start items-center flex-wrap gap-3 mt-10 max-lg:px-5">

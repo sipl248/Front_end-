@@ -1,14 +1,13 @@
-"use client";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
-  ssr: false,
-});
 import React from "react";
-
+export const metadata = {
+  title: "Developer with Pokiifuns | Publish Free Games on Pokiifuns",
+  description:
+    "Publish your free games on Pokiifuns! Share web games, browser games, and no-download fun games online. Reach players looking for new and cool free games",
+};
 export default function page() {
   return (
-    <div className="bg-[#020C17] text-[#abb7c4] -mt-20">
+    <div className="bg-[#020C17] text-[#abb7c4] -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem] media_resp   max-lg:px-5  max-md:px-0">
         <Image
           src={"https://pokiigame.com/_next/static/media/img2.d48ea787.jpg"}

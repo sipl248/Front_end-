@@ -1,21 +1,21 @@
 import { GAMES } from "@/components/Constant";
 import GameDetail from "@/components/GameDetail";
 import Games from "@/components/Games";
-import axios from "axios"; // <-- Import axios
+import axios from "axios";
 
-export default async function page({ params }) {
+export default async function Page({ params }) {
   const { name } = params;
-  console.log("name", name);
   let gameDetails = null;
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}games/${name}`
     );
     gameDetails = response?.data?.data?.game;
-    console.log("gameDetails", gameDetails);
   } catch (error) {
-    console.log("error", error);
+    console.error("Error fetching game details:", error);
   }
+
   return (
     <>
       <GameDetail {...{ gameDetails, name }} />
@@ -28,8 +28,27 @@ export default async function page({ params }) {
 
 export async function generateMetadata({ params }) {
   const { name } = params;
-  return {
-    title: `Play ${name} - Pokiifuns Game`,
-    description: `Enjoy playing ${name} on Pokiifuns Game!`,
-  };
+
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}games/${name}`
+    );
+    const gameDetails = response?.data?.data?.game;
+
+    return {
+      title: `Play ${
+        gameDetails?.title || name
+      } - Free Online Browser Game to Play`,
+      description: `Enjoy playing ${
+        gameDetails?.title || name
+      } on Pokiifuns Game!`,
+    };
+  } catch (error) {
+    console.error("Error in generateMetadata:", error);
+
+    return {
+      title: `Play ${name} - Pokiifuns Game`,
+      description: `Enjoy playing ${name} on Pokiifuns Game!`,
+    };
+  }
 }

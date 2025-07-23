@@ -88,10 +88,11 @@ export default function Games() {
         src="//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js"
       ></Script> */}
       {/* pop-up ads */}
-
-      <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
-        PLAY YOUR FAVORITE GAME
-      </h1>
+      {window.location.pathname === "/" && (
+        <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
+          PLAY YOUR FAVORITE GAME
+        </h1>
+      )}
 
       {/* <AdsterraAd
         keyId="33c38de2503eaee4251a5962d435100d"
@@ -136,7 +137,6 @@ export default function Games() {
         </div>
       </div>
 
-      <div id="container-c0957bab1658f4edf3a744cc4ab8e9f7"></div>
       {/* Game Grid */}
       <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
@@ -144,7 +144,7 @@ export default function Games() {
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
           </div>
         ) : (
-          games?.slice(0, 12).map((item, index) => (
+          games?.map((item, index) => (
             <div
               onClick={(e) => handleClick(e, item?.gameId)}
               key={index}
@@ -173,7 +173,7 @@ export default function Games() {
         strategy="afterInteractive"
         async
       /> */}
-      <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
+      {/* <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
@@ -199,7 +199,7 @@ export default function Games() {
             </div>
           ))
         )}
-      </div>
+      </div> */}
 
       {/* <AdsterraAd
         keyId="ecba41c690f4c72c724c02b884fe6e13"
