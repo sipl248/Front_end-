@@ -17,6 +17,7 @@ export default function Games() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isClient, setIsClient] = useState(false);
 
   // Debounce search input
   useEffect(() => {
@@ -25,6 +26,10 @@ export default function Games() {
     }, 500);
     return () => clearTimeout(handler);
   }, [search]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
@@ -88,7 +93,7 @@ export default function Games() {
         src="//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js"
       ></Script> */}
       {/* pop-up ads */}
-      {window.location.pathname === "/" && (
+      {isClient && window.location.pathname === "/" && (
         <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
           PLAY YOUR FAVORITE GAME
         </h1>
