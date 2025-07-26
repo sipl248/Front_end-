@@ -131,6 +131,9 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
           rel="stylesheet"
         />
+        <script async custom-element="amp-auto-ads"
+          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+        </script>
         <meta
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
@@ -166,6 +169,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <amp-auto-ads type="adsense"
+          data-ad-client="ca-pub-7456682660420004">
+        </amp-auto-ads>
         {/* ✅ GTM fallback for non-JS users */}
         <noscript>
           <iframe
