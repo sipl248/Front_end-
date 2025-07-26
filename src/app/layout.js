@@ -134,6 +134,8 @@ export default function RootLayout({ children }) {
         <script async custom-element="amp-auto-ads"
           src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
         </script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossorigin="anonymous"></script>
         <meta
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
