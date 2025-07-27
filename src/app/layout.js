@@ -102,6 +102,8 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-FGE8FDPWWR');
           `}
         </Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossorigin="anonymous"></script>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
           rel="icon"
