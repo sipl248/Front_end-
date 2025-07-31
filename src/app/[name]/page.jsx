@@ -11,8 +11,7 @@ export default async function Page({ params }) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     if (!baseUrl) {
-      console.error("NEXT_PUBLIC_BASE_URL is not defined");
-      notFound(); // This will trigger the 404 page
+      notFound();
     }
 
     const response = await axios.get(`${baseUrl}games/${name}`);
@@ -23,8 +22,10 @@ export default async function Page({ params }) {
       notFound();
     }
   } catch (error) {
-    console.error("Error fetching game details:", error);
-    // If API returns 404 or any error, show 404 page
+    // Only log unexpected errors, not 404/500 responses
+    if (error.response?.status !== 404 && error.response?.status !== 500) {
+      console.error("Unexpected error fetching game details:", error);
+    }
     notFound();
   }
 
@@ -62,7 +63,10 @@ export async function generateMetadata({ params }) {
       } on Pokiifuns Game!`,
     };
   } catch (error) {
-    console.error("Error in generateMetadata:", error);
+    // Only log unexpected errors, not 404/500 responses
+    if (error.response?.status !== 404 && error.response?.status !== 500) {
+      console.error("Unexpected error in generateMetadata:", error);
+    }
 
     return {
       title: `Play ${name} - Pokiifuns Game`,
