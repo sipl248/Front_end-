@@ -34,7 +34,14 @@ export default function Games() {
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
     try {
-      let url = `${process.env.NEXT_PUBLIC_BASE_URL}games?page=${pageNum}&limit=24`;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      if (!baseUrl) {
+        console.error("NEXT_PUBLIC_BASE_URL is not defined");
+        setLoading(false);
+        return;
+      }
+
+      let url = `${baseUrl}games?page=${pageNum}&limit=24`;
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
@@ -162,7 +169,7 @@ export default function Games() {
                     height={200}
                     alt="game-poster"
                     className="w-full object-cover"
-                    src={item?.thumb}
+                    src={item?.thumb || "/assets/pokii_game.webp"}
                   />
                 </div>
               </div>
