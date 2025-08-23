@@ -68,8 +68,6 @@ export const metadata = {
       { rel: "mask-icon", url: "/apple-icon-precomposed.png" },
     ],
   },
-  themeColor: "#ffffff",
-  viewport: "width=device-width, initial-scale=1",
   robots: {
     index: true,
     follow: true,
@@ -81,10 +79,31 @@ export const metadata = {
   },
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
+export const themeColor = '#ffffff';
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-FGE8FDPWWR"
+        ></Script>
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-FGE8FDPWWR');
+          `}
+        </Script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossorigin="anonymous"></script>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
           rel="icon"
@@ -109,10 +128,14 @@ export default function RootLayout({ children }) {
           name="description"
           content="Pokiifuns: Your ultimate gaming destination! Explore a vast collection of thrilling games, from action-packed adventures to brain-teasing puzzles. Dive into a world of fun and challenge your skills on Pokiifuns today!"
         /> */}
+
         <link
           href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
           rel="stylesheet"
         />
+        <script async custom-element="amp-auto-ads"
+          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+        </script>
         <meta
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
@@ -134,31 +157,23 @@ export default function RootLayout({ children }) {
           src="https://the.gatekeeperconsent.com/cmp.min.js"
           data-cfasync="false"
         ></script> */}
-        {/* <Script
-          src="//www.ezojs.com/ezoic/sa.min.js"
-          strategy="beforeInteractive"
-          async
-        />
-        <Script id="ezoic-init" strategy="beforeInteractive">
-          {`
-        window.ezstandalone = window.ezstandalone || {};
-        ezstandalone.cmd = ezstandalone.cmd || [];
-      `}
-        </Script> */}
-        {/* ✅ Google Tag Manager script */}
-        <Script id="gtm-script" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-5FC7Z8WT');
-          `}
-        </Script>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGE8FDPWWR"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FGE8FDPWWR');
+          `,
+        }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <amp-auto-ads type="adsense"
+          data-ad-client="ca-pub-7456682660420004">
+        </amp-auto-ads>
         {/* ✅ GTM fallback for non-JS users */}
         <noscript>
           <iframe

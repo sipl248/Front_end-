@@ -17,6 +17,7 @@ export default function Games() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isClient, setIsClient] = useState(false);
 
   // Debounce search input
   useEffect(() => {
@@ -26,10 +27,21 @@ export default function Games() {
     return () => clearTimeout(handler);
   }, [search]);
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
     try {
-      let url = `${process.env.NEXT_PUBLIC_BASE_API_URL}games?page=${pageNum}&limit=24`;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      if (!baseUrl) {
+        console.error("NEXT_PUBLIC_BASE_URL is not defined");
+        setLoading(false);
+        return;
+      }
+
+      let url = `${baseUrl}games?page=${pageNum}&limit=24`;
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
@@ -88,7 +100,7 @@ export default function Games() {
         src="//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js"
       ></Script> */}
       {/* pop-up ads */}
-      {window.location.pathname === "/" && (
+      {isClient && window.location.pathname === "/" && (
         <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
           PLAY YOUR FAVORITE GAME
         </h1>
@@ -157,7 +169,7 @@ export default function Games() {
                     height={200}
                     alt="game-poster"
                     className="w-full object-cover"
-                    src={item?.thumb}
+                    src={item?.thumb || "/assets/pokii_game.webp"}
                   />
                 </div>
               </div>
