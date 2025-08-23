@@ -25,7 +25,7 @@ export default function Contactus() {
     setError(null);
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}contact/submit`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}contact/submit`,
         form
       );
       setSuccess("Message sent successfully!");

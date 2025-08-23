@@ -9,7 +9,7 @@ export default async function Page({ params }) {
 
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}games/${name}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}games/${name}`
     );
     gameDetails = response?.data?.data?.game;
   } catch (error) {
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
 
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}games/${name}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}games/${name}`
     );
     const gameDetails = response?.data?.data?.game;
 

@@ -29,7 +29,7 @@ export default function Games() {
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
     try {
-      let url = `${process.env.NEXT_PUBLIC_BASE_URL}games?page=${pageNum}&limit=24`;
+      let url = `${process.env.NEXT_PUBLIC_BASE_API_URL}games?page=${pageNum}&limit=24`;
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
