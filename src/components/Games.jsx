@@ -34,9 +34,9 @@ export default function Games() {
   const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
     setLoading(true);
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
       if (!baseUrl) {
-        console.error("NEXT_PUBLIC_BASE_URL is not defined");
+        console.error("NEXT_PUBLIC_BASE_API_URL is not defined");
         setLoading(false);
         return;
       }

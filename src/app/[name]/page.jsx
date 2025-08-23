@@ -9,7 +9,7 @@ export default async function Page({ params }) {
   let gameDetails = null;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     if (!baseUrl) {
       notFound();
     }
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
   const { name } = await params;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     if (!baseUrl) {
       return {
         title: `Play ${name} - Pokiifuns Game`,
