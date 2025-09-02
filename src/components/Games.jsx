@@ -35,6 +35,7 @@ export default function Games() {
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+      console.log('baseUrl :>> ', baseUrl);
       if (!baseUrl) {
         console.error("NEXT_PUBLIC_BASE_API_URL is not defined");
         setLoading(false);
