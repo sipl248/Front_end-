@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AnimatedPoster from "@/components/AnimatedPoster";
 export const metadata = {
   title: "About Pokiifuns | Free Fun Browser Games for Everyone Online",
   description:
@@ -8,13 +9,7 @@ export default function page() {
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
-        <Image
-          src={"https://pokiigame.com/_next/static/media/img3.6d832745.jpg"}
-          alt="poster"
-          className="rounded-[25px] h-[45vh] object-cover"
-          width={1200}
-          height={673}
-        />
+        <AnimatedPoster className="h-[45vh]" title="ABOUT POKIIFUNS" />
         {/* <AdsterraAd keyId="33c38de2503eaee4251a5962d435100d" /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>About Pokii</h1>

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import AnimatedPoster from "@/components/AnimatedPoster";
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -40,13 +41,7 @@ export default function Contactus() {
   return (
     <div className="bg-[#020C17] text-white -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
-        <Image
-          src={"https://pokiigame.com/_next/static/media/contact.833d1c6a.jpg"}
-          alt="poster"
-          className="rounded-[25px] h-[45vh] object-cover"
-          width={1200}
-          height={673}
-        />
+        <AnimatedPoster className="h-[45vh]" title="CONTACT SUPPORT" />
         {/* <AdsterraAd
           keyId="5d5abcca14de57540562622c80497b3d"
           width={320}
