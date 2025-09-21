@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { titleToSlug } from "@/utils/urlUtils";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
   ssr: false,
 });
@@ -79,7 +80,7 @@ export default function Games() {
     }
   };
 
-  const handleClick = (e, gameId) => {
+  const handleClick = (e, game) => {
     e.preventDefault();
     // const adScript = document.createElement("script");
     // adScript.type = "text/javascript";
@@ -88,8 +89,11 @@ export default function Games() {
     // adScript.async = true;
     // document.body.appendChild(adScript);
 
+    // Create URL-friendly slug from game title
+    const gameSlug = titleToSlug(game?.title || game?.gameId);
+    
     // setTimeout(() => {
-    router.push(`/${gameId}`);
+    router.push(`/${gameSlug}`);
     // }, 1500);
   };
 
@@ -159,7 +163,7 @@ export default function Games() {
         ) : (
           games?.map((item, index) => (
             <div
-              onClick={(e) => handleClick(e, item?.gameId)}
+              onClick={(e) => handleClick(e, item)}
               key={index}
               className="justify-between gap-5 cursor-pointer w-full h-full"
             >
@@ -194,7 +198,7 @@ export default function Games() {
         ) : (
           games?.slice(12, 25).map((item, index) => (
             <div
-              onClick={(e) => handleClick(e, item?.gameId)}
+              onClick={(e) => handleClick(e, item)}
               key={index}
               className="justify-between gap-5 cursor-pointer w-full h-full"
             >
