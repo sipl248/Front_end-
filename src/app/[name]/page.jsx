@@ -3,7 +3,7 @@ import GameDetail from "@/components/GameDetail";
 import Games from "@/components/Games";
 import axios from "axios";
 import { notFound } from "next/navigation";
-import { slugToTitle } from "@/utils/urlUtils";
+import { slugToTitle, normalizeTitle } from "@/utils/urlUtils";
 
 export default async function Page({ params }) {
   const { name } = await params;
@@ -11,31 +11,44 @@ export default async function Page({ params }) {
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    if (!baseUrl) {
-      notFound();
-    }
+    // If API base URL is missing locally, fall back to local constants instead of 404
 
     // Convert slug back to title for API search
     const gameTitle = slugToTitle(name);
-    
-    // First try to find game by title using search API
-    const searchResponse = await axios.get(`${baseUrl}games?search=${encodeURIComponent(gameTitle)}&limit=1`);
-    const searchResults = searchResponse?.data?.data?.games || [];
-    
-    // Find exact match by title
-    gameDetails = searchResults.find(game => 
-      game.title && game.title.toLowerCase() === gameTitle.toLowerCase()
-    );
 
-    // If no exact match found, try the original ID-based approach as fallback
-    if (!gameDetails) {
+    // 1) Try remote API when available
+    if (baseUrl) {
+      try {
+        const searchResponse = await axios.get(`${baseUrl}games?search=${encodeURIComponent(gameTitle)}&limit=20`);
+        const searchResults = searchResponse?.data?.data?.games || [];
+        const wanted = normalizeTitle(gameTitle);
+        gameDetails = searchResults.find(g => normalizeTitle(g?.title) === wanted)
+          || searchResults.find(g => normalizeTitle(g?.title).includes(wanted))
+          || null;
+      } catch (_) {
+        // ignore and fall through to local fallback
+      }
+    }
+
+    // 2) If not matched by title, try ID-based approach as fallback (only if API exists)
+    if (!gameDetails && baseUrl) {
       try {
         const response = await axios.get(`${baseUrl}games/${name}`);
         gameDetails = response?.data?.data?.game;
-      } catch (idError) {
-        // If both approaches fail, show 404
-        notFound();
-      }
+      } catch (_) {}
+    }
+
+    // 3) Fallback to local constants
+    if (!gameDetails) {
+      const wanted = normalizeTitle(gameTitle);
+      gameDetails = GAMES.find(g => normalizeTitle(g?.title) === wanted)
+        || GAMES.find(g => normalizeTitle(g?.title).includes(wanted))
+        || null;
+    }
+
+    // 4) As a last resort, render placeholder instead of 404 so page always opens
+    if (!gameDetails) {
+      gameDetails = { title: gameTitle, thumb: "/assets/pokii_game.webp", url: "#", description: "", instructions: "", tags: [] };
     }
 
     // If still no game details found, show 404 page
@@ -75,15 +88,15 @@ export async function generateMetadata({ params }) {
 
     // Convert slug back to title for API search
     const gameTitle = slugToTitle(name);
-    
-    // First try to find game by title using search API
-    const searchResponse = await axios.get(`${baseUrl}games?search=${encodeURIComponent(gameTitle)}&limit=1`);
+
+    // Search by title with normalization
+    const searchResponse = await axios.get(`${baseUrl}games?search=${encodeURIComponent(gameTitle)}&limit=20`);
     const searchResults = searchResponse?.data?.data?.games || [];
-    
-    // Find exact match by title
-    let gameDetails = searchResults.find(game => 
-      game.title && game.title.toLowerCase() === gameTitle.toLowerCase()
-    );
+
+    const wanted = normalizeTitle(gameTitle);
+    let gameDetails = searchResults.find(g => normalizeTitle(g?.title) === wanted)
+      || searchResults.find(g => normalizeTitle(g?.title).includes(wanted))
+      || null;
 
     // If no exact match found, try the original ID-based approach as fallback
     if (!gameDetails) {

@@ -102,7 +102,8 @@ export default function GameDetail({ gameDetails, name }) {
         ></div>
 
         <div className="flex justify-start items-center flex-wrap gap-3 mt-10 max-lg:px-5">
-          {gameDetails?.tags?.map((tag, index) => (
+          {(Array.isArray(gameDetails?.tags) ? gameDetails.tags : (typeof gameDetails?.tags === 'string' ? gameDetails.tags.split(/[,|]/).map(t => t.trim()).filter(Boolean) : []))
+            .map((tag, index) => (
             <div
               key={index}
               className="border border-solid border-white hover:border-[#dcf836] hover:text-[#dcf836] px-4 py-1 rounded-[15px]"
