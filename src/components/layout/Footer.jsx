@@ -4,22 +4,33 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#020c17]">
+    <footer className="bg-[#020c17] footer-animated">
+      {/* animated ambient orbs */}
+      <span className="footer-orb fo1" aria-hidden="true" />
+      <span className="footer-orb fo2" aria-hidden="true" />
+      <span className="footer-orb fo3" aria-hidden="true" />
+      <span className="footer-beam" aria-hidden="true" />
       <div className="mx-auto w-full max-w-screen px-[20.2rem]   max-lg:px-5 border-t border-[#ffffff1c] text-[#abb7c4] text-[14px] ">
         <div className="footer-grid max-md:flex-col">
           {/*img  */}
           <div>
             <a href="/">
-              <Image
-                alt="main logo"
-                loading="lazy"
-                width="100"
-                height="70"
-                decoding="async"
-                data-nimg="1"
-                style="color:transparent"
-                src="/assets/pokii_game.webp"
-              />
+              <span className="logo-spark-wrap">
+                <Image
+                  alt="main logo"
+                  loading="lazy"
+                  width="100"
+                  height="70"
+                  decoding="async"
+                  data-nimg="1"
+                  style="color:transparent"
+                  src="/assets/pokii_game.webp"
+                  className="logo-glow"
+                />
+                <span className="logo-spark s1" />
+                <span className="logo-spark s2" />
+                <span className="logo-spark s3" />
+              </span>
             </a>
           </div>
 

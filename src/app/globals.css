@@ -348,6 +348,47 @@ body {
   box-shadow: 0 10px 24px rgba(220,248,54,0.12), 0 0 12px rgba(220,248,54,0.25) inset;
 }
 
+/* Footer animated background and glowing logo */
+.footer-animated { position: relative; overflow: hidden; }
+.footer-animated::before,
+.footer-animated::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.footer-animated::before {
+  background:
+    radial-gradient(120% 80% at 15% 20%, rgba(66,128,191,0.18) 0%, rgba(2,12,23,0) 60%),
+    radial-gradient(120% 80% at 85% 80%, rgba(220,248,54,0.12) 0%, rgba(2,12,23,0) 65%);
+  opacity: 0.9;
+}
+.footer-animated::after {
+  background: repeating-linear-gradient(90deg, rgba(220,248,54,0.04), rgba(220,248,54,0.04) 2px, transparent 2px, transparent 6px);
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+  animation: footerScan 12s linear infinite;
+}
+@keyframes footerScan { 0% { transform: translateX(-10%); } 50% { transform: translateX(10%); } 100% { transform: translateX(-10%); } }
+
+.footer-orb { position: absolute; border-radius: 9999px; filter: blur(36px); opacity: 0.28; }
+.footer-orb.fo1 { width: 320px; height: 320px; left: -80px; bottom: -40px; background: #1f3a5a; animation: orb1 22s ease-in-out infinite; }
+.footer-orb.fo2 { width: 380px; height: 380px; right: -90px; top: -60px; background: #2a5e9a; animation: orb2 26s ease-in-out infinite; }
+.footer-orb.fo3 { width: 220px; height: 220px; left: 30%; top: 10%; background: #0e2236; animation: orb3 24s ease-in-out infinite; opacity: 0.22; }
+
+.logo-glow { filter: drop-shadow(0 0 8px rgba(220,248,54,0.55)); animation: logoPulse 2.8s ease-in-out infinite; }
+@keyframes logoPulse { 0%,100% { filter: drop-shadow(0 0 6px rgba(220,248,54,0.45)); transform: scale(1); } 50% { filter: drop-shadow(0 0 16px rgba(220,248,54,0.85)); transform: scale(1.02); } }
+
+/* Extra footer beams */
+.footer-beam { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: 0.25; background: radial-gradient(40% 20% at 0% 50%, rgba(124,179,255,0.25), rgba(124,179,255,0) 60%), radial-gradient(40% 20% at 100% 50%, rgba(220,248,54,0.25), rgba(220,248,54,0) 60%); animation: footerBeam 10s ease-in-out infinite; }
+@keyframes footerBeam { 0%,100% { transform: translateX(0); opacity: .22; } 50% { transform: translateX(2%); opacity: .32; } }
+
+/* Orbiting logo sparks */
+.logo-spark-wrap { position: relative; display: inline-block; }
+.logo-spark { position: absolute; width: 6px; height: 6px; border-radius: 9999px; background: #DCF836; filter: drop-shadow(0 0 6px rgba(220,248,54,0.7)); opacity: 0.9; }
+.logo-spark.s1 { left: -10px; top: 10px; animation: sparkOrbit1 6s linear infinite, sparkBlink 1.8s ease-in-out infinite; }
+.logo-spark.s2 { right: -12px; top: -4px; animation: sparkOrbit2 7s linear infinite, sparkBlink 2.2s ease-in-out infinite .3s; }
+.logo-spark.s3 { right: -8px; bottom: -6px; animation: sparkOrbit3 6.6s linear infinite, sparkBlink 2s ease-in-out infinite .6s; }
+@keyframes sparkBlink { 0%,100% { opacity: .6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+@keyframes sparkOrbit1 { 0% { transform: rotate(0deg) translateX(10px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(10px) rotate(-360deg); } }
+@keyframes sparkOrbit2 { 0% { transform: rotate(0deg) translateX(14px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(14px) rotate(-360deg); } }
+@keyframes sparkOrbit3 { 0% { transform: rotate(0deg) translateX(12px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(12px) rotate(-360deg); } }
+
 @keyframes orb1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(6%, 8%) scale(1.05); }
