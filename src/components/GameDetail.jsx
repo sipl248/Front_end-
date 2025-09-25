@@ -34,18 +34,18 @@ export default function GameDetail({ gameDetails, name }) {
 
   return (
     <div
-      className={`min-h-screen -mt-20 text-white bg-[url(https://pokiigame.com/_next/static/media/footer.5bdee055.jpg)] h-auto bg-no-repeat bg-fixed`}
+      className={`min-h-screen -mt-20 text-white bg-[url(https://pokiigame.com/_next/static/media/footer.5bdee055.jpg)] h-auto bg-no-repeat bg-fixed overflow-x-hidden`}
     >
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
         <div className="relative flex justify-between items-center sm:border-transparent  max-md:flex-col max-lg:gap-10 max-xl:gap-4 max-sm:!gap-0">
           <Image
             src={gameDetails?.thumb || "/assets/pokii_game.webp"}
             alt="background-poster"
-            className="absolute inset-0 w-full h-[580px]  object-cover  rounded-[20px] max-sm:rounded-none"
+            className="absolute inset-0 w-full h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] object-cover rounded-[20px] max-sm:rounded-none"
             width={600}
             height={600}
           />
-          <div className="absolute inset-0 h-[580px] rounded-[20px] max-sm:rounded-none bg-[linear-gradient(180deg,rgba(2,12,23,0.2)_0%,rgba(2,12,23,0.75)_55%,rgba(2,12,23,0.95)_100%)]"></div>
+          <div className="absolute inset-0 h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] rounded-[20px] max-sm:rounded-none bg-[linear-gradient(180deg,rgba(2,12,23,0.2)_0%,rgba(2,12,23,0.75)_55%,rgba(2,12,23,0.95)_100%)]"></div>
 
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
             <h1 className="text-[56px] max-xl:text-[44px] max-md:text-[32px] font-extrabold text-center tracking-wide mb-3">
