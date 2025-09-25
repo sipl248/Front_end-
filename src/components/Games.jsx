@@ -3,7 +3,7 @@ import Image from "next/image";
 import Script from "next/script";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { titleToSlug } from "@/utils/urlUtils";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
@@ -11,6 +11,7 @@ const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
 });
 export default function Games() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
@@ -19,6 +20,9 @@ export default function Games() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("");
+  const [categoryData, setCategoryData] = useState({});
+  const [loadingCategories, setLoadingCategories] = useState(false);
 
   // Debounce search input
   useEffect(() => {
@@ -32,7 +36,7 @@ export default function Games() {
     setIsClient(true);
   }, []);
 
-  const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
+  const getGames = useCallback(async (pageNum = 1, searchValue = "", category = "", append = false) => {
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -47,9 +51,12 @@ export default function Games() {
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
+      if (category) {
+        url += `&category=${encodeURIComponent(category)}`;
+      }
       const response = await axios.get(url);
       const newGames = response?.data?.data?.games || [];
-      setGames(newGames);
+      setGames((prev) => (append ? [...prev, ...newGames] : newGames));
       setHasNext(response?.data?.data?.pagination?.hasNext);
       setHasPrev(pageNum > 1);
     } catch (error) {
@@ -60,15 +67,60 @@ export default function Games() {
   }, []);
 
   useEffect(() => {
-    getGames(1, debouncedSearch);
+    const cat = searchParams?.get("category") || "";
+    setActiveCategory(cat);
+    // reset list before new fetch (important for Load more UX)
+    setGames([]);
+    getGames(1, debouncedSearch, cat, false);
     setPage(1);
-  }, [getGames, debouncedSearch]);
+  }, [getGames, debouncedSearch, searchParams]);
+
+  // Define homepage categories and fetch exactly 20 for each from API
+  const categoryDefs = [
+    { key: "Action", label: "Action" },
+    { key: "Puzzle", label: "Puzzle" },
+    { key: "Racing", label: "Racing" },
+    { key: "Sports", label: "Sports" },
+    { key: "Girls", label: "Girls" },
+    { key: "Hypercasual", label: "Hypercasual" },
+    { key: "Arcade", label: "Arcade" },
+  ];
+
+  useEffect(() => {
+    const fetchCategoryBlocks = async () => {
+      if (typeof window === 'undefined' || window.location.pathname !== '/') return;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+      if (!baseUrl) return;
+      setLoadingCategories(true);
+      try {
+        const results = {};
+        await Promise.all(
+          categoryDefs.map(async (cat) => {
+            try {
+              const url = `${baseUrl}games?page=1&limit=20&category=${encodeURIComponent(cat.key)}`;
+              const resp = await axios.get(url);
+              results[cat.key] = resp?.data?.data?.games || [];
+            } catch {
+              results[cat.key] = [];
+            }
+          })
+        );
+        setCategoryData(results);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+    fetchCategoryBlocks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNextPage = () => {
     if (hasNext && !loading) {
       const nextPage = page + 1;
       setPage(nextPage);
-      getGames(nextPage, debouncedSearch);
+      // On homepage we use Load more (append). On other pages, standard pagination
+      const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
+      getGames(nextPage, debouncedSearch, activeCategory, isHome);
     }
   };
 
@@ -76,7 +128,7 @@ export default function Games() {
     if (hasPrev && !loading) {
       const prevPage = page - 1;
       setPage(prevPage);
-      getGames(prevPage, debouncedSearch);
+      getGames(prevPage, debouncedSearch, activeCategory);
     }
   };
 
@@ -97,6 +149,9 @@ export default function Games() {
     // }, 1500);
   };
 
+  // Build category buckets from fetched data
+  const categoryBuckets = categoryDefs.map((cat) => ({ ...cat, items: categoryData[cat.key] || [] }));
+
   return (
     <div className="pt-20">
       {/* pop-up ads */}
@@ -106,9 +161,27 @@ export default function Games() {
       ></Script> */}
       {/* pop-up ads */}
       {isClient && window.location.pathname === "/" && (
-        <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
-          PLAY YOUR FAVORITE GAME
-        </h1>
+        <div className="flex flex-col items-center gap-4 pt-5">
+          <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold text-center">
+            PLAY YOUR FAVORITE GAME
+          </h1>
+          <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
+            <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+              {["1000+ Games", "No install needed", "Play on any device", "Everything is free"].map((label, idx) => (
+                <div key={idx} className="group rounded-xl border border-[#DCF836]/35 hover:border-[#DCF836] bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300">
+                  <div className="flex items-center gap-2 px-3 py-2">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#DCF836] text-black text-[12px] font-bold shadow-[0_0_10px_rgba(220,248,54,0.5)]">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17l-5-5" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span className="text-[#DCF836] text-sm md:text-base font-semibold">{label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* <AdsterraAd
@@ -117,42 +190,92 @@ export default function Games() {
         height={50}
       /> */}
 
-      {/* Search Bar */}
-      <div className="flex justify-center text-white mt-4">
-        <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search games..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#DCF836] pr-10 bg-transparent"
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch("")}
-              className="absolute right-3 max-md:right-5 cursor-pointer top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none"
-              aria-label="Clear search"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M18 6L6 18M6 6l12 12"
-                />
+      {/* All Games title (only on /all) */}
+      {isClient && window.location.pathname === "/all" && (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-2">
+          <h1 className="text-white text-[30px] max-sm:text-[22px] font-semibold text-center">
+            Explore All Games
+          </h1>
+          <p className="text-white/70 text-center mt-1 text-sm md:text-base">
+            Search and discover 1000+ free games. No install, play instantly.
+          </p>
+        </div>
+      )}
+
+      {/* Search Bar (home only styling focus, but works everywhere) */}
+      <div className="flex justify-center mt-6">
+        <div className="relative w-full max-w-[720px] px-5">
+          <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(220,248,54,0.08),rgba(220,248,54,0.02))] blur-[2px] -z-[1]" />
+          <div className="relative flex items-center rounded-2xl border border-[#DCF836]/30 bg-[rgba(7,18,28,0.55)] backdrop-blur-md shadow-[0_0_0_1px_rgba(220,248,54,0.06),0_8px_30px_rgba(0,0,0,0.35)]">
+            <span className="pl-4 text-[#DCF836]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 21l-4.35-4.35" stroke="#DCF836" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="11" cy="11" r="7" stroke="#DCF836" strokeWidth="2" />
               </svg>
-            </button>
-          )}
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') setDebouncedSearch(search); }}
+              placeholder="Search 1000+ free games..."
+              aria-label="Search games"
+              className="w-full bg-transparent text-white placeholder-white/60 px-3 py-3 rounded-2xl focus:outline-none"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="pr-4 text-white/70 hover:text-[#DCF836] focus:outline-none"
+                aria-label="Clear search"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Popular Categories with See more (min 20 items) */}
+      {isClient && window.location.pathname === "/" && !loadingCategories && (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
+          <div className="text-white font-semibold text-2xl mb-3">Popular Categories</div>
+          <div className="flex flex-col gap-4">
+            {categoryBuckets.map((cat) => (
+              cat.items.length >= 20 ? (
+                <div key={cat.key} className="basis-full">
+                  <div className="flex items-center justify-between">
+                    <div className="text-[#DCF836] font-semibold mt-4 mb-2">{cat.label}</div>
+                    <button
+                      className="text-sm text-white/90 underline hover:text-[#DCF836]"
+                      onClick={() => router.push(`/all?category=${encodeURIComponent(cat.key)}`)}
+                    >
+                      See more
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                    {cat.items.slice(0, 20).map((item, index) => (
+                      <div onClick={(e) => handleClick(e, item)} key={`${cat.key}-${index}`} className="cursor-pointer">
+                        <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                          <Image
+                            width={200}
+                            height={200}
+                            alt="game-poster"
+                            className="w-full object-cover"
+                            src={item?.thumb || "/assets/pokii_game.webp"}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Game Grid */}
       <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
@@ -224,34 +347,56 @@ export default function Games() {
         height={250}
       /> */}
 
-      {/* Pagination Buttons */}
-      <div className="flex justify-center items-center gap-4 py-8">
-        <button
-          onClick={handlePrevPage}
-          disabled={!hasPrev || loading}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-            hasPrev && !loading
-              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Previous
-        </button>
+      {/* Pagination / Load more */}
+      {(() => {
+        const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
+        if (isHome) {
+          return (
+            <div className="flex justify-center items-center py-8">
+              <button
+                onClick={handleNextPage}
+                disabled={!hasNext || loading}
+                className={`px-8 py-2 rounded-[60px] font-semibold transition-colors cursor-pointer ${
+                  hasNext && !loading
+                    ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {loading ? 'Loading...' : hasNext ? 'Load more' : 'No more games'}
+              </button>
+            </div>
+          );
+        }
+        return (
+          <div className="flex justify-center items-center gap-4 py-8">
+            <button
+              onClick={handlePrevPage}
+              disabled={!hasPrev || loading}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                hasPrev && !loading
+                  ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Previous
+            </button>
 
-        <span className="text-white font-medium">Page {page}</span>
+            <span className="text-white font-medium">Page {page}</span>
 
-        <button
-          onClick={handleNextPage}
-          disabled={!hasNext || loading}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-            hasNext && !loading
-              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Next
-        </button>
-      </div>
+            <button
+              onClick={handleNextPage}
+              disabled={!hasNext || loading}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                hasNext && !loading
+                  ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        );
+      })()}
       {/* <AdsterraAd
         keyId="5d5abcca14de57540562622c80497b3d"
         width={320}
