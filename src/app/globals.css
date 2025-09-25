@@ -192,6 +192,58 @@ body {
     pointer-events: auto !important;
     touch-action: manipulation !important;
   }
+  
+  /* Override any blocking styles that prevent mobile touch */
+  .modal-open * {
+    -webkit-touch-callout: auto !important;
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+    pointer-events: auto !important;
+    touch-action: auto !important;
+  }
+  
+  /* Specifically target common ad elements */
+  .modal-open div[style*="position: fixed"],
+  .modal-open div[style*="z-index"],
+  .modal-open button,
+  .modal-open [onclick],
+  .modal-open [role="button"],
+  .modal-open a {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(220, 248, 54, 0.5) !important;
+    cursor: pointer !important;
+  }
+  
+  /* Force override any blocking styles */
+  .modal-open *[style*="pointer-events: none"],
+  .modal-open *[style*="pointer-events:none"] {
+    pointer-events: auto !important;
+  }
+  
+  .modal-open *[style*="touch-action: none"],
+  .modal-open *[style*="touch-action:none"] {
+    touch-action: manipulation !important;
+  }
+  
+  /* Ensure all clickable elements work on mobile */
+  .modal-open button,
+  .modal-open [role="button"],
+  .modal-open a,
+  .modal-open input,
+  .modal-open select,
+  .modal-open textarea,
+  .modal-open div[onclick],
+  .modal-open span[onclick],
+  .modal-open div[style*="cursor: pointer"],
+  .modal-open span[style*="cursor: pointer"] {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(220, 248, 54, 0.5) !important;
+    cursor: pointer !important;
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
 }
 
 /* Game error overlay styling */

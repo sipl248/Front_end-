@@ -86,6 +86,26 @@ export default function GameDetail({ gameDetails, name }) {
                   rect.top <= touch.clientY && touch.clientY <= rect.bottom) {
                 // Let the iframe handle the touch event
                 iframe.focus();
+                
+                // Force click on any element under the touch point
+                const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                if (element && (element.tagName === 'BUTTON' || element.getAttribute('role') === 'button' || element.onclick)) {
+                  element.click();
+                }
+              }
+            }
+          } catch {}
+        };
+
+        const handleClickEvent = (e) => {
+          // Also handle click events for better compatibility
+          try {
+            const iframe = iframeRef.current;
+            if (iframe && iframe.contentWindow) {
+              const rect = iframe.getBoundingClientRect();
+              if (rect.left <= e.clientX && e.clientX <= rect.right && 
+                  rect.top <= e.clientY && e.clientY <= rect.bottom) {
+                iframe.focus();
               }
             }
           } catch {}
@@ -93,10 +113,12 @@ export default function GameDetail({ gameDetails, name }) {
 
         document.addEventListener('touchstart', handleTouchEvent, { passive: true });
         document.addEventListener('touchend', handleTouchEvent, { passive: true });
+        document.addEventListener('click', handleClickEvent, { passive: true });
         
         return () => {
           document.removeEventListener('touchstart', handleTouchEvent);
           document.removeEventListener('touchend', handleTouchEvent);
+          document.removeEventListener('click', handleClickEvent);
         };
       }
 
@@ -156,6 +178,12 @@ export default function GameDetail({ gameDetails, name }) {
       hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
       hiddenAdsRef.current = [];
       observerRef.current?.disconnect?.();
+      
+      // Clean up mobile touch interval
+      if (iframeRef.current?._touchInterval) {
+        clearInterval(iframeRef.current._touchInterval);
+        iframeRef.current._touchInterval = null;
+      }
     }
     return () => {
       document.body.classList.remove('overflow-hidden');
@@ -293,22 +321,40 @@ export default function GameDetail({ gameDetails, name }) {
                         } catch {}
                         
                         // Ensure all interactive elements are touchable
-                        setTimeout(() => {
+                        const makeElementsTouchable = () => {
                           try {
                             const iframe = iframeRef.current;
                             if (iframe && iframe.contentDocument) {
                               const doc = iframe.contentDocument;
-                              const buttons = doc.querySelectorAll('button, [role="button"], a, input, select, textarea');
-                              buttons.forEach(btn => {
+                              const allElements = doc.querySelectorAll('*');
+                              allElements.forEach(el => {
+                                el.style.pointerEvents = 'auto';
+                                el.style.touchAction = 'manipulation';
+                                el.style.webkitTouchCallout = 'auto';
+                                el.style.webkitUserSelect = 'auto';
+                                el.style.userSelect = 'auto';
+                              });
+                              
+                              // Specifically target buttons and clickable elements
+                              const clickableElements = doc.querySelectorAll('button, [role="button"], a, input, select, textarea, [onclick], div[style*="cursor: pointer"]');
+                              clickableElements.forEach(btn => {
                                 btn.style.pointerEvents = 'auto';
                                 btn.style.touchAction = 'manipulation';
                                 btn.style.webkitTouchCallout = 'auto';
                                 btn.style.minHeight = '44px';
                                 btn.style.minWidth = '44px';
+                                btn.style.cursor = 'pointer';
                               });
                             }
                           } catch {}
-                        }, 1000);
+                        };
+                        
+                        // Run immediately and then every 2 seconds
+                        makeElementsTouchable();
+                        const interval = setInterval(makeElementsTouchable, 2000);
+                        
+                        // Store interval for cleanup
+                        iframeRef.current._touchInterval = interval;
                       }
                       
                       try {
