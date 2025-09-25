@@ -210,7 +210,8 @@ function GamesInner() {
         </div>
       )}
 
-      {/* Search Bar (home only styling focus, but works everywhere) */}
+      {/* Search Bar (hidden on Home, visible on /all and others) */}
+      {isClient && window.location.pathname !== "/" && (
       <div className="flex justify-center mt-6">
         <div className="relative w-full max-w-[720px] px-5">
           <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(220,248,54,0.08),rgba(220,248,54,0.02))] blur-[2px] -z-[1]" />
@@ -245,6 +246,7 @@ function GamesInner() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Popular Categories with See more (min 20 items) */}
       {isClient && window.location.pathname === "/" && !loadingCategories && (
