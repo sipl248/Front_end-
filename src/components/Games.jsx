@@ -9,15 +9,15 @@ import { titleToSlug } from "@/utils/urlUtils";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
   ssr: false,
 });
-export default function Games() {
+export default function Games(props) {
   return (
     <Suspense fallback={<div className="pt-24 text-center text-white/70">Loading...</div>}>
-      <GamesInner />
+      <GamesInner {...props} />
     </Suspense>
   );
 }
 
-function GamesInner() {
+function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [games, setGames] = useState([]);
@@ -210,8 +210,8 @@ function GamesInner() {
         </div>
       )}
 
-      {/* Search Bar (hidden on Home, visible on /all and others) */}
-      {isClient && window.location.pathname !== "/" && (
+      {/* Search Bar (controlled via showSearch) */}
+      {showSearch && isClient && window.location.pathname !== "/" && (
       <div className="flex justify-center mt-6">
         <div className="relative w-full max-w-[720px] px-5">
           <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(220,248,54,0.08),rgba(220,248,54,0.02))] blur-[2px] -z-[1]" />
@@ -247,6 +247,13 @@ function GamesInner() {
         </div>
       </div>
       )}
+
+      {/* Optional section title */}
+      {sectionTitle ? (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-4">
+          <h2 className="text-white text-xl font-semibold">{sectionTitle}</h2>
+        </div>
+      ) : null}
 
       {/* Popular Categories with See more (min 20 items) */}
       {isClient && window.location.pathname === "/" && !loadingCategories && (
@@ -308,7 +315,7 @@ function GamesInner() {
       )}
 
       {/* Game Grid */}
-      <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
+      <div className={`game_container ${compact ? 'pt-4' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`}>
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />

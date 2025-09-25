@@ -290,6 +290,17 @@ body {
   100% { transform: translate(-50%, -50%); }
 }
 
+/* Animated underline used on Related games heading (server-safe) */
+.underline-shine {
+  background-size: 200% 100% !important;
+  animation: underlineShine 3s linear infinite;
+}
+@keyframes underlineShine {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
 @keyframes orb1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(6%, 8%) scale(1.05); }

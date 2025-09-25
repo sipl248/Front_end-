@@ -66,8 +66,14 @@ export default async function Page({ params }) {
   return (
     <>
       <GameDetail {...{ gameDetails, name }} />
-      <div className="bg-[#020C17]">
-        <Games />
+      <div className="bg-[#020C17] pt-3">
+        <div className="px-[20.2rem] media_resp max-lg:px-5">
+          <h2 className="text-[#DCF836] text-2xl font-semibold tracking-wide">
+            Related games
+          </h2>
+          <div className="h-[2px] w-24 mt-2 rounded-full bg-[linear-gradient(90deg,#DCF836,rgba(220,248,54,0.2))] underline-shine" />
+        </div>
+        <Games showSearch={false} compact={true} />
       </div>
     </>
   );
