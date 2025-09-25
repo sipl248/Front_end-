@@ -10,6 +10,8 @@ export default function GameDetail({ gameDetails, name }) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [gameError, setGameError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [gameReady, setGameReady] = useState(false);
   const iframeRef = useRef(null);
   const modalContainerRef = useRef(null);
   const [isPortrait, setIsPortrait] = useState(true);
@@ -26,6 +28,7 @@ export default function GameDetail({ gameDetails, name }) {
   useEffect(() => {
     const onResize = () => {
       setIsPortrait(typeof window !== 'undefined' ? window.innerHeight > window.innerWidth : true);
+      setIsMobile(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     };
     onResize();
     window.addEventListener('resize', onResize);
@@ -69,6 +72,33 @@ export default function GameDetail({ gameDetails, name }) {
 
       window.addEventListener('error', handleConsoleError);
       window.addEventListener('unhandledrejection', handleConsoleError);
+
+      // Mobile touch event forwarding for cross-origin content
+      if (isMobile) {
+        const handleTouchEvent = (e) => {
+          // Forward touch events to iframe content
+          try {
+            const iframe = iframeRef.current;
+            if (iframe && iframe.contentWindow) {
+              const rect = iframe.getBoundingClientRect();
+              const touch = e.touches[0];
+              if (touch && rect.left <= touch.clientX && touch.clientX <= rect.right && 
+                  rect.top <= touch.clientY && touch.clientY <= rect.bottom) {
+                // Let the iframe handle the touch event
+                iframe.focus();
+              }
+            }
+          } catch {}
+        };
+
+        document.addEventListener('touchstart', handleTouchEvent, { passive: true });
+        document.addEventListener('touchend', handleTouchEvent, { passive: true });
+        
+        return () => {
+          document.removeEventListener('touchstart', handleTouchEvent);
+          document.removeEventListener('touchend', handleTouchEvent);
+        };
+      }
 
       // Preconnect to the game host to speed up loading
       try {
@@ -157,24 +187,24 @@ export default function GameDetail({ gameDetails, name }) {
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
             <h1 className="text-[56px] max-xl:text-[44px] max-md:text-[32px] font-extrabold text-center tracking-wide mb-3">
               <span className="bg-gradient-to-r from-[#DCF836] via-white to-[#DCF836] bg-clip-text text-transparent" style={{ backgroundSize: '200% 200%', animation: 'shine 6s linear infinite' }}>
-                {gameDetails?.title || name}
+              {gameDetails?.title || name}
               </span>
             </h1>
             <div className="rounded-[22px] border border-[rgba(220,248,54,0.25)] bg-[rgba(7,18,28,0.55)] backdrop-blur-md p-4 flex flex-col items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-              <Image
-                src={gameDetails?.thumb || "/assets/pokii_game.webp"}
+            <Image
+              src={gameDetails?.thumb || "/assets/pokii_game.webp"}
                 alt="game-poster"
                 className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
                 width={200}
                 height={200}
-              />
-              <button
-                onClick={() => setShowIframe(true)}
+            />
+            <button
+              onClick={() => setShowIframe(true)}
                 className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer"
-              >
-                PLAY GAME
+            >
+              PLAY GAME
                 <span className="absolute inset-0 rounded-[60px]" style={{ boxShadow: '0 0 0 0 rgba(220,248,54,0.35)', animation: 'ring 2.4s ease-in-out infinite' }} />
-              </button>
+            </button>
             </div>
             <div className="pointer-events-none absolute inset-0 -z-0">
               <span className="absolute left-[12%] top-[20%] w-2 h-2 rounded-full bg-[#DCF836] opacity-70" style={{ animation: 'float1 8s ease-in-out infinite' }} />
@@ -183,7 +213,7 @@ export default function GameDetail({ gameDetails, name }) {
             </div>
             {/* Iframe Modal */}
             {showIframe && (
-              <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
+              <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center game-modal-container">
                 <div ref={modalContainerRef} className="relative w-[100%] h-[100%] max-w-full">
                   {/* ambient theme orbs removed in modal to prevent overlap during gameplay */}
 
@@ -205,7 +235,14 @@ export default function GameDetail({ gameDetails, name }) {
                       <div className="w-[200px] h-[10px] rounded-full bg-white/10 overflow-hidden">
                         <div className="h-full w-1/3 bg-[#DCF836] animate-[barSlide_1.2s_linear_infinite]" />
                       </div>
-                      <div className="text-white/80 text-sm">Loading game…</div>
+                      <div className="text-white/80 text-sm">
+                        {isMobile ? 'Preparing mobile game...' : 'Loading game…'}
+                      </div>
+                      {isMobile && (
+                        <div className="text-white/60 text-xs text-center max-w-xs px-4">
+                          Tap anywhere to activate game controls
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -229,20 +266,56 @@ export default function GameDetail({ gameDetails, name }) {
                     key={`game-${retryCount}`}
                     ref={iframeRef}
                     src={gameDetails?.url || "#"}
-                    className="relative z-[10] w-full h-full rounded-none"
+                    className={`relative z-[10] w-full h-full rounded-none ${isMobile ? 'mobile-game-iframe' : ''}`}
                     allow="accelerometer; autoplay; clipboard-read; clipboard-write; encrypted-media; fullscreen; gamepad; gyroscope; picture-in-picture; xr-spatial-tracking"
                     allowFullScreen
                     loading="eager"
                     webkitallowfullscreen="true"
                     mozallowfullscreen="true"
                     playsInline
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-top-navigation-by-user-activation"
                     onLoad={() => {
                       setIframeLoaded(true);
                       setGameError(null);
+                      setGameReady(true);
+                      
+                      // Mobile-specific optimizations
+                      if (isMobile) {
+                        // Prevent scroll bounce on iOS
+                        document.body.style.overscrollBehavior = 'none';
+                        document.body.style.webkitOverflowScrolling = 'touch';
+                        
+                        // Optimize touch handling
+                        try {
+                          iframeRef.current?.style?.setProperty('touch-action', 'manipulation', 'important');
+                          iframeRef.current?.style?.setProperty('-webkit-touch-callout', 'none', 'important');
+                          iframeRef.current?.style?.setProperty('-webkit-user-select', 'none', 'important');
+                        } catch {}
+                        
+                        // Ensure all interactive elements are touchable
+                        setTimeout(() => {
+                          try {
+                            const iframe = iframeRef.current;
+                            if (iframe && iframe.contentDocument) {
+                              const doc = iframe.contentDocument;
+                              const buttons = doc.querySelectorAll('button, [role="button"], a, input, select, textarea');
+                              buttons.forEach(btn => {
+                                btn.style.pointerEvents = 'auto';
+                                btn.style.touchAction = 'manipulation';
+                                btn.style.webkitTouchCallout = 'auto';
+                                btn.style.minHeight = '44px';
+                                btn.style.minWidth = '44px';
+                              });
+                            }
+                          } catch {}
+                        }, 1000);
+                      }
+                      
                       try {
                         // Give the iframe focus for keyboard/touch controls
                         iframeRef.current?.contentWindow?.focus?.();
                       } catch {}
+                      
                       try {
                         // Best-effort fullscreen request on the container so overlay controls remain visible
                         const el = modalContainerRef.current;
@@ -288,14 +361,23 @@ export default function GameDetail({ gameDetails, name }) {
 
                   {/* One-tap activation overlay for mobile browsers (autoplay/input focus policy) */}
                   {needsTap && !gameError && (
-                    <button
-                      onClick={() => {
-                        setNeedsTap(false);
-                        try { iframeRef.current?.contentWindow?.focus?.(); } catch {}
-                      }}
-                      className="absolute inset-0 z-[26] bg-transparent active:bg-black/10"
-                      aria-label="Activate game"
-                    />
+                    <div className="absolute inset-0 z-[26] flex flex-col items-center justify-center bg-black/20">
+                      <div className="text-center text-white p-6">
+                        <div className="text-lg font-semibold mb-2">Game Ready!</div>
+                        <div className="text-sm text-white/80 mb-4">Tap anywhere to start playing</div>
+                        <button
+                          onClick={() => {
+                            setNeedsTap(false);
+                            setGameReady(true);
+                            try { iframeRef.current?.contentWindow?.focus?.(); } catch {}
+                          }}
+                          className="px-6 py-3 bg-[#DCF836] text-black rounded-full font-semibold active:scale-95 transition-transform"
+                          aria-label="Activate game"
+                        >
+                          Start Game
+                        </button>
+                      </div>
+                    </div>
                   )}
 
                   <button
@@ -355,7 +437,7 @@ export default function GameDetail({ gameDetails, name }) {
               dangerouslySetInnerHTML={{ __html: gameDetails?.description || "" }}
               className="text-white/95 text-lg leading-relaxed"
             />
-          </div>
+        </div>
           <div className="rounded-2xl border border-[rgba(220,248,54,0.18)] bg-[rgba(7,18,28,0.55)] p-5">
             <h2 className="text-2xl font-semibold text-[#DCF836] mb-3">Instructions</h2>
             <div
