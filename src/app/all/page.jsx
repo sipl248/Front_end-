@@ -8,7 +8,6 @@ export const metadata = {
 export default function AllGamesPage() {
   return (
     <div className="min-h-screen -mt-20">
-      <div className="pt-20" />
       <Games />
     </div>
   );

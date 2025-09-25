@@ -190,40 +190,51 @@ export default function Games() {
         height={50}
       /> */}
 
-      {/* Search Bar */}
-      <div className="flex justify-center text-white mt-4">
-        <div className="relative w-full max-w-md max-md:px-4 max-sm:px-4">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search games..."
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-[#DCF836] pr-10 bg-transparent"
-          />
-          {search && (
-            <button
-              type="button"
-              onClick={() => setSearch("")}
-              className="absolute right-3 max-md:right-5 cursor-pointer top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-200 focus:outline-none"
-              aria-label="Clear search"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M18 6L6 18M6 6l12 12"
-                />
+      {/* All Games title (only on /all) */}
+      {isClient && window.location.pathname === "/all" && (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-2">
+          <h1 className="text-white text-[30px] max-sm:text-[22px] font-semibold text-center">
+            Explore All Games
+          </h1>
+          <p className="text-white/70 text-center mt-1 text-sm md:text-base">
+            Search and discover 1000+ free games. No install, play instantly.
+          </p>
+        </div>
+      )}
+
+      {/* Search Bar (home only styling focus, but works everywhere) */}
+      <div className="flex justify-center mt-6">
+        <div className="relative w-full max-w-[720px] px-5">
+          <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(220,248,54,0.08),rgba(220,248,54,0.02))] blur-[2px] -z-[1]" />
+          <div className="relative flex items-center rounded-2xl border border-[#DCF836]/30 bg-[rgba(7,18,28,0.55)] backdrop-blur-md shadow-[0_0_0_1px_rgba(220,248,54,0.06),0_8px_30px_rgba(0,0,0,0.35)]">
+            <span className="pl-4 text-[#DCF836]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 21l-4.35-4.35" stroke="#DCF836" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="11" cy="11" r="7" stroke="#DCF836" strokeWidth="2" />
               </svg>
-            </button>
-          )}
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') setDebouncedSearch(search); }}
+              placeholder="Search 1000+ free games..."
+              aria-label="Search games"
+              className="w-full bg-transparent text-white placeholder-white/60 px-3 py-3 rounded-2xl focus:outline-none"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="pr-4 text-white/70 hover:text-[#DCF836] focus:outline-none"
+                aria-label="Clear search"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
