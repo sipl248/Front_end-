@@ -8,9 +8,12 @@ import { IoClose } from "react-icons/io5";
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [gameError, setGameError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
   const iframeRef = useRef(null);
   const modalContainerRef = useRef(null);
   const [isPortrait, setIsPortrait] = useState(true);
+  const [needsTap, setNeedsTap] = useState(false);
 
   const prefersLandscape = useMemo(() => {
     const w = Number(gameDetails?.width) || 0;
@@ -36,10 +39,37 @@ export default function GameDetail({ gameDetails, name }) {
   const hiddenAdsRef = useRef([]);
   const observerRef = useRef(null);
 
+  // Listen for console errors to catch gamepad/permissions issues
+  const handleConsoleError = React.useCallback((event) => {
+    const error = event.detail || event.error || event.message || '';
+    if (typeof error === 'string' && (
+      error.includes('gamepad') || 
+      error.includes('permissions policy') ||
+      error.includes('SecurityError') ||
+      error.includes('Failed to execute')
+    )) {
+      console.warn('Game error caught and handled:', error);
+      // Don't show error for gamepad issues, just log them
+      if (!error.includes('gamepad')) {
+        setGameError('Game encountered an error. Please try again.');
+      }
+    }
+  }, []);
+
   React.useEffect(() => {
     if (showIframe) {
       document.body.classList.add('overflow-hidden');
       document.body.classList.add('modal-open');
+      setGameError(null); // Reset error state when opening
+      // Gate inputs for mobile to satisfy user-activation requirements
+      try {
+        const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+        setNeedsTap(Boolean(isTouch));
+      } catch { setNeedsTap(false); }
+
+      window.addEventListener('error', handleConsoleError);
+      window.addEventListener('unhandledrejection', handleConsoleError);
+
       // Preconnect to the game host to speed up loading
       try {
         const u = new URL(gameDetails?.url || '#');
@@ -103,6 +133,9 @@ export default function GameDetail({ gameDetails, name }) {
       hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
       hiddenAdsRef.current = [];
       observerRef.current?.disconnect?.();
+      // Clean up error listeners
+      window.removeEventListener('error', handleConsoleError);
+      window.removeEventListener('unhandledrejection', handleConsoleError);
     };
   }, [showIframe]);
 
@@ -152,20 +185,15 @@ export default function GameDetail({ gameDetails, name }) {
             {showIframe && (
               <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
                 <div ref={modalContainerRef} className="relative w-[100%] h-[100%] max-w-full">
-                  {/* ambient theme orbs */}
-                  <div className="pointer-events-none absolute inset-0 z-[20]">
-                    <span className="orb o1" />
-                    <span className="orb o2" />
-                    <span className="orb o3" />
-                  </div>
+                  {/* ambient theme orbs removed in modal to prevent overlap during gameplay */}
 
                   {/* bottom-left glow logo */}
                   <div className="pointer-events-none absolute left-3 bottom-3 z-[30] flex items-center gap-2">
                     <Image src="/assets/pokii_game.webp" alt="Pokiifuns" width={56} height={36} className="h-9 w-auto rounded-md shadow-[0_0_20px_rgba(220,248,54,0.45)] animate-[glowPulse_2.2s_ease-in-out_infinite]" />
                   </div>
 
-                  {/* bottom-right horizontal site tag */}
-                  <div className="pointer-events-none absolute right-3 bottom-3 z-[30]">
+                  {/* bottom-right horizontal site tag (hidden on mobile) */}
+                  <div className="hidden md:block pointer-events-none absolute right-3 bottom-3 z-[30]">
                     <div className="px-3 py-1 rounded-full border border-[#DCF836] text-[#DCF836] text-xs font-semibold tracking-wider bg-[rgba(7,18,28,0.45)] shadow-[0_0_16px_rgba(220,248,54,0.35)] animate-[tagSlideIn_650ms_ease-out_1,tagFloat_6s_ease-in-out_infinite_800ms]">
                       Pokiifuns.com
                     </div>
@@ -198,6 +226,7 @@ export default function GameDetail({ gameDetails, name }) {
                   )}
 
                   <iframe
+                    key={`game-${retryCount}`}
                     ref={iframeRef}
                     src={gameDetails?.url || "#"}
                     className="relative z-[10] w-full h-full rounded-none"
@@ -209,6 +238,7 @@ export default function GameDetail({ gameDetails, name }) {
                     playsInline
                     onLoad={() => {
                       setIframeLoaded(true);
+                      setGameError(null);
                       try {
                         // Give the iframe focus for keyboard/touch controls
                         iframeRef.current?.contentWindow?.focus?.();
@@ -222,7 +252,51 @@ export default function GameDetail({ gameDetails, name }) {
                         }
                       } catch {}
                     }}
+                    onError={() => {
+                      setGameError('Failed to load game. Please try again.');
+                      setIframeLoaded(true);
+                    }}
                   />
+
+                  {/* Game Error Display */}
+                  {gameError && (
+                    <div className="absolute inset-0 z-[30] flex flex-col items-center justify-center bg-black/90 text-white text-center p-6 game-error-overlay">
+                      <div className="bg-red-600/20 border border-red-500/50 rounded-lg p-6 max-w-md">
+                        <h3 className="text-lg font-semibold mb-3 text-red-300">Game Error</h3>
+                        <p className="text-sm mb-4 text-red-200">{gameError}</p>
+                        <div className="flex gap-3 justify-center">
+                          <button
+                            onClick={() => {
+                              setGameError(null);
+                              setRetryCount(prev => prev + 1);
+                              setIframeLoaded(false);
+                            }}
+                            className="px-4 py-2 bg-[#DCF836] text-black rounded-lg font-semibold hover:bg-[#c4e030] transition-colors retry-button"
+                          >
+                            Retry Game
+                          </button>
+                          <button
+                            onClick={handleCloseModal}
+                            className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-500 transition-colors"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* One-tap activation overlay for mobile browsers (autoplay/input focus policy) */}
+                  {needsTap && !gameError && (
+                    <button
+                      onClick={() => {
+                        setNeedsTap(false);
+                        try { iframeRef.current?.contentWindow?.focus?.(); } catch {}
+                      }}
+                      className="absolute inset-0 z-[26] bg-transparent active:bg-black/10"
+                      aria-label="Activate game"
+                    />
+                  )}
 
                   <button
                     onClick={(e) => {

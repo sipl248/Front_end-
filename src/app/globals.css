@@ -82,6 +82,45 @@ body {
   width: 100vh !important;
   height: 100vw !important;
 }
+
+/* Mobile game error handling and fallbacks */
+@media (max-width: 768px) {
+  .modal-open iframe {
+    /* Force hardware acceleration for smoother mobile performance */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  /* Better touch handling for mobile games */
+  .modal-open iframe {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Prevent zoom on double-tap for mobile games */
+  .modal-open {
+    touch-action: manipulation;
+  }
+}
+
+/* Game error overlay styling */
+.game-error-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Retry button animation */
+@keyframes retryPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.retry-button {
+  animation: retryPulse 2s ease-in-out infinite;
+}
 .nunito-fons {
   font-family: "Nunito", sans-serif;
 }

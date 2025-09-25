@@ -11,7 +11,7 @@ const nextConfig = {
         headers: [
           {
             key: "Permissions-Policy",
-            value: "gamepad=(self \"*\"); fullscreen=(self \"*\"); autoplay=(self \"*\"); accelerometer=(self \"*\"); gyroscope=(self \"*\"); clipboard-read=(self \"*\"); clipboard-write=(self \"*\")",
+            value: "gamepad=*; fullscreen=*; autoplay=*; accelerometer=*; gyroscope=*; clipboard-read=*; clipboard-write=*; encrypted-media=*; picture-in-picture=*; xr-spatial-tracking=*",
           },
         ],
       },
