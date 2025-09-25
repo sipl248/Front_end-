@@ -49,8 +49,9 @@ export default function Header() {
               src="/assets/pokii_game.webp"
               height={524}
               width={391}
-              alt="Logo"
-              className="w-[60px] h-[40px] max-lg:h-[34px]  cursor-pointer"
+              alt="Pokiifuns logo"
+              priority
+              className="h-[40px] w-auto max-lg:h-[34px] object-contain cursor-pointer drop-shadow-[0_2px_8px_rgba(220,248,54,0.35)]"
             />
           </Link>
 
