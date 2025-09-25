@@ -21,6 +21,8 @@ export default function Games() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [activeCategory, setActiveCategory] = useState("");
+  const [categoryData, setCategoryData] = useState({});
+  const [loadingCategories, setLoadingCategories] = useState(false);
 
   // Debounce search input
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function Games() {
     setIsClient(true);
   }, []);
 
-  const getGames = useCallback(async (pageNum = 1, searchValue = "", category = "") => {
+  const getGames = useCallback(async (pageNum = 1, searchValue = "", category = "", append = false) => {
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -54,7 +56,7 @@ export default function Games() {
       }
       const response = await axios.get(url);
       const newGames = response?.data?.data?.games || [];
-      setGames(newGames);
+      setGames((prev) => (append ? [...prev, ...newGames] : newGames));
       setHasNext(response?.data?.data?.pagination?.hasNext);
       setHasPrev(pageNum > 1);
     } catch (error) {
@@ -67,15 +69,58 @@ export default function Games() {
   useEffect(() => {
     const cat = searchParams?.get("category") || "";
     setActiveCategory(cat);
-    getGames(1, debouncedSearch, cat);
+    // reset list before new fetch (important for Load more UX)
+    setGames([]);
+    getGames(1, debouncedSearch, cat, false);
     setPage(1);
   }, [getGames, debouncedSearch, searchParams]);
+
+  // Define homepage categories and fetch exactly 20 for each from API
+  const categoryDefs = [
+    { key: "Action", label: "Action" },
+    { key: "Puzzle", label: "Puzzle" },
+    { key: "Racing", label: "Racing" },
+    { key: "Sports", label: "Sports" },
+    { key: "Girls", label: "Girls" },
+    { key: "Hypercasual", label: "Hypercasual" },
+    { key: "Arcade", label: "Arcade" },
+  ];
+
+  useEffect(() => {
+    const fetchCategoryBlocks = async () => {
+      if (typeof window === 'undefined' || window.location.pathname !== '/') return;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+      if (!baseUrl) return;
+      setLoadingCategories(true);
+      try {
+        const results = {};
+        await Promise.all(
+          categoryDefs.map(async (cat) => {
+            try {
+              const url = `${baseUrl}games?page=1&limit=20&category=${encodeURIComponent(cat.key)}`;
+              const resp = await axios.get(url);
+              results[cat.key] = resp?.data?.data?.games || [];
+            } catch {
+              results[cat.key] = [];
+            }
+          })
+        );
+        setCategoryData(results);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+    fetchCategoryBlocks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNextPage = () => {
     if (hasNext && !loading) {
       const nextPage = page + 1;
       setPage(nextPage);
-      getGames(nextPage, debouncedSearch, activeCategory);
+      // On homepage we use Load more (append). On other pages, standard pagination
+      const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
+      getGames(nextPage, debouncedSearch, activeCategory, isHome);
     }
   };
 
@@ -104,34 +149,8 @@ export default function Games() {
     // }, 1500);
   };
 
-  // Build unique category buckets on home (each game appears at most once across buckets)
-  const categoryDefs = [
-    { key: "Action", label: "Action" },
-    { key: "Puzzle", label: "Puzzle" },
-    { key: "Racing", label: "Racing" },
-    { key: "Sports", label: "Sports" },
-    { key: "Girls", label: "Girls" },
-    { key: "Hypercasual", label: "Hypercasual" },
-    { key: "Arcade", label: "Arcade" },
-  ];
-
-  const seenIds = new Set();
-  const categoryBuckets = categoryDefs.map((cat) => {
-    const matched = [];
-    for (const g of games) {
-      const idKey = g?.id || g?._id || g?.gameId || g?.title;
-      if (seenIds.has(idKey)) continue;
-      const hay = (
-        (g?.category || "") + "," + (Array.isArray(g?.tags) ? g.tags.join(",") : (g?.tags || ""))
-      ).toLowerCase();
-      if (hay.includes(cat.key.toLowerCase())) {
-        matched.push(g);
-        seenIds.add(idKey);
-      }
-      if (matched.length >= 50) break; // cap bucket size to avoid huge lists on homepage
-    }
-    return { ...cat, items: matched };
-  });
+  // Build category buckets from fetched data
+  const categoryBuckets = categoryDefs.map((cat) => ({ ...cat, items: categoryData[cat.key] || [] }));
 
   return (
     <div className="pt-20">
@@ -208,6 +227,45 @@ export default function Games() {
         </div>
       </div>
 
+      {/* Popular Categories with See more (min 20 items) */}
+      {isClient && window.location.pathname === "/" && !loadingCategories && (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
+          <div className="text-white font-semibold text-2xl mb-3">Popular Categories</div>
+          <div className="flex flex-col gap-4">
+            {categoryBuckets.map((cat) => (
+              cat.items.length >= 20 ? (
+                <div key={cat.key} className="basis-full">
+                  <div className="flex items-center justify-between">
+                    <div className="text-[#DCF836] font-semibold mt-4 mb-2">{cat.label}</div>
+                    <button
+                      className="text-sm text-white/90 underline hover:text-[#DCF836]"
+                      onClick={() => router.push(`/all?category=${encodeURIComponent(cat.key)}`)}
+                    >
+                      See more
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                    {cat.items.slice(0, 20).map((item, index) => (
+                      <div onClick={(e) => handleClick(e, item)} key={`${cat.key}-${index}`} className="cursor-pointer">
+                        <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                          <Image
+                            width={200}
+                            height={200}
+                            alt="game-poster"
+                            className="w-full object-cover"
+                            src={item?.thumb || "/assets/pokii_game.webp"}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Game Grid */}
       <div className="game_container pt-[32px] px-[20.2rem] media_resp max-lg:px-5">
         {loading ? (
@@ -278,34 +336,56 @@ export default function Games() {
         height={250}
       /> */}
 
-      {/* Pagination Buttons */}
-      <div className="flex justify-center items-center gap-4 py-8">
-        <button
-          onClick={handlePrevPage}
-          disabled={!hasPrev || loading}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-            hasPrev && !loading
-              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Previous
-        </button>
+      {/* Pagination / Load more */}
+      {(() => {
+        const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
+        if (isHome) {
+          return (
+            <div className="flex justify-center items-center py-8">
+              <button
+                onClick={handleNextPage}
+                disabled={!hasNext || loading}
+                className={`px-8 py-2 rounded-[60px] font-semibold transition-colors cursor-pointer ${
+                  hasNext && !loading
+                    ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                    : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                }`}
+              >
+                {loading ? 'Loading...' : hasNext ? 'Load more' : 'No more games'}
+              </button>
+            </div>
+          );
+        }
+        return (
+          <div className="flex justify-center items-center gap-4 py-8">
+            <button
+              onClick={handlePrevPage}
+              disabled={!hasPrev || loading}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                hasPrev && !loading
+                  ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Previous
+            </button>
 
-        <span className="text-white font-medium">Page {page}</span>
+            <span className="text-white font-medium">Page {page}</span>
 
-        <button
-          onClick={handleNextPage}
-          disabled={!hasNext || loading}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
-            hasNext && !loading
-              ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
-              : "bg-gray-600 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          Next
-        </button>
-      </div>
+            <button
+              onClick={handleNextPage}
+              disabled={!hasNext || loading}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors cursor-pointer ${
+                hasNext && !loading
+                  ? "bg-[#DCF836] text-black hover:bg-[#c4e030]"
+                  : "bg-gray-600 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        );
+      })()}
       {/* <AdsterraAd
         keyId="5d5abcca14de57540562622c80497b3d"
         width={320}
