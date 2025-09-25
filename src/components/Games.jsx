@@ -257,8 +257,16 @@ export default function Games() {
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
                     {cat.items.slice(0, 20).map((item, index) => (
-                      <div onClick={(e) => handleClick(e, item)} key={`${cat.key}-${index}`} className="cursor-pointer">
-                        <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                      <div
+                        onClick={(e) => handleClick(e, item)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') handleClick(e, item); }}
+                        role="link"
+                        tabIndex={0}
+                        aria-label={item?.title || 'Open game'}
+                        key={`${cat.key}-${index}`}
+                        className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
+                      >
+                        <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
                           <Image
                             width={200}
                             height={200}
@@ -266,6 +274,18 @@ export default function Games() {
                             className="w-full object-cover"
                             src={item?.thumb || "/assets/pokii_game.webp"}
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
+                          <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
+                            <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
+                              <div
+                                className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
+                                title={item?.title}
+                                style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+                              >
+                                {item?.title}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -287,11 +307,15 @@ export default function Games() {
           games?.map((item, index) => (
             <div
               onClick={(e) => handleClick(e, item)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleClick(e, item); }}
+              role="link"
+              tabIndex={0}
+              aria-label={item?.title || 'Open game'}
               key={index}
-              className="justify-between gap-5 cursor-pointer w-full h-full"
+              className="justify-between gap-5 cursor-pointer w-full h-full focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
             >
               <div className="relative group w-full h-full">
-                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
+                <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
                   <Image
                     width={200}
                     height={200}
@@ -299,6 +323,18 @@ export default function Games() {
                     className="w-full object-cover"
                     src={item?.thumb || "/assets/pokii_game.webp"}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
+                    <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
+                      <div
+                        className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
+                        title={item?.title}
+                        style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+                      >
+                        {item?.title}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
