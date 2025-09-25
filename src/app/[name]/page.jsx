@@ -81,8 +81,8 @@ export async function generateMetadata({ params }) {
     if (!baseUrl) {
       const gameTitle = slugToTitle(name);
       return {
-        title: `Play ${gameTitle} - Pokiifuns Game`,
-        description: `Enjoy playing ${gameTitle} on Pokiifuns Game!`,
+        title: `${gameTitle} | Free to play online at Pokiifuns`,
+        description: `Play ${gameTitle} on Pokiifuns on any device. Explore levels, unlock skills, and test your limits in this exciting game. Click now to play free, no download needed!`,
       };
     }
 
@@ -110,12 +110,8 @@ export async function generateMetadata({ params }) {
     }
 
     return {
-      title: `Play ${
-        gameDetails?.title || gameTitle
-      } - Free Online Browser Game to Play`,
-      description: `Enjoy playing ${
-        gameDetails?.title || gameTitle
-      } on Pokiifuns Game!`,
+      title: `${gameDetails?.title || gameTitle} | Free to play online at Pokiifuns`,
+      description: `Play ${gameDetails?.title || gameTitle} on Pokiifuns on any device. Explore levels, unlock skills, and test your limits in this exciting game. Click now to play free, no download needed!`,
     };
   } catch (error) {
     // Only log unexpected errors, not 404/500 responses
@@ -125,8 +121,8 @@ export async function generateMetadata({ params }) {
 
     const gameTitle = slugToTitle(name);
     return {
-      title: `Play ${gameTitle} - Pokiifuns Game`,
-      description: `Enjoy playing ${gameTitle} on Pokiifuns Game!`,
+      title: `${gameTitle} | Free to play online at Pokiifuns`,
+      description: `Play ${gameTitle} on Pokiifuns on any device. Explore levels, unlock skills, and test your limits in this exciting game. Click now to play free, no download needed!`,
     };
   }
 }

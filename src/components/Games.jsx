@@ -3,7 +3,7 @@ import Image from "next/image";
 import Script from "next/script";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { titleToSlug } from "@/utils/urlUtils";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
@@ -11,6 +11,7 @@ const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
 });
 export default function Games() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
@@ -19,6 +20,7 @@ export default function Games() {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("");
 
   // Debounce search input
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function Games() {
     setIsClient(true);
   }, []);
 
-  const getGames = useCallback(async (pageNum = 1, searchValue = "") => {
+  const getGames = useCallback(async (pageNum = 1, searchValue = "", category = "") => {
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
@@ -47,6 +49,9 @@ export default function Games() {
       if (searchValue) {
         url += `&search=${encodeURIComponent(searchValue)}`;
       }
+      if (category) {
+        url += `&category=${encodeURIComponent(category)}`;
+      }
       const response = await axios.get(url);
       const newGames = response?.data?.data?.games || [];
       setGames(newGames);
@@ -60,15 +65,17 @@ export default function Games() {
   }, []);
 
   useEffect(() => {
-    getGames(1, debouncedSearch);
+    const cat = searchParams?.get("category") || "";
+    setActiveCategory(cat);
+    getGames(1, debouncedSearch, cat);
     setPage(1);
-  }, [getGames, debouncedSearch]);
+  }, [getGames, debouncedSearch, searchParams]);
 
   const handleNextPage = () => {
     if (hasNext && !loading) {
       const nextPage = page + 1;
       setPage(nextPage);
-      getGames(nextPage, debouncedSearch);
+      getGames(nextPage, debouncedSearch, activeCategory);
     }
   };
 
@@ -76,7 +83,7 @@ export default function Games() {
     if (hasPrev && !loading) {
       const prevPage = page - 1;
       setPage(prevPage);
-      getGames(prevPage, debouncedSearch);
+      getGames(prevPage, debouncedSearch, activeCategory);
     }
   };
 
@@ -97,6 +104,35 @@ export default function Games() {
     // }, 1500);
   };
 
+  // Build unique category buckets on home (each game appears at most once across buckets)
+  const categoryDefs = [
+    { key: "Action", label: "Action" },
+    { key: "Puzzle", label: "Puzzle" },
+    { key: "Racing", label: "Racing" },
+    { key: "Sports", label: "Sports" },
+    { key: "Girls", label: "Girls" },
+    { key: "Hypercasual", label: "Hypercasual" },
+    { key: "Arcade", label: "Arcade" },
+  ];
+
+  const seenIds = new Set();
+  const categoryBuckets = categoryDefs.map((cat) => {
+    const matched = [];
+    for (const g of games) {
+      const idKey = g?.id || g?._id || g?.gameId || g?.title;
+      if (seenIds.has(idKey)) continue;
+      const hay = (
+        (g?.category || "") + "," + (Array.isArray(g?.tags) ? g.tags.join(",") : (g?.tags || ""))
+      ).toLowerCase();
+      if (hay.includes(cat.key.toLowerCase())) {
+        matched.push(g);
+        seenIds.add(idKey);
+      }
+      if (matched.length >= 50) break; // cap bucket size to avoid huge lists on homepage
+    }
+    return { ...cat, items: matched };
+  });
+
   return (
     <div className="pt-20">
       {/* pop-up ads */}
@@ -106,9 +142,27 @@ export default function Games() {
       ></Script> */}
       {/* pop-up ads */}
       {isClient && window.location.pathname === "/" && (
-        <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold justify-between items-center text-center pt-5">
-          PLAY YOUR FAVORITE GAME
-        </h1>
+        <div className="flex flex-col items-center gap-4 pt-5">
+          <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold text-center">
+            PLAY YOUR FAVORITE GAME
+          </h1>
+          <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
+            <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+              {["1000+ Games", "No install needed", "Play on any device", "Everything is free"].map((label, idx) => (
+                <div key={idx} className="group rounded-xl border border-[#DCF836]/35 hover:border-[#DCF836] bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300">
+                  <div className="flex items-center gap-2 px-3 py-2">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#DCF836] text-black text-[12px] font-bold shadow-[0_0_10px_rgba(220,248,54,0.5)]">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17l-5-5" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span className="text-[#DCF836] text-sm md:text-base font-semibold">{label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* <AdsterraAd
