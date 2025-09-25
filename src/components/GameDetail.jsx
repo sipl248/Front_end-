@@ -7,11 +7,21 @@ import { IoClose } from "react-icons/io5";
 
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const router = useRouter();
   React.useEffect(() => {
     if (showIframe) {
       document.body.classList.add('overflow-hidden');
       document.body.classList.add('modal-open');
+      // Preconnect to the game host to speed up loading
+      try {
+        const u = new URL(gameDetails?.url || '#');
+        const link = document.createElement('link');
+        link.rel = 'preconnect';
+        link.href = `${u.protocol}//${u.host}`;
+        link.crossOrigin = 'anonymous';
+        document.head.appendChild(link);
+      } catch (_) {}
     } else {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
@@ -68,11 +78,43 @@ export default function GameDetail({ gameDetails, name }) {
             {showIframe && (
               <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
                 <div className="relative w-[100%] h-[100%] max-w-full">
+                  {/* ambient theme orbs */}
+                  <div className="pointer-events-none absolute inset-0 z-[20]">
+                    <span className="orb o1" />
+                    <span className="orb o2" />
+                    <span className="orb o3" />
+                  </div>
+
+                  {/* bottom-left glow logo */}
+                  <div className="pointer-events-none absolute left-3 bottom-3 z-[30] flex items-center gap-2">
+                    <Image src="/assets/pokii_game.webp" alt="Pokiifuns" width={56} height={36} className="h-9 w-auto rounded-md shadow-[0_0_20px_rgba(220,248,54,0.45)] animate-[glowPulse_2.2s_ease-in-out_infinite]" />
+                  </div>
+
+                  {/* bottom-right horizontal site tag */}
+                  <div className="pointer-events-none absolute right-3 bottom-3 z-[30]">
+                    <div className="px-3 py-1 rounded-full border border-[#DCF836] text-[#DCF836] text-xs font-semibold tracking-wider bg-[rgba(7,18,28,0.45)] shadow-[0_0_16px_rgba(220,248,54,0.35)] animate-[tagSlideIn_650ms_ease-out_1,tagFloat_6s_ease-in-out_infinite_800ms]">
+                      Pokiifuns.com
+                    </div>
+                  </div>
+
+                  {/* Loading overlay */}
+                  {!iframeLoaded && (
+                    <div className="absolute inset-0 z-[15] flex flex-col items-center justify-center gap-4">
+                      <div className="w-[200px] h-[10px] rounded-full bg-white/10 overflow-hidden">
+                        <div className="h-full w-1/3 bg-[#DCF836] animate-[barSlide_1.2s_linear_infinite]" />
+                      </div>
+                      <div className="text-white/80 text-sm">Loading game…</div>
+                    </div>
+                  )}
+
                   <iframe
                     src={gameDetails?.url || "#"}
-                    className="w-full h-full rounded-none"
+                    className="relative z-[10] w-full h-full rounded-none"
                     allowFullScreen
+                    loading="eager"
+                    onLoad={() => setIframeLoaded(true)}
                   />
+
                   <button
                     onClick={() => {
                       if (typeof window !== 'undefined' && window.history.length > 1) {
@@ -152,6 +194,17 @@ export default function GameDetail({ gameDetails, name }) {
         @keyframes float1 { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(6px, -10px, 0); } }
         @keyframes float2 { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(-8px, 6px, 0); } }
         @keyframes float3 { 0%, 100% { transform: translate3d(0,0,0); } 50% { transform: translate3d(5px, 8px, 0); } }
+        @keyframes glowPulse { 0%,100% { filter: drop-shadow(0 0 4px rgba(220,248,54,0.35)); } 50% { filter: drop-shadow(0 0 12px rgba(220,248,54,0.75)); } }
+        @keyframes orbDrift1 { 0%,100% { transform: translate(0,0) scale(1); opacity: .28; } 50% { transform: translate(8%, -6%) scale(1.05); opacity: .42; } }
+        @keyframes orbDrift2 { 0%,100% { transform: translate(0,0) scale(1); opacity: .24; } 50% { transform: translate(-6%, 8%) scale(1.08); opacity: .38; } }
+        @keyframes orbDrift3 { 0%,100% { transform: translate(0,0) scale(1); opacity: .22; } 50% { transform: translate(4%, -4%) scale(1.04); opacity: .32; } }
+        @keyframes tagFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes tagSlideIn { 0% { transform: translateX(12px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes barSlide { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
+        .orb { position: absolute; border-radius: 9999px; filter: blur(28px); }
+        .orb.o1 { left: -60px; top: -40px; width: 300px; height: 300px; background: #1f3a5a; animation: orbDrift1 22s ease-in-out infinite; }
+        .orb.o2 { right: -80px; bottom: -60px; width: 380px; height: 380px; background: #2a5e9a; animation: orbDrift2 26s ease-in-out infinite; }
+        .orb.o3 { left: 35%; top: 20%; width: 200px; height: 200px; background: #0e2236; animation: orbDrift3 24s ease-in-out infinite; }
         `}</style>
       </div>
     </div>
