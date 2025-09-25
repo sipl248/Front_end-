@@ -47,6 +47,41 @@ body {
 }
 .modal-open header { display: none !important; }
 .modal-open footer, .modal-open .Footer { display: none !important; }
+.modal-open { overscroll-behavior: none; }
+/* During gameplay modal, aggressively suppress auto-inserted ad layers to avoid input blockage */
+.modal-open ins.adsbygoogle,
+.modal-open .adsbygoogle,
+.modal-open [id^="aswift_"],
+.modal-open [id*="google_ads"],
+.modal-open iframe[src*="ads"],
+.modal-open iframe[src*="doubleclick"],
+.modal-open iframe[src*="googlesyndication"],
+.modal-open div[style*="z-index: 2147483647"],
+.modal-open body > ins[style*="position: fixed"],
+.modal-open body > div[style*="position: fixed"][style*="ads"],
+.modal-open body > div[id*="ads"],
+.modal-open body > div[class*="ads"] {
+  display: none !important;
+}
+
+/* Ensure gameplay surface captures gestures on mobile */
+.modal-open iframe { touch-action: none; -ms-touch-action: none; }
+
+/* Landscape emulation for devices/browsers that can't lock orientation (e.g., iOS Safari) */
+.emulate-landscape {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  transform-origin: center center;
+  width: 100vh; /* swap to fill viewport */
+  height: 100vw;
+  overflow: hidden;
+}
+.emulate-landscape > iframe {
+  width: 100vh !important;
+  height: 100vw !important;
+}
 .nunito-fons {
   font-family: "Nunito", sans-serif;
 }

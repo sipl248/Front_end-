@@ -6,6 +6,16 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Apply to all routes: grant iframe features for smoother gameplay
+        source: "/:path*",
+        headers: [
+          {
+            key: "Permissions-Policy",
+            value: "gamepad=(self \"*\"); fullscreen=(self \"*\"); autoplay=(self \"*\"); accelerometer=(self \"*\"); gyroscope=(self \"*\"); clipboard-read=(self \"*\"); clipboard-write=(self \"*\")",
+          },
+        ],
+      },
+      {
         // Apply to all image assets in the public directory
         source: "/(.*)\\.(png|jpg|jpeg|webp|svg|gif|ico)$",
         headers: [

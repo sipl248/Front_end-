@@ -1,14 +1,41 @@
 "use client";
 import Image from "next/image";
 import Script from "next/script";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IoClose } from "react-icons/io5";
 
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const iframeRef = useRef(null);
+  const modalContainerRef = useRef(null);
+  const [isPortrait, setIsPortrait] = useState(true);
+
+  const prefersLandscape = useMemo(() => {
+    const w = Number(gameDetails?.width) || 0;
+    const h = Number(gameDetails?.height) || 0;
+    if (w && h) return w > h;
+    const cat = (gameDetails?.category || "").toLowerCase();
+    return ["racing", "sports", "arcade"].some(k => cat.includes(k));
+  }, [gameDetails]);
+
+  useEffect(() => {
+    const onResize = () => {
+      setIsPortrait(typeof window !== 'undefined' ? window.innerHeight > window.innerWidth : true);
+    };
+    onResize();
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
+  }, []);
   const router = useRouter();
+  const hiddenAdsRef = useRef([]);
+  const observerRef = useRef(null);
+
   React.useEffect(() => {
     if (showIframe) {
       document.body.classList.add('overflow-hidden');
@@ -22,13 +49,60 @@ export default function GameDetail({ gameDetails, name }) {
         link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
       } catch (_) {}
+
+      // Hide any existing ad layers and keep hiding newly injected ones while modal is open
+      const adSelectors = [
+        'ins.adsbygoogle', '.adsbygoogle', '[id^="aswift_"]', '[id*="google_ads"]',
+        'iframe[src*="googlesyndication"]', 'iframe[src*="doubleclick"]', 'iframe[src*="/ads"]',
+        'div[style*="z-index: 2147483647"]', 'body > ins[style*="position: fixed"]',
+      ];
+      const hideExistingAds = () => {
+        const nodes = document.querySelectorAll(adSelectors.join(','));
+        hiddenAdsRef.current = [];
+        nodes.forEach(node => {
+          const el = node;
+          const prev = el.style.display;
+          hiddenAdsRef.current.push({ el, prev });
+          el.style.display = 'none';
+        });
+      };
+      hideExistingAds();
+
+      observerRef.current = new MutationObserver(mutations => {
+        for (const m of mutations) {
+          m.addedNodes?.forEach(n => {
+            if (!(n instanceof HTMLElement)) return;
+            if (adSelectors.some(sel => n.matches?.(sel)) || n.querySelector?.(adSelectors.join(','))) {
+              try {
+                if (n instanceof HTMLElement) n.style.display = 'none';
+                n.querySelectorAll?.('*').forEach(c => { if (c instanceof HTMLElement) c.style.display = 'none'; });
+              } catch {}
+            }
+          });
+        }
+      });
+      observerRef.current.observe(document.body, { childList: true, subtree: true });
+
+      // Try to lock to landscape for landscape-first games on supported browsers
+      try {
+        if (prefersLandscape && screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => {});
+        }
+      } catch {}
     } else {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
+      // restore hidden ads if any
+      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
+      hiddenAdsRef.current = [];
+      observerRef.current?.disconnect?.();
     }
     return () => {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
+      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
+      hiddenAdsRef.current = [];
+      observerRef.current?.disconnect?.();
     };
   }, [showIframe]);
 
@@ -77,7 +151,7 @@ export default function GameDetail({ gameDetails, name }) {
             {/* Iframe Modal */}
             {showIframe && (
               <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
-                <div className="relative w-[100%] h-[100%] max-w-full">
+                <div ref={modalContainerRef} className="relative w-[100%] h-[100%] max-w-full">
                   {/* ambient theme orbs */}
                   <div className="pointer-events-none absolute inset-0 z-[20]">
                     <span className="orb o1" />
@@ -107,23 +181,70 @@ export default function GameDetail({ gameDetails, name }) {
                     </div>
                   )}
 
+                  {/* Rotate guidance for landscape-first games on portrait */}
+                  {prefersLandscape && isPortrait && (
+                    <div className="absolute inset-0 z-[25] flex flex-col items-center justify-center gap-3 bg-black/60 text-white text-center px-6">
+                      <div className="text-lg font-semibold">Rotate your device</div>
+                      <div className="text-white/80 text-sm max-w-sm">This game plays best in landscape. Rotate your phone for full controls.</div>
+                      <button
+                        onClick={() => {
+                          try { screen.orientation?.lock?.('landscape'); } catch {}
+                        }}
+                        className="mt-2 px-4 py-2 rounded-full bg-[#DCF836] text-black text-sm font-semibold active:scale-95"
+                      >
+                        Try landscape now
+                      </button>
+                    </div>
+                  )}
+
                   <iframe
+                    ref={iframeRef}
                     src={gameDetails?.url || "#"}
                     className="relative z-[10] w-full h-full rounded-none"
+                    allow="accelerometer; autoplay; clipboard-read; clipboard-write; encrypted-media; fullscreen; gamepad; gyroscope; picture-in-picture; xr-spatial-tracking"
                     allowFullScreen
                     loading="eager"
-                    onLoad={() => setIframeLoaded(true)}
+                    webkitallowfullscreen="true"
+                    mozallowfullscreen="true"
+                    playsInline
+                    onLoad={() => {
+                      setIframeLoaded(true);
+                      try {
+                        // Give the iframe focus for keyboard/touch controls
+                        iframeRef.current?.contentWindow?.focus?.();
+                      } catch {}
+                      try {
+                        // Best-effort fullscreen request on the container so overlay controls remain visible
+                        const el = modalContainerRef.current;
+                        if (el && document.fullscreenElement == null) {
+                          const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+                          if (typeof req === 'function') req.call(el);
+                        }
+                      } catch {}
+                    }}
                   />
 
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       if (typeof window !== 'undefined' && window.history.length > 1) {
-                        router.back();
+                        try { router.back(); } catch { setShowIframe(false); }
                       } else {
                         setShowIframe(false);
                       }
                     }}
-                    className="absolute z-[10000] cursor-pointer top-4 right-4 bg-red-600 text-white size-8 flex justify-center items-center rounded-full text-sm"
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (typeof window !== 'undefined' && window.history.length > 1) {
+                        try { router.back(); } catch { setShowIframe(false); }
+                      } else {
+                        setShowIframe(false);
+                      }
+                    }}
+                    aria-label="Close game"
+                    className="absolute z-[10000] pointer-events-auto cursor-pointer top-4 right-4 bg-red-600 text-white w-10 h-10 flex justify-center items-center rounded-full text-base shadow-lg active:scale-95"
+                    style={{ WebkitTapHighlightColor: 'transparent', touchAction: 'manipulation' }}
                   >
                     <IoClose />
                   </button>
