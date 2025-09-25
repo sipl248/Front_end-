@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Script from "next/script";
 import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { titleToSlug } from "@/utils/urlUtils";
@@ -10,6 +10,14 @@ const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
   ssr: false,
 });
 export default function Games() {
+  return (
+    <Suspense fallback={<div className="pt-24 text-center text-white/70">Loading...</div>}>
+      <GamesInner />
+    </Suspense>
+  );
+}
+
+function GamesInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [games, setGames] = useState([]);
