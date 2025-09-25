@@ -176,7 +176,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
             <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
               {["1000+ Games", "No install needed", "Play on any device", "Everything is free"].map((label, idx) => (
-                <div key={idx} className="group rounded-xl border border-[#DCF836]/35 hover:border-[#DCF836] bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300">
+                <div key={idx} className="group rounded-xl border border-[#DCF836]/35 bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300 badge-glow">
                   <div className="flex items-center gap-2 px-3 py-2">
                     <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#DCF836] text-black text-[12px] font-bold shadow-[0_0_10px_rgba(220,248,54,0.5)]">
                       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -259,7 +259,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       {isClient && window.location.pathname === "/" && !loadingCategories && (
         <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
           <div className="font-semibold text-2xl mb-1 heading-sub">Popular Categories</div>
-          <div className="h-[2px] w-24 rounded-full bg-[linear-gradient(90deg,#DCF836,rgba(220,248,54,0.2))] underline-shine mb-3" />
+          <div className="line-glow mb-3" />
           <div className="flex flex-col gap-4">
             {categoryBuckets.map((cat) => (
               cat.items.length >= 20 ? (
