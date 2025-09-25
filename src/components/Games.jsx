@@ -17,7 +17,7 @@ export default function Games(props) {
   );
 }
 
-function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
+function GamesInner({ showSearch = true, compact = false, sectionTitle = "", disablePagination = false, hideFooterSpace = false }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [games, setGames] = useState([]);
@@ -161,7 +161,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
   const categoryBuckets = categoryDefs.map((cat) => ({ ...cat, items: categoryData[cat.key] || [] }));
 
   return (
-    <div className="pt-20">
+    <div className={`${compact ? 'pt-3' : 'pt-20'}`}>
       {/* pop-up ads */}
       {/* <Script
         type="text/javascript"
@@ -315,7 +315,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
       )}
 
       {/* Game Grid */}
-      <div className={`game_container ${compact ? 'pt-4' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`}>
+      <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`}>
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
@@ -401,7 +401,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
       /> */}
 
       {/* Pagination / Load more */}
-      {(() => {
+      {!disablePagination && (() => {
         const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
         if (isHome) {
           return (
@@ -456,8 +456,12 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "" }) {
         height={50}
       /> */}
 
-      {/* social bar ads */}
-      <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
+      {/* social bar ads (hidden for compact related section) */}
+      {hideFooterSpace ? (
+        <div className="py-6" />
+      ) : (
+        <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
+      )}
       {/* <Script
         type="text/javascript"
         src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
