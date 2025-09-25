@@ -170,7 +170,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       {/* pop-up ads */}
       {isClient && window.location.pathname === "/" && (
         <div className="flex flex-col items-center gap-4 pt-5">
-          <h1 className="text-white text-[36px] max-sm:text-[26px] font-semibold text-center">
+          <h1 className="text-[36px] max-sm:text-[26px] font-extrabold text-center heading-glow">
             PLAY YOUR FAVORITE GAME
           </h1>
           <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
@@ -258,7 +258,8 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       {/* Popular Categories with See more (min 20 items) */}
       {isClient && window.location.pathname === "/" && !loadingCategories && (
         <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
-          <div className="text-white font-semibold text-2xl mb-3">Popular Categories</div>
+          <div className="font-semibold text-2xl mb-1 heading-sub">Popular Categories</div>
+          <div className="h-[2px] w-24 rounded-full bg-[linear-gradient(90deg,#DCF836,rgba(220,248,54,0.2))] underline-shine mb-3" />
           <div className="flex flex-col gap-4">
             {categoryBuckets.map((cat) => (
               cat.items.length >= 20 ? (

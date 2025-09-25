@@ -303,6 +303,30 @@ body {
   100% { background-position: 0% 0%; }
 }
 
+/* Homepage animated headings */
+.heading-glow {
+  background: linear-gradient(90deg, #DCF836, #ffffff, #DCF836);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: headingShimmer 6s linear infinite;
+  text-shadow: 0 0 12px rgba(220,248,54,0.25);
+}
+.heading-sub {
+  background: linear-gradient(90deg, rgba(220,248,54,0.95), rgba(255,255,255,0.9), rgba(220,248,54,0.95));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: headingShimmer 8s linear infinite;
+}
+@keyframes headingShimmer {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
 @keyframes orb1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(6%, 8%) scale(1.05); }
