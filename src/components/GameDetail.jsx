@@ -2,10 +2,25 @@
 import Image from "next/image";
 import Script from "next/script";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { IoClose } from "react-icons/io5";
 
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
+  const router = useRouter();
+  React.useEffect(() => {
+    if (showIframe) {
+      document.body.classList.add('overflow-hidden');
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+      document.body.classList.remove('modal-open');
+    };
+  }, [showIframe]);
 
   return (
     <div
@@ -51,7 +66,7 @@ export default function GameDetail({ gameDetails, name }) {
             </div>
             {/* Iframe Modal */}
             {showIframe && (
-              <div className="fixed top-0 left-0  z-[99] w-full h-full bg-black/80 backdrop-blur-sm flex justify-center items-center">
+              <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
                 <div className="relative w-[100%] h-[100%] max-w-full">
                   <iframe
                     src={gameDetails?.url || "#"}
@@ -59,8 +74,14 @@ export default function GameDetail({ gameDetails, name }) {
                     allowFullScreen
                   />
                   <button
-                    onClick={() => setShowIframe(false)}
-                    className="absolute z-[999] cursor-pointer top-4 right-4 bg-red-600 text-white size-8 flex justify-center items-center rounded-full text-sm"
+                    onClick={() => {
+                      if (typeof window !== 'undefined' && window.history.length > 1) {
+                        router.back();
+                      } else {
+                        setShowIframe(false);
+                      }
+                    }}
+                    className="absolute z-[10000] cursor-pointer top-4 right-4 bg-red-600 text-white size-8 flex justify-center items-center rounded-full text-sm"
                   >
                     <IoClose />
                   </button>

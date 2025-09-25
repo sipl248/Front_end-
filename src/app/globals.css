@@ -45,6 +45,8 @@ body {
   color: var(--foreground);
   font-family:  "Dosis", sans-serif;
 }
+.modal-open header { display: none !important; }
+.modal-open footer, .modal-open .Footer { display: none !important; }
 .nunito-fons {
   font-family: "Nunito", sans-serif;
 }
