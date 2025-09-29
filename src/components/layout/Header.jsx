@@ -18,6 +18,7 @@ export default function Header() {
     { label: "DEVELOPER", href: "/developer" },
     { label: "AFFILIATES", href: "/affiliates" },
     { label: "CONTACT US", href: "/contactus" },
+    { label: "PRIVACY POLICY", href: "/privacy-policy" },
   ];
 
   // Scroll handler
