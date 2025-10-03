@@ -580,7 +580,7 @@ body {
 }
 @keyframes footerScan { 0% { transform: translateX(-10%); } 50% { transform: translateX(10%); } 100% { transform: translateX(-10%); } }
 
-.footer-orb { position: absolute; border-radius: 9999px; filter: blur(36px); opacity: 0.28; }
+.footer-orb { position: absolute; border-radius: 9999px; filter: blur(36px); opacity: 0.28; pointer-events: none; z-index: 0; }
 .footer-orb.fo1 { width: 320px; height: 320px; left: -80px; bottom: -40px; background: #1f3a5a; animation: orb1 22s ease-in-out infinite; }
 .footer-orb.fo2 { width: 380px; height: 380px; right: -90px; top: -60px; background: #2a5e9a; animation: orb2 26s ease-in-out infinite; }
 .footer-orb.fo3 { width: 220px; height: 220px; left: 30%; top: 10%; background: #0e2236; animation: orb3 24s ease-in-out infinite; opacity: 0.22; }
