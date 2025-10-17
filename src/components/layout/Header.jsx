@@ -14,11 +14,12 @@ export default function Header() {
   const navLinks = [
     { label: "HOME", href: "/" },
     { label: "ALL GAMES", href: "/all" },
+    { label: "BLOG", href: "/blog" },
     { label: "ABOUT US", href: "/aboutus" },
-    { label: "DEVELOPER", href: "/developer" },
+    // { label: "DEVELOPER", href: "/developer" },
     { label: "AFFILIATES", href: "/affiliates" },
     { label: "CONTACT US", href: "/contactus" },
-    { label: "PRIVACY POLICY", href: "/privacy-policy" },
+    // { label: "PRIVACY POLICY", href: "/privacy-policy" },
   ];
 
   // Scroll handler

@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["pokiifuns.com", "pokiigame.com", "img.gamemonetize.com"],
+    domains: [
+      "pokiifuns.com",
+      "pokiigame.com",
+      "img.gamemonetize.com",
+      "blogcafeai.s3.eu-north-1.amazonaws.com",
+      "blogcafeai.s3.amazonaws.com"
+    ],
   },
   async headers() {
     return [
