@@ -46,15 +46,16 @@ export default async function Page({ params }) {
         || null;
     }
 
-    // 4) If nothing matched, render the 404 page
-    if (!gameDetails) {
-      notFound();
-    }
+    // 4) No-op here; decide 404 after fetch phase completes
   } catch (error) {
     // Only log unexpected errors, not 404/500 responses
     if (error.response?.status !== 404 && error.response?.status !== 500) {
       console.error("Unexpected error fetching game details:", error);
     }
+  }
+
+  // If nothing matched, render the 404 page (call outside try/catch so Next.js doesn't log it)
+  if (!gameDetails) {
     notFound();
   }
 
