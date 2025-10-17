@@ -46,12 +46,7 @@ export default async function Page({ params }) {
         || null;
     }
 
-    // 4) As a last resort, render placeholder instead of 404 so page always opens
-    if (!gameDetails) {
-      gameDetails = { title: gameTitle, thumb: "/assets/pokii_game.webp", url: "#", description: "", instructions: "", tags: [] };
-    }
-
-    // If still no game details found, show 404 page
+    // 4) If nothing matched, render the 404 page
     if (!gameDetails) {
       notFound();
     }

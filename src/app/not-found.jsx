@@ -41,20 +41,21 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* Game Icon */}
+        {/* Brand Logo (consistent with header/footer) */}
         <div className="mb-8 flex justify-center">
-          <div className="relative">
+          <span className="relative inline-block logo-spark-wrap">
             <Image
               src="/assets/pokii_game.webp"
-              alt="Pokiifuns Logo"
-              width={120}
-              height={80}
-              className="w-[120px] h-[80px] max-md:w-[100px] max-md:h-[70px]"
+              alt="Pokiifuns logo"
+              width={150}
+              height={100}
+              priority
+              className="logo-glow w-[150px] h-auto max-md:w-[120px] object-contain transition-transform duration-200 will-change-transform hover:scale-105"
             />
-            <div className="absolute -top-2 -right-2 w-6 h-6 bg-[#dd003f] rounded-full flex items-center justify-center text-xs font-bold">
-              ?
-            </div>
-          </div>
+            <span className="logo-spark s1" />
+            <span className="logo-spark s2" />
+            <span className="logo-spark s3" />
+          </span>
         </div>
 
         {/* Action Buttons */}
