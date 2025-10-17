@@ -23,7 +23,7 @@ export default function Footer() {
                   height="70"
                   decoding="async"
                   data-nimg="1"
-                  style="color:transparent"
+                  style={{ color: "transparent" }}
                   src="/assets/pokii_game.webp"
                   className="logo-glow"
                 />
