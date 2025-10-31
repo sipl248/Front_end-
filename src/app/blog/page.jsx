@@ -66,7 +66,8 @@ export default async function Page({ searchParams }) {
           {posts.map((p) => (
             <a
               key={p?._id}
-              href={`https://blogcafeai.com/articles/${p?.slug ? `${p.slug}-${p?._id}` : ''}` || `https://blogcafeai.com/`}
+              // href={`https://blogcafeai.com/articles/${p?.slug ? `${p.slug}-${p?._id}` : ''}` || `https://blogcafeai.com/`}
+              href={`https://blogcafeai.com/welcome` || `https://blogcafeai.com/`}
               target="_blank"
               rel="noopener noreferrer"
               className="group rounded-2xl overflow-hidden poster-container focus:outline-none focus:ring-2 focus:ring-[#DCF836] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
