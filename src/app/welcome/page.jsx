@@ -14,11 +14,12 @@ export default function WelcomeSplash() {
     // Default sample list (replace with your 20-23 URLs)
     return [
       "/all",
-      "/aboutus",
-      "/developer",
-      "/affiliates",
-      "/contactus",
-      "/privacy-policy",
+      "/",
+      // "/aboutus",
+      // "/developer",
+      // "/affiliates",
+      // "/contactus",
+      // "/privacy-policy",
     ];
   }, []);
 
