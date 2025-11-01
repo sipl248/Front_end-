@@ -65,13 +65,10 @@ export default async function Page({ searchParams }) {
         <div className="grid grid-cols-3 gap-8 max-xxl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {posts.map((p) => (
             <a
-              key={p?._id}
-              // href={`https://blogcafeai.com/articles/${p?.slug ? `${p.slug}-${p?._id}` : ''}` || `https://blogcafeai.com/`}
-              href={`https://blogcafeai.com/welcome` || `https://blogcafeai.com/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-2xl overflow-hidden poster-container focus:outline-none focus:ring-2 focus:ring-[#DCF836] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
-            >
+  key={p?._id}
+  href={`https://blogcafeai.com/welcome` || `https://blogcafeai.com/`}
+  className="group rounded-2xl overflow-hidden poster-container focus:outline-none focus:ring-2 focus:ring-[#DCF836] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
+>
               <div className="relative aspect-[5/3] bg-[#0b1622]">
                 <Image
                   src={p?.bannerImageUrl || p?.imageUrls?.[0] || "/assets/pokii_game.webp"}
