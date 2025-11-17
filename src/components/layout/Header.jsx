@@ -16,10 +16,8 @@ export default function Header() {
     { label: "ALL GAMES", href: "/all" },
     { label: "BLOG", href: "/blog" },
     { label: "ABOUT US", href: "/aboutus" },
-    // { label: "DEVELOPER", href: "/developer" },
     { label: "AFFILIATES", href: "/affiliates" },
     { label: "CONTACT US", href: "/contactus" },
-    // { label: "PRIVACY POLICY", href: "/privacy-policy" },
   ];
 
   // Scroll handler
@@ -72,9 +70,6 @@ export default function Header() {
                   </Link>
                 </li>
               ))}
-              {/* <li>
-                <IoSearch fontSize={20} className="text-white" />
-              </li> */}
             </ul>
           </div>
 

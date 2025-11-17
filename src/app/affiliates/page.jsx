@@ -11,11 +11,6 @@ export default function page() {
     <div className="bg-[#020C17]  text-[#abb7c4] -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem] media_resp   max-lg:px-5 max-md:px-0">
         <AnimatedPoster className="h-[45vh]" title="AFFILIATES" />
-        {/* <AdsterraAd
-          keyId="e4c6a559d1e3bb3542525683b029023f"
-          width={728}
-          height={90}
-        /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>Affiliate Program for Pokiifuns Game</h1>
         </div>
@@ -32,12 +27,42 @@ export default function page() {
             We strive to make sure our partners get the best possible results
           </p>
         </div>
+         {/* Google Ad 1 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="3556369143"
+        ></ins>
+        <Script id="ads-1">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+       
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h2>Contact Us and Join our affiliate program</h2>
           <p className="text-[18px] text-[#abb7c4] font-light">
             help.pokiifuns@gmail.com
           </p>
         </div>
+
+        {/* Google Ad 2 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="8542878619"
+        ></ins>
+        <Script id="ads-2">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
 
         <div className="mt-8 font-semibold text-[32px] text-[#4280bf]">
           <h2 className="mb-2">About Pokiifuns Game</h2>
@@ -71,6 +96,21 @@ export default function page() {
             </p>
           </div>
         </div>
+
+        {/* Google Ad 3 */}
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+            crossOrigin="anonymous"
+          />
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-7456682660420004"
+            data-ad-slot="4823125458"
+          ></ins>
+          <Script id="ads-3">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
       </div>
     </div>
   );
