@@ -185,6 +185,35 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                     </span>
                     <span className="text-[#DCF836] text-sm md:text-base font-semibold">{label}</span>
                   </div>
+                  {/* Ad for this block */}
+                  {idx === 0 && (
+                    <>
+                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="6963570616"></ins>
+                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                    </>
+                  )}
+                  {idx === 1 && (
+                    <>
+                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="1807995596"></ins>
+                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                    </>
+                  )}
+                  {idx === 2 && (
+                    <>
+                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="3619221978"></ins>
+                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                    </>
+                  )}
+                  {idx === 3 && (
+                    <>
+                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="4145835583"></ins>
+                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -207,6 +236,25 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           <p className="text-white/70 text-center mt-1 text-sm md:text-base">
             Search and discover 1000+ free games. No install, play instantly.
           </p>
+          {/* GOOGLE ADS BELOW SECTION */}
+          <div className="w-full flex justify-center mt-6">
+            <Script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="5555120178"
+            ></ins>
+            <Script id="ads-allgames" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
+          </div>
         </div>
       )}
 
@@ -308,6 +356,103 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                       </div>
                     ))}
                   </div>
+                  <div>
+                    {/* GOOGLE ADS UNDER CATEGORY */}
+                    {cat.key === "Action" && (
+                      <div className="w-full mt-4 flex justify-center">
+                        <Script
+                          async
+                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                          crossOrigin="anonymous"
+                          strategy="afterInteractive"
+                        />
+                        <ins
+                          className="adsbygoogle"
+                          style={{ display: "block" }}
+                          data-ad-format="autorelaxed"
+                          data-ad-client="ca-pub-7456682660420004"
+                          data-ad-slot="9418343560"
+                        ></ins>
+                        <Script id="ads-action">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      </div>
+                    )}
+                    {/* Puzzle */}
+                    {cat.key === "Puzzle" && (
+                      <div className="w-full mt-4 flex justify-center">
+                        <Script
+                          async
+                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                          crossOrigin="anonymous"
+                          strategy="afterInteractive"
+                        />
+                        <ins
+                          className="adsbygoogle"
+                          style={{ display: "block" }}
+                          data-ad-format="autorelaxed"
+                          data-ad-client="ca-pub-7456682660420004"
+                          data-ad-slot="1967228950"
+                        ></ins>
+                        <Script id="ads-puzzle">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      </div>
+                    )}
+                    {/* Racing */}
+                    {cat.key === "Racing" && (
+                      <div className="w-full mt-4 flex justify-center">
+                        <Script
+                          async
+                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                          crossOrigin="anonymous"
+                          strategy="afterInteractive"
+                        />
+                        <ins
+                          className="adsbygoogle"
+                          style={{ display: "block" }}
+                          data-ad-format="autorelaxed"
+                          data-ad-client="ca-pub-7456682660420004"
+                          data-ad-slot="8898526861"
+                        ></ins>
+                        <Script id="ads-racing">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      </div>
+                    )}
+                    {/* Hypercasual */}
+                    {cat.key === "Hypercasual" && (
+                      <div className="w-full mt-4 flex justify-center">
+                        <Script
+                          async
+                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                          crossOrigin="anonymous"
+                          strategy="afterInteractive"
+                        />
+                        <ins
+                          className="adsbygoogle"
+                          style={{ display: "block" }}
+                          data-ad-format="autorelaxed"
+                          data-ad-client="ca-pub-7456682660420004"
+                          data-ad-slot="7913690204"
+                        ></ins>
+                        <Script id="ads-hypercasual">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      </div>
+                    )}
+                    {/* Arcade */}
+                    {cat.key === "Arcade" && (
+                      <div className="w-full mt-4 flex justify-center">
+                        <Script
+                          async
+                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                          crossOrigin="anonymous"
+                          strategy="afterInteractive"
+                        />
+                        <ins
+                          className="adsbygoogle"
+                          style={{ display: "block" }}
+                          data-ad-format="autorelaxed"
+                          data-ad-client="ca-pub-7456682660420004"
+                          data-ad-slot="6600608530"
+                        ></ins>
+                        <Script id="ads-arcade">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ) : null
             ))}
@@ -400,6 +545,26 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
         width={300}
         height={250}
       /> */}
+
+        {/* GOOGLE ADS ABOVE PAGINATION */}
+      <div className="w-full flex justify-center mb-4">
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="1949975132"
+        ></ins>
+        <Script id="ads-pagination" strategy="afterInteractive">
+          {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+        </Script>
+      </div>
 
       {/* Pagination / Load more */}
       {!disablePagination && (() => {

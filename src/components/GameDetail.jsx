@@ -483,13 +483,50 @@ export default function GameDetail({ gameDetails, name }) {
               dangerouslySetInnerHTML={{ __html: gameDetails?.description || "" }}
               className="text-white/95 text-lg leading-relaxed"
             />
-        </div>
+          </div>
+          {/* GOOGLE ADS */}
+          <div className="w-full mt-4 flex justify-center">
+            <Script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="3556369143"
+            />
+            <Script id="ads-about" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
+          </div>
           <div className="rounded-2xl border border-[rgba(220,248,54,0.18)] bg-[rgba(7,18,28,0.55)] p-5">
             <h2 className="text-2xl font-semibold text-[#DCF836] mb-3">Instructions</h2>
             <div
               dangerouslySetInnerHTML={{ __html: gameDetails?.instructions || "" }}
               className="text-white/95 text-lg leading-relaxed"
             />
+          </div>
+          <div className="w-full mt-4 flex justify-center">
+            <Script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="8542878619"
+            />
+            <Script id="ads-instructions" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
           </div>
         </div>
 
@@ -503,6 +540,26 @@ export default function GameDetail({ gameDetails, name }) {
               {tag}
             </div>
           ))}
+        </div>
+        
+        {/* GOOGLE ADS BELOW TAGS */}
+        <div className="w-full mt-4 flex justify-center">
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-7456682660420004"
+            data-ad-slot="4823125458"
+          />
+          <Script id="ads-tags" strategy="afterInteractive">
+            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          </Script>
         </div>
         <style jsx>{`
         @keyframes shine {
