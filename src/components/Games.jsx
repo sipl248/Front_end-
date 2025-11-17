@@ -142,13 +142,6 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
 
   const handleClick = (e, game) => {
     e.preventDefault();
-    // const adScript = document.createElement("script");
-    // adScript.type = "text/javascript";
-    // adScript.src =
-    //   "//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js";
-    // adScript.async = true;
-    // document.body.appendChild(adScript);
-
     // Create URL-friendly slug from game title
     const gameSlug = titleToSlug(game?.title || game?.gameId);
     
@@ -162,11 +155,6 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
 
   return (
     <div className={`${compact ? 'pt-3' : 'pt-20'}`}>
-      {/* pop-up ads */}
-      {/* <Script
-        type="text/javascript"
-        src="//pl27199328.profitableratecpm.com/2c/ad/9e/2cad9e29e745bfa5d8929d583d48ed29.js"
-      ></Script> */}
       {/* pop-up ads */}
       {isClient && window.location.pathname === "/" && (
         <div className="flex flex-col items-center gap-4 pt-5">
@@ -220,12 +208,6 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           </div>
         </div>
       )}
-
-      {/* <AdsterraAd
-        keyId="33c38de2503eaee4251a5962d435100d"
-        width={160}
-        height={50}
-      /> */}
 
       {/* All Games title (only on /all) */}
       {isClient && window.location.pathname === "/all" && (
@@ -504,49 +486,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           ))
         )}
       </div>
-      {/* working ads*/}
-      {/* <div id="container-ff32eb879155623c7d2e3f92b411feaf"></div>
-      <Script
-        src="//pl27191963.profitableratecpm.com/ff32eb879155623c7d2e3f92b411feaf/invoke.js"
-        data-cfasync="false"
-        strategy="afterInteractive"
-        async
-      /> */}
-      {/* <div className="game_container px-[20.2rem] media_resp max-lg:px-5">
-        {loading ? (
-          <div className="flex justify-center items-center w-full h-64 col-span-full">
-            <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
-          </div>
-        ) : (
-          games?.slice(12, 25).map((item, index) => (
-            <div
-              onClick={(e) => handleClick(e, item)}
-              key={index}
-              className="justify-between gap-5 cursor-pointer w-full h-full"
-            >
-              <div className="relative group w-full h-full">
-                <div className="relative overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:border-4 hover:border-[#DCF836] duration-500 w-full h-full">
-                  <Image
-                    width={200}
-                    height={200}
-                    alt="game-poster"
-                    className="w-full object-cover"
-                    src={item?.thumb}
-                  />
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div> */}
-
-      {/* <AdsterraAd
-        keyId="ecba41c690f4c72c724c02b884fe6e13"
-        width={300}
-        height={250}
-      /> */}
-
-        {/* GOOGLE ADS ABOVE PAGINATION */}
+      {/* GOOGLE ADS ABOVE PAGINATION */}
       <div className="w-full flex justify-center mb-4">
         <Script
           async
@@ -616,11 +556,6 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           </div>
         );
       })()}
-      {/* <AdsterraAd
-        keyId="5d5abcca14de57540562622c80497b3d"
-        width={320}
-        height={50}
-      /> */}
 
       {/* social bar ads (hidden for compact related section) */}
       {hideFooterSpace ? (
@@ -628,11 +563,6 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       ) : (
         <div id="container-0d8fc43bdea8a840875c81f3bb6d87a4"></div>
       )}
-      {/* <Script
-        type="text/javascript"
-        src="//pl27199319.profitableratecpm.com/0d/8f/c4/0d8fc43bdea8a840875c81f3bb6d87a4.js"
-      ></Script> */}
     </div>
-    // </div>
   );
 }

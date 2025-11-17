@@ -455,26 +455,6 @@ export default function GameDetail({ gameDetails, name }) {
             )}
           </div>
         </div>
-        {/* <div className="game-detail">
-          <div className="game-ad">
-            <Script id="game-detail-ad-config" strategy="afterInteractive">
-              {`
-            atOptions = {
-              'key': '33c38de2503eaee4251a5962d435100d',
-              'format': 'iframe',
-              'height': 300,
-              'width': 160,
-              'params': {}
-            };
-          `}
-            </Script>
-            <Script
-              strategy="afterInteractive"
-              src="//www.highperformanceformat.com/33c38de2503eaee4251a5962d435100d/invoke.js"
-            />
-          </div>
-        </div> */}
-        {/* html */}
 
         <div className="max-lg:px-5 mt-8 grid grid-cols-1 gap-6">
           <div className="rounded-2xl border border-[rgba(220,248,54,0.18)] bg-[rgba(7,18,28,0.55)] p-5">

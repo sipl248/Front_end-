@@ -42,17 +42,27 @@ export default function Contactus() {
     <div className="bg-[#020C17] text-white -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
         <AnimatedPoster className="h-[45vh]" title="CONTACT SUPPORT" />
-        {/* <AdsterraAd
-          keyId="5d5abcca14de57540562622c80497b3d"
-          width={320}
-          height={50}
-        /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1 className="mb-3">Contact US</h1>
           <div className="text-[18px] text-[#abb7c4] font-light">
             <p className="mb-5">help.pokiifuns@gmail.com</p>
           </div>
         </div>
+        {/* Google Ad 1 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="3556369143"
+        ></ins>
+        <Script id="ads-1">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+
         <div className="font-semibold text-[32px] text-[#4280bf]">
           <h2 className="mb-3">Copy Right Issue</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
@@ -120,6 +130,21 @@ export default function Contactus() {
             reply you on any of the query within 7 days.
           </p>
         </div>
+          {/* Google Ad 2 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="8542878619"
+        ></ins>
+        <Script id="ads-2">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+
         <div className="mt-4">
           <form onSubmit={handleSubmit}>
             <input
@@ -169,6 +194,21 @@ export default function Contactus() {
             {error && <div className="text-red-500 mt-2">{error}</div>}
           </form>
         </div>
+
+        {/* Google Ad 3 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="4823125458"
+        ></ins>
+        <Script id="ads-3">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
       </div>
     </div>
   );

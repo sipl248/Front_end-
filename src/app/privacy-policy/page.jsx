@@ -1,4 +1,5 @@
 import AnimatedPoster from "@/components/AnimatedPoster";
+import Script from "next/script";
 export const metadata = {
   title: "Privacy Policy | Pokiifuns Free Online Games Website",
   description:
@@ -10,7 +11,7 @@ export default function Page() {
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20 max-md:px-4">
       <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
         <AnimatedPoster className="h-[45vh]" title="PRIVACY POLICY" />
-
+        
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1>Privacy Policy</h1>
         </div>
@@ -52,7 +53,19 @@ export default function Page() {
           <p className="mb-2">
             You can disable cookies in your browser settings, but this may affect some features of the site.
           </p>
-
+           <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="3556369143"
+        ></ins>
+        <Script id="ads-1">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
           <div className="mt-8 mb-2 font-semibold text-[28px] text-[#4280bf]">
             <h2>2. How We Use Your Information</h2>
           </div>
@@ -100,7 +113,20 @@ export default function Page() {
           <p className="mb-2">
             Parents and guardians are encouraged to supervise their children’s online activities.
           </p>
-
+             {/* Google Ad 2 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="8542878619"
+        ></ins>
+        <Script id="ads-2">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
           <div className="mt-8 mb-2 font-semibold text-[28px] text-[#4280bf]">
             <h2>6. Your Privacy Choices</h2>
           </div>
@@ -126,6 +152,20 @@ export default function Page() {
           <p className="mb-2">Website: https://pokiifuns.com</p>
           <p className="mb-2">We’re here to help!</p>
         </div>
+         {/* Google Ad 3 */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          crossOrigin="anonymous"
+        />
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-7456682660420004"
+          data-ad-slot="4823125458"
+        ></ins>
+        <Script id="ads-3">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
       </div>
     </div>
   );
