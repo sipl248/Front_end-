@@ -18,6 +18,10 @@ const geistMono = Geist_Mono({
 });
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.pokiifuns.com/";
+const GA_TRACKING_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-FGE8FDPWWR";
+const ADSENSE_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-7456682660420004";
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
@@ -91,19 +95,23 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-FGE8FDPWWR"
-        ></Script>
-        <Script id="google-analytics">
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-FGE8FDPWWR');
+            gtag('config', '${GA_TRACKING_ID}');
           `}
         </Script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossorigin="anonymous"></script>
+        <Script
+          id="adsense-primary"
+          strategy="lazyOnload"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
+          crossOrigin="anonymous"
+        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
           rel="icon"
@@ -129,13 +137,6 @@ export default function RootLayout({ children }) {
           content="Pokiifuns: Your ultimate gaming destination! Explore a vast collection of thrilling games, from action-packed adventures to brain-teasing puzzles. Dive into a world of fun and challenge your skills on Pokiifuns today!"
         /> */}
 
-        <link
-          href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-          rel="stylesheet"
-        />
-        <script async custom-element="amp-auto-ads"
-          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-        </script>
         <meta
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
@@ -144,11 +145,12 @@ export default function RootLayout({ children }) {
           name="google-adsense-account"
           content="ca-pub-7456682660420004"
         ></meta>
-        <script
-          async
+        <Script
+          id="adsense-secondary"
+          strategy="lazyOnload"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3785390617142950"
-          crossorigin="anonymous"
-        ></script>
+          crossOrigin="anonymous"
+        />
         {/* <script
           src="https://cmp.gatekeeperconsent.com/min.js"
           data-cfasync="false"
@@ -157,23 +159,10 @@ export default function RootLayout({ children }) {
           src="https://the.gatekeeperconsent.com/cmp.min.js"
           data-cfasync="false"
         ></script> */}
-
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGE8FDPWWR"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-FGE8FDPWWR');
-          `,
-        }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <amp-auto-ads type="adsense"
-          data-ad-client="ca-pub-7456682660420004">
-        </amp-auto-ads>
         {/* ✅ GTM fallback for non-JS users */}
         <noscript>
           <iframe
