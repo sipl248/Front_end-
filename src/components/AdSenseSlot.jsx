@@ -14,7 +14,7 @@ export default function AdSenseSlot({
   client = DEFAULT_CLIENT,
   className = "",
   style = {},
-  placeholderHeight = 120,
+  placeholderHeight = 0,
   fullWidthResponsive,
   ...rest
 }) {
