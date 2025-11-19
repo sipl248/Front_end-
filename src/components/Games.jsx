@@ -154,7 +154,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   const categoryBuckets = categoryDefs.map((cat) => ({ ...cat, items: categoryData[cat.key] || [] }));
 
   return (
-    <div className={`${compact ? 'pt-3' : 'pt-20'}`}>
+    <div className={`${compact ? 'pt-3' : 'pt-20'} px-4 sm:px-6`}>
       {/* pop-up ads */}
       {isClient && window.location.pathname === "/" && (
         <div className="flex flex-col items-center gap-4 pt-5">
@@ -162,7 +162,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
             PLAY YOUR FAVORITE GAME
           </h1>
           <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
-            <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
               {["1000+ Games", "No install needed", "Play on any device", "Everything is free"].map((label, idx) => (
                 <div key={idx} className="group rounded-xl border border-[#DCF836]/35 bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300 badge-glow">
                   <div className="flex items-center gap-2 px-3 py-2">
@@ -171,19 +171,19 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                         <path d="M20 6L9 17l-5-5" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
-                    <span className="text-[#DCF836] text-sm md:text-base font-semibold">{label}</span>
+                    <span className="text-[#DCF836] text-sm sm:text-base font-semibold">{label}</span>
                   </div>
                   {/* Ad for this block */}
                   {idx === 0 && (
                     <>
-                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive"/>
+                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="lazyOnload"/>
                       <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="6963570616"></ins>
                       <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
                     </>
                   )}
                   {idx === 1 && (
                     <>
-                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive"/>
+                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="lazyOnload"/>
                       <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="1807995596"></ins>
                       <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
                     </>
@@ -194,7 +194,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                         async
                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                         crossOrigin="anonymous"
-                        strategy="afterInteractive"
+                        strategy="lazyOnload"
                       />
                       <ins
                         className="adsbygoogle"
@@ -215,7 +215,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                         async
                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                         crossOrigin="anonymous"
-                        strategy="afterInteractive"
+                        strategy="lazyOnload"
                       />
                       <ins
                         className="adsbygoogle"
@@ -252,7 +252,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                 async
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                 crossOrigin="anonymous"
-                strategy="afterInteractive"
+                strategy="lazyOnload"
               />
               <ins
                 className="adsbygoogle"
@@ -261,7 +261,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                 data-ad-client="ca-pub-7456682660420004"
                 data-ad-slot="5555120178"
               ></ins>
-              <Script id="auto-relaxed-ad" strategy="afterInteractive">
+              <Script id="auto-relaxed-ad" strategy="lazyOnload">
                 {`(adsbygoogle = window.adsbygoogle || []).push({});`}
               </Script>
           </div>
@@ -374,7 +374,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
-                          strategy="afterInteractive"
+                          strategy="lazyOnload"
                         />
                         <ins
                           className="adsbygoogle"
@@ -393,7 +393,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
-                          strategy="afterInteractive"
+                          strategy="lazyOnload"
                         />
                         <ins
                           className="adsbygoogle"
@@ -412,7 +412,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
-                          strategy="afterInteractive"
+                          strategy="lazyOnload"
                         />
                         <ins
                           className="adsbygoogle"
@@ -431,7 +431,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
-                          strategy="afterInteractive"
+                          strategy="lazyOnload"
                         />
                         <ins
                           className="adsbygoogle"
@@ -450,7 +450,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
-                          strategy="afterInteractive"
+                          strategy="lazyOnload"
                         />
                         <ins
                           className="adsbygoogle"
@@ -471,7 +471,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       )}
 
       {/* Game Grid */}
-      <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`}>
+      <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`} style={{ minHeight: '600px' }}>
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
@@ -520,7 +520,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <ins
           className="adsbygoogle"
@@ -529,7 +529,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           data-ad-client="ca-pub-7456682660420004"
           data-ad-slot="1949975132"
         ></ins>
-        <Script id="ads-pagination" strategy="afterInteractive">
+        <Script id="ads-pagination" strategy="lazyOnload">
           {`(adsbygoogle = window.adsbygoogle || []).push({});`}
         </Script>
       </div>

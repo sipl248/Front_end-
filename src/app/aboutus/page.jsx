@@ -3,8 +3,7 @@ import AnimatedPoster from "@/components/AnimatedPoster";
 import Script from "next/script";
 export const metadata = {
   title: "About Pokiifuns | Free Fun Browser Games for Everyone Online",
-  description:
-    "Pokiifuns offers free online games, browser games, and fun games to play without download. Explore web games, phone games, and more for all ages—totally free!",
+  description: "Pokiifuns offers free online games, browser games, and fun games to play without download. Explore web games, phone games, and more for all ages—totally free!",
 };
 export default function page() {
   return (
@@ -34,7 +33,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -43,7 +42,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-about" strategy="afterInteractive">
+            <Script id="ads-about" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
@@ -76,7 +75,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -85,7 +84,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-instructions" strategy="afterInteractive">
+            <Script id="ads-instructions" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
 
@@ -113,7 +112,7 @@ export default function page() {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
             crossOrigin="anonymous"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
           <ins
             className="adsbygoogle"
@@ -123,10 +122,9 @@ export default function page() {
             data-ad-client="ca-pub-7456682660420004"
             data-ad-slot="6963570616"
           />
-          <Script id="ads-tags" strategy="afterInteractive">
+          <Script id="ads-tags" strategy="lazyOnload">
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}
           </Script>
-
       </div>
     </div>
   );

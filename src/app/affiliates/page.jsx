@@ -33,7 +33,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -42,7 +42,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-about" strategy="afterInteractive">
+            <Script id="ads-about" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
        
@@ -58,7 +58,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -67,7 +67,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-instructions" strategy="afterInteractive">
+            <Script id="ads-instructions" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
 
@@ -109,7 +109,7 @@ export default function page() {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
             crossOrigin="anonymous"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
           <ins
             className="adsbygoogle"
@@ -119,7 +119,7 @@ export default function page() {
             data-ad-client="ca-pub-7456682660420004"
             data-ad-slot="6963570616"
           />
-          <Script id="ads-tags" strategy="afterInteractive">
+          <Script id="ads-tags" strategy="lazyOnload">
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}
           </Script>
       </div>

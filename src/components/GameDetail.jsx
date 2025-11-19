@@ -198,9 +198,7 @@ export default function GameDetail({ gameDetails, name }) {
   }, [showIframe]);
 
   return (
-    <div
-      className={`min-h-screen -mt-20 text-white bg-[url(https://pokiigame.com/_next/static/media/footer.5bdee055.jpg)] h-auto bg-no-repeat bg-fixed overflow-x-hidden`}
-    >
+    <div className={`min-h-screen -mt-20 text-white bg-[url(https://pokiigame.com/_next/static/media/footer.5bdee055.jpg)] h-auto bg-no-repeat bg-fixed overflow-x-hidden`}>
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
         <div className="relative flex justify-between items-center sm:border-transparent  max-md:flex-col max-lg:gap-10 max-xl:gap-4 max-sm:!gap-0">
           <Image
@@ -470,7 +468,7 @@ export default function GameDetail({ gameDetails, name }) {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -479,7 +477,7 @@ export default function GameDetail({ gameDetails, name }) {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-about" strategy="afterInteractive">
+            <Script id="ads-about" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
           </div>
@@ -495,7 +493,7 @@ export default function GameDetail({ gameDetails, name }) {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -504,7 +502,7 @@ export default function GameDetail({ gameDetails, name }) {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-instructions" strategy="afterInteractive">
+            <Script id="ads-instructions" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
           </div>
@@ -528,7 +526,7 @@ export default function GameDetail({ gameDetails, name }) {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
             crossOrigin="anonymous"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
           <ins
             className="adsbygoogle"
@@ -538,7 +536,7 @@ export default function GameDetail({ gameDetails, name }) {
             data-ad-client="ca-pub-7456682660420004"
             data-ad-slot="6963570616"
           />
-          <Script id="ads-tags" strategy="afterInteractive">
+          <Script id="ads-tags" strategy="lazyOnload">
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}
           </Script>
         </div>

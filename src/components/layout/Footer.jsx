@@ -143,8 +143,7 @@ export default function Footer() {
                   href="https://www.facebook.com/profile.php?id=61578035056259"
                   target="_blank"
                   aria-label="Facebook : pokiifuns"
-                  className="hover:text-[#dcf836]"
-                >
+                  className="hover:text-[#dcf836]">
                   Facebook
                 </a>
               </li>
@@ -154,8 +153,7 @@ export default function Footer() {
                   href="https://www.instagram.com/pokiifuns?igsh=MTE1bzhvNHk4bmRteQ=="
                   aria-label="Instagram : pokiifuns"
                   className="hover:text-[#dcf836]"
-                  target="_blank"
-                >
+                  target="_blank">
                   Instagram
                 </a>
               </li>
