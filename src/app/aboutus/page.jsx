@@ -1,5 +1,6 @@
 import Image from "next/image";
 import AnimatedPoster from "@/components/AnimatedPoster";
+import Script from "next/script";
 export const metadata = {
   title: "About Pokiifuns | Free Fun Browser Games for Everyone Online",
   description:
@@ -29,19 +30,22 @@ export default function page() {
         </div>
 
         {/* Google Ad 1 */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="3556369143"
-        ></ins>
-        <Script id="ads-1">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+         <Script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="3556369143"
+            />
+            <Script id="ads-about" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h2>Our Mission</h2>
           <p className="text-[18px] text-[#abb7c4] font-light mb-2">
@@ -69,18 +73,21 @@ export default function page() {
 
          {/* Google Ad 2 */}
         <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="8542878619"
-        ></ins>
-        <Script id="ads-2">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="3556369143"
+            />
+            <Script id="ads-instructions" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
 
         <div className="mt-8 font-semibold text-[32px] text-[#4280bf]">
           <h2 className="mb-2">Have any issue?</h2>
@@ -102,19 +109,23 @@ export default function page() {
           </div>
         </div>
          {/* Google Ad 3 */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="4823125458"
-        ></ins>
-        <Script id="ads-3">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+         <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-format="fluid"
+            data-ad-layout-key="-gx-5+29-24-33"
+            data-ad-client="ca-pub-7456682660420004"
+            data-ad-slot="6963570616"
+          />
+          <Script id="ads-tags" strategy="afterInteractive">
+            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          </Script>
 
       </div>
     </div>

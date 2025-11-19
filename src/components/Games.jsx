@@ -176,30 +176,58 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                   {/* Ad for this block */}
                   {idx === 0 && (
                     <>
-                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="6963570616"></ins>
+                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive"/>
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="6963570616"></ins>
                       <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
                     </>
                   )}
                   {idx === 1 && (
                     <>
-                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="1807995596"></ins>
+                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive"/>
+                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="1807995596"></ins>
                       <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
                     </>
                   )}
                   {idx === 2 && (
                     <>
-                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="3619221978"></ins>
-                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      <Script
+                        async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                        crossOrigin="anonymous"
+                        strategy="afterInteractive"
+                      />
+                      <ins
+                        className="adsbygoogle"
+                        style={{ display: "block" }}
+                        data-ad-format="fluid"
+                        data-ad-layout-key="-gx-5+29-24-33"
+                        data-ad-client="ca-pub-7456682660420004"
+                        data-ad-slot="3619221978"
+                      ></ins>
+                      <Script id={`ads-${idx}`}>{`
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                      `}</Script>
                     </>
                   )}
                   {idx === 3 && (
                     <>
-                      <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="afterInteractive" />
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gw-3+1f-3d+2z" data-ad-client="ca-pub-7456682660420004" data-ad-slot="4145835583"></ins>
-                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      <Script
+                        async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                        crossOrigin="anonymous"
+                        strategy="afterInteractive"
+                      />
+                      <ins
+                        className="adsbygoogle"
+                        style={{ display: "block" }}
+                        data-ad-format="fluid"
+                        data-ad-layout-key="-gx-5+29-24-33"
+                        data-ad-client="ca-pub-7456682660420004"
+                        data-ad-slot="4145835583"
+                      ></ins>
+                      <Script id={`ads-${idx}`}>{`
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                      `}</Script>
                     </>
                   )}
                 </div>
@@ -221,21 +249,21 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           {/* GOOGLE ADS BELOW SECTION */}
           <div className="w-full flex justify-center mt-6">
             <Script
-              async
-              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-              crossOrigin="anonymous"
-              strategy="afterInteractive"
-            />
-            <ins
-              className="adsbygoogle"
-              style={{ display: "block" }}
-              data-ad-format="autorelaxed"
-              data-ad-client="ca-pub-7456682660420004"
-              data-ad-slot="5555120178"
-            ></ins>
-            <Script id="ads-allgames" strategy="afterInteractive">
-              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-            </Script>
+                async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+                crossOrigin="anonymous"
+                strategy="afterInteractive"
+              />
+              <ins
+                className="adsbygoogle"
+                style={{ display: "block" }}
+                data-ad-format="autorelaxed"
+                data-ad-client="ca-pub-7456682660420004"
+                data-ad-slot="5555120178"
+              ></ins>
+              <Script id="auto-relaxed-ad" strategy="afterInteractive">
+                {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+              </Script>
           </div>
         </div>
       )}
@@ -380,7 +408,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                     {/* Racing */}
                     {cat.key === "Racing" && (
                       <div className="w-full mt-4 flex justify-center">
-                        <Script
+                       <Script
                           async
                           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
                           crossOrigin="anonymous"
@@ -488,7 +516,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       </div>
       {/* GOOGLE ADS ABOVE PAGINATION */}
       <div className="w-full flex justify-center mb-4">
-        <Script
+       <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
           crossOrigin="anonymous"
