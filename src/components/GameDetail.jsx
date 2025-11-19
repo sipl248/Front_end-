@@ -502,7 +502,7 @@ export default function GameDetail({ gameDetails, name }) {
               style={{ display: "block" }}
               data-ad-format="autorelaxed"
               data-ad-client="ca-pub-7456682660420004"
-              data-ad-slot="8542878619"
+              data-ad-slot="3556369143"
             />
             <Script id="ads-instructions" strategy="afterInteractive">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
@@ -533,9 +533,10 @@ export default function GameDetail({ gameDetails, name }) {
           <ins
             className="adsbygoogle"
             style={{ display: "block" }}
-            data-ad-format="autorelaxed"
+            data-ad-format="fluid"
+            data-ad-layout-key="-gx-5+29-24-33"
             data-ad-client="ca-pub-7456682660420004"
-            data-ad-slot="4823125458"
+            data-ad-slot="6963570616"
           />
           <Script id="ads-tags" strategy="afterInteractive">
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}

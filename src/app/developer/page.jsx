@@ -17,18 +17,21 @@ export default function page() {
         </div>
           {/* Google Ad 1 */}
         <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="3556369143"
-        ></ins>
-        <Script id="ads-1">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="3556369143"
+            />
+            <Script id="ads-about" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
         <div className="text-[18px]">
           <p className="h-auto">
             pokiifuns is a top game development studio dedicated to making fun
@@ -56,19 +59,22 @@ export default function page() {
         </div>
 
         {/* Google Ad 2 */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="8542878619"
-        ></ins>
-        <Script id="ads-2">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+       <Script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+              crossOrigin="anonymous"
+              strategy="afterInteractive"
+            />
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="autorelaxed"
+              data-ad-client="ca-pub-7456682660420004"
+              data-ad-slot="3556369143"
+            />
+            <Script id="ads-instructions" strategy="afterInteractive">
+              {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+            </Script>
 
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h2>Contact Us and Join Now</h2>
@@ -78,19 +84,23 @@ export default function page() {
         </div>
 
           {/* Google Ad 3 */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-        />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="4823125458"
-        ></ins>
-        <Script id="ads-3">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+         <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-format="fluid"
+            data-ad-layout-key="-gx-5+29-24-33"
+            data-ad-client="ca-pub-7456682660420004"
+            data-ad-slot="6963570616"
+          />
+          <Script id="ads-tags" strategy="afterInteractive">
+            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          </Script>
       </div>
     </div>
   );
