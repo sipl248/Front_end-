@@ -9,14 +9,14 @@ export const metadata = {
 };
 export default function page() {
   return (
-    <div className="bg-[#020C17]  text-[#abb7c4] -mt-20 max-md:px-4">
-      <div className="py-20  px-[20.2rem] media_resp   max-lg:px-5 max-md:px-0">
-        <AnimatedPoster className="h-[45vh]" title="AFFILIATES" />
-        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
+    <div className="bg-[#020C17] text-[#abb7c4] -mt-20 max-md:px-4">
+      <div className="py-20 px-[20.2rem] max-2xl:px-25 max-xl:px-12 max-lg:px-8 max-md:px-4">
+        <AnimatedPoster className="h-[45vh] max-md:h-[35vh]" title="AFFILIATES" />
+        <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf] max-md:text-2xl">
           <h1>Affiliate Program for Pokiifuns Game</h1>
         </div>
         <div className="text-[18px]">
-          <p className="mb-2">
+          <p className="text-[18px] max-md:text-base space-y-3">
             We welcomes web and mobile app developers to drive traffic to our
             website and start earning money through your traffic.
           </p>
@@ -33,7 +33,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -42,7 +42,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-about" strategy="afterInteractive">
+            <Script id="ads-about" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
        
@@ -58,7 +58,7 @@ export default function page() {
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
               crossOrigin="anonymous"
-              strategy="afterInteractive"
+              strategy="lazyOnload"
             />
             <ins
               className="adsbygoogle"
@@ -67,7 +67,7 @@ export default function page() {
               data-ad-client="ca-pub-7456682660420004"
               data-ad-slot="3556369143"
             />
-            <Script id="ads-instructions" strategy="afterInteractive">
+            <Script id="ads-instructions" strategy="lazyOnload">
               {`(adsbygoogle = window.adsbygoogle || []).push({});`}
             </Script>
 
@@ -109,7 +109,7 @@ export default function page() {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
             crossOrigin="anonymous"
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
           <ins
             className="adsbygoogle"
@@ -119,7 +119,7 @@ export default function page() {
             data-ad-client="ca-pub-7456682660420004"
             data-ad-slot="6963570616"
           />
-          <Script id="ads-tags" strategy="afterInteractive">
+          <Script id="ads-tags" strategy="lazyOnload">
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}
           </Script>
       </div>

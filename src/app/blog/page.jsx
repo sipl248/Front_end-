@@ -38,7 +38,7 @@ export default async function Page({ searchParams }) {
         <div className="bg-hero-beam beam-2" />
       </div>
 
-      <div className="relative px-[20.2rem] media_resp max-lg:px-5 z-[1]">
+      <div className="relative media_resp max-w-[1400px] mx-auto px-5 md:px-10 lg:px-16 xl:px-24 2xl:px-32 z-[1]">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h1 className="text-3xl font-bold heading-glow">Latest Blogs</h1>
@@ -65,11 +65,10 @@ export default async function Page({ searchParams }) {
         <div className="grid grid-cols-3 gap-8 max-xxl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {posts.map((p) => (
             <a
-  key={p?._id}
-  href={`https://blogcafeai.com/welcome` || `https://blogcafeai.com/`}
-  className="group rounded-2xl overflow-hidden poster-container focus:outline-none focus:ring-2 focus:ring-[#DCF836] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
->
-              <div className="relative aspect-[5/3] bg-[#0b1622]">
+              key={p?._id}
+              href={`https://blogcafeai.com/welcome` || `https://blogcafeai.com/`}
+              className="group rounded-2xl overflow-hidden poster-container focus:outline-none focus:ring-2 focus:ring-[#DCF836] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]">
+              <div className="relative  aspect-[5/3] bg-[#0b1622] rounded-2xl overflow-hidden">
                 <Image
                   src={p?.bannerImageUrl || p?.imageUrls?.[0] || "/assets/pokii_game.webp"}
                   alt={p?.title || "Blog"}
@@ -107,8 +106,7 @@ export default async function Page({ searchParams }) {
             {page > 1 && (
               <Link
                 href={`/blog?page=${page - 1}${q ? `&search=${encodeURIComponent(q)}` : ""}`}
-                className="px-4 py-2 rounded-full border border-[#2a3644] text-[#abb7c4] hover:text-black hover:bg-[#DCF836] transition-colors"
-              >
+                className="px-4 py-2 rounded-full border border-[#2a3644] text-[#abb7c4] hover:text-black hover:bg-[#DCF836] transition-colors">
                 Prev
               </Link>
             )}
@@ -123,8 +121,7 @@ export default async function Page({ searchParams }) {
                     num === page
                       ? "bg-[#DCF836] text-black border-[#DCF836]"
                       : "border-[#2a3644] text-[#abb7c4] hover:text-black hover:bg-[#DCF836]"
-                  }`}
-                >
+                  }`}>
                   {num}
                 </Link>
               );
@@ -133,8 +130,7 @@ export default async function Page({ searchParams }) {
             {page < totalPages && (
               <Link
                 href={`/blog?page=${page + 1}${q ? `&search=${encodeURIComponent(q)}` : ""}`}
-                className="px-4 py-2 rounded-full border border-[#2a3644] text-[#abb7c4] hover:text-black hover:bg-[#DCF836] transition-colors"
-              >
+                className="px-4 py-2 rounded-full border border-[#2a3644] text-[#abb7c4] hover:text-black hover:bg-[#DCF836] transition-colors">
                 Next
               </Link>
             )}
@@ -149,5 +145,3 @@ export const metadata = {
   title: "Blogs | Pokiifuns",
   description: "Read handpicked blogs from BlogCafeAI.",
 };
-
-

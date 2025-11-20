@@ -25,15 +25,13 @@ const ADSENSE_ID =
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
-  description:
-    "Play free online games at Pokiifuns! Enjoy fun games to play online without downloading—cool web games, browser games, mobile games & more, all for free!",
+  description: "Play free online games at Pokiifuns! Enjoy fun games to play online without downloading—cool web games, browser games, mobile games & more, all for free!",
   authors: [{ name: "Pokiifuns Team", url: siteUrl }],
   generator: "Next.js 15",
   keywords: keyword,
   openGraph: {
     title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
-    description:
-      "Play free online games instantly at Pokiifuns! From action-packed adventures to relaxing puzzle games, enjoy top titles in your browser.",
+    description:"Play free online games instantly at Pokiifuns! From action-packed adventures to relaxing puzzle games, enjoy top titles in your browser.",
     url: siteUrl,
     siteName: "Pokiifuns",
     images: [
@@ -84,16 +82,27 @@ export const metadata = {
 };
 
 export const viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
 };
 
-export const themeColor = '#ffffff';
+export const themeColor = "#ffffff";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        {/* ⭐ Preconnect for Fonts → Faster LCP */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+
+        {/* ⭐ Main Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Nunito:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+
+        {/* ⭐ Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           strategy="afterInteractive"
@@ -130,12 +139,10 @@ export default function RootLayout({ children }) {
           sizes="180x180"
           href="/apple-icon-180x180.png"
         />
+
+        {/* ⭐ Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        {/* <meta
-          name="description"
-          content="Pokiifuns: Your ultimate gaming destination! Explore a vast collection of thrilling games, from action-packed adventures to brain-teasing puzzles. Dive into a world of fun and challenge your skills on Pokiifuns today!"
-        /> */}
 
         <meta
           name="google-site-verification"
@@ -172,12 +179,11 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript>
+
         <Canonical />
         <SchemaMarkup />
         <Header />
-
-        <div className=""> {children}</div>
-
+        <div>{children}</div>
         <Footer />
       </body>
     </html>

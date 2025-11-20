@@ -183,7 +183,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   const categoryBuckets = categoryDefs.map((cat) => ({ ...cat, items: categoryData[cat.key] || [] }));
 
   return (
-    <div className={`${compact ? 'pt-3' : 'pt-20'}`}>
+    <div className={`${compact ? 'pt-3' : 'pt-20'} px-4 sm:px-6`}>
       {/* pop-up ads */}
       {isClient && currentPath === "/" && (
         <div className="flex flex-col items-center gap-4 pt-5">
@@ -191,7 +191,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
             PLAY YOUR FAVORITE GAME
           </h1>
           <div className="w-full px-[20.2rem] media_resp max-lg:px-5">
-            <div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
               {["1000+ Games", "No install needed", "Play on any device", "Everything is free"].map((label, idx) => (
                 <div key={idx} className="group rounded-xl border border-[#DCF836]/35 bg-[rgba(7,18,28,0.55)] backdrop-blur-sm transition-colors duration-300 badge-glow">
                   <div className="flex items-center gap-2 px-3 py-2">
@@ -200,7 +200,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                         <path d="M20 6L9 17l-5-5" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
-                    <span className="text-[#DCF836] text-sm md:text-base font-semibold">{label}</span>
+                    <span className="text-[#DCF836] text-sm sm:text-base font-semibold">{label}</span>
                   </div>
                   {/* Ad for this block */}
                   {idx === 0 && (
@@ -244,7 +244,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
           <h1 className="text-white text-[30px] max-sm:text-[22px] font-semibold text-center">
             Explore All Games
           </h1>
-          <p className="text-white/70 text-center mt-1 text-sm md:text-base">
+          <p className="text-white/70 text-center mt-1 text-sm md:text-base max-md:text-sm">
             Search and discover 1000+ free games. No install, play instantly.
           </p>
           {/* GOOGLE ADS BELOW SECTION */}
@@ -415,7 +415,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       </div>
 
       {/* Game Grid */}
-      <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`}>
+      <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`} style={{ minHeight: '600px' }}>
         {loading ? (
           <div className="flex justify-center items-center w-full h-64 col-span-full">
             <div className="loader border-4 border-t-4 border-gray-200 h-12 w-12 rounded-full animate-spin border-t-[#DCF836]" />
