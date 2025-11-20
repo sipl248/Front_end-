@@ -366,31 +366,31 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                       <div>
                         {/* GOOGLE ADS UNDER CATEGORY */}
                         {cat.key === "Action" && (
-                          <div className="w-full flex justify-center">
+                          <div className="w-full flex justify-center ad-wrapper">
                             <AdSenseSlot slot="9418343560" format="autorelaxed" />
                           </div>
                         )}
                         {/* Puzzle */}
                         {cat.key === "Puzzle" && (
-                          <div className="w-full flex justify-center">
+                          <div className="w-full flex justify-center ad-wrapper">
                             <AdSenseSlot slot="1967228950" format="autorelaxed" />
                           </div>
                         )}
                         {/* Racing */}
                         {cat.key === "Racing" && (
-                          <div className="w-full flex justify-center">
+                          <div className="w-full flex justify-center ad-wrapper">
                             <AdSenseSlot slot="8898526861" format="autorelaxed" />
                           </div>
                         )}
                         {/* Hypercasual */}
                         {cat.key === "Hypercasual" && (
-                          <div className="w-full flex justify-center">
+                          <div className="w-full flex justify-center ad-wrapper">
                             <AdSenseSlot slot="7913690204" format="autorelaxed" />
                           </div>
                         )}
                         {/* Arcade */}
                         {cat.key === "Arcade" && (
-                          <div className="w-full flex justify-center">
+                          <div className="w-full flex justify-center ad-wrapper">
                             <AdSenseSlot slot="6600608530" format="autorelaxed" />
                           </div>
                         )}

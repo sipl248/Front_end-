@@ -464,9 +464,13 @@ export default function GameDetail({ gameDetails, name }) {
               className="text-white/95 text-lg leading-relaxed"
             />
           </div>
-          {/* GOOGLE ADS */}
-          <div className="w-full flex justify-center">
-            <AdSenseSlot slot="3556369143" format="autorelaxed" />
+          {/* GOOGLE ADS - In-Article */}
+          <div className="w-full flex justify-center ad-wrapper" style={{ textAlign: 'center' }}>
+            <AdSenseSlot 
+              slot="7994995968" 
+              format="fluid" 
+              layout="in-article"
+            />
           </div>
           <div className="rounded-2xl border border-[rgba(220,248,54,0.18)] bg-[rgba(7,18,28,0.55)] p-5">
             <h2 className="text-2xl font-semibold text-[#DCF836] mb-3">Instructions</h2>
@@ -475,7 +479,7 @@ export default function GameDetail({ gameDetails, name }) {
               className="text-white/95 text-lg leading-relaxed"
             />
           </div>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center ad-wrapper">
             <AdSenseSlot slot="3556369143" format="autorelaxed" />
           </div>
         </div>
@@ -493,7 +497,7 @@ export default function GameDetail({ gameDetails, name }) {
         </div>
         
         {/* GOOGLE ADS BELOW TAGS */}
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center ad-wrapper">
           <AdSenseSlot
             slot="6963570616"
             format="fluid"
