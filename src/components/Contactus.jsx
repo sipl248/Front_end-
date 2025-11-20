@@ -41,8 +41,8 @@ export default function Contactus() {
 
   return (
     <div className="bg-[#020C17] text-white -mt-20 max-md:px-4">
-      <div className="py-20  px-[20.2rem] media_resp  max-lg:px-5 max-md:px-0">
-        <AnimatedPoster className="h-[45vh]" title="CONTACT SUPPORT" />
+      <div className="py-20 px-[20.2rem] media_resp  max-lg:px-10 max-md:px-4">
+        <AnimatedPoster className="h-[45vh] max-md:h-[35vh]" title="CONTACT SUPPORT" />
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">
           <h1 className="mb-3">Contact US</h1>
           <div className="text-[18px] text-[#abb7c4] font-light">

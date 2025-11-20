@@ -10,7 +10,7 @@ export default function Footer() {
       <span className="footer-orb fo2" aria-hidden="true" />
       <span className="footer-orb fo3" aria-hidden="true" />
       <span className="footer-beam" aria-hidden="true" />
-      <div className="mx-auto w-full max-w-screen px-[20.2rem]   max-lg:px-5 border-t border-[#ffffff1c] text-[#abb7c4] text-[14px] ">
+      <div className="mx-auto w-full max-w-screen px-[20.2rem] max-lg:px-5 border-t border-[#ffffff1c] text-[#abb7c4] text-[14px] ">
         <div className="footer-grid max-md:flex-col">
           {/*img  */}
           <div>
@@ -36,7 +36,7 @@ export default function Footer() {
 
           {/* resourse */}
           <div className="Footer_footerheading__0emrr">
-            <h4 className="mb-6 text-lg capitalize font-semibold   text-white">
+            <h4 className="mb-6 text-lg capitalize font-semibold text-white">
               Resources
             </h4>
             <ul className="Footer_footertext__IQnDc nunito-fons">

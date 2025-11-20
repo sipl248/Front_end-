@@ -8,7 +8,7 @@ export const metadata = {
 export default function page() {
   return (
     <div className="bg-[#020C17] text-[#abb7c4] -mt-20 max-md:px-4">
-      <div className="py-20  px-[20.2rem]  max-lg:px-5 media_resp  max-md:px-0">
+      <div className="py-20  px-[20.2rem] media_resp max-2xl:px-25 max-xl:px-12 max-lg:px-8 max-md:px-4">
         <AnimatedPoster className="h-[45vh]" title="ABOUT POKIIFUNS" />
         {/* <AdsterraAd keyId="33c38de2503eaee4251a5962d435100d" /> */}
         <div className="mt-8 mb-2 font-semibold text-[32px] text-[#4280bf]">

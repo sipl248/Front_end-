@@ -239,11 +239,11 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
 
       {/* All Games title (only on /all) */}
       {isClient && window.location.pathname === "/all" && (
-        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-2">
-          <h1 className="text-white text-[30px] max-sm:text-[22px] font-semibold text-center">
+        <div className="px-[20.2rem] media_resp max-2xl:px-16 max-xl:px-12 max-lg:px-8 max-md:px-4 mt-2">
+          <h1 className="text-white text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px] font-semibold text-center">
             Explore All Games
           </h1>
-          <p className="text-white/70 text-center mt-1 text-sm md:text-base">
+          <p className="text-white/70 text-center mt-1 text-sm md:text-base max-md:text-sm">
             Search and discover 1000+ free games. No install, play instantly.
           </p>
           {/* GOOGLE ADS BELOW SECTION */}

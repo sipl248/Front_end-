@@ -199,19 +199,19 @@ export default function GameDetail({ gameDetails, name }) {
 
   return (
     <div className={`min-h-screen -mt-20 text-white bg-[url(https://pokiigame.com/_next/static/media/footer.5bdee055.jpg)] h-auto bg-no-repeat bg-fixed overflow-x-hidden`}>
-      <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
-        <div className="relative flex justify-between items-center sm:border-transparent  max-md:flex-col max-lg:gap-10 max-xl:gap-4 max-sm:!gap-0">
+      <div className="py-20  px-[20.2rem] max-2xl:px-40 max-xl:px-24 max-lg:px-10 max-md:px-5 max-sm:px-3">
+        <div className="relative flex justify-between items-center  max-lg:flex-col max-lg:gap-8 max-md:gap-6 max-sm:gap-4">
           <Image
             src={gameDetails?.thumb || "/assets/pokii_game.webp"}
             alt="background-poster"
-            className="absolute inset-0 w-full h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] object-cover rounded-[20px] max-sm:rounded-none"
+            className="absolute inset-0 w-full h-[580px] max-xl:h-[480px] max-lg:h-[420px] max-md:h-[340px] max-sm:h-[260px] object-cover rounded-[20px] max-sm:rounded-none"
             width={600}
             height={600}
           />
           <div className="absolute inset-0 h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] rounded-[20px] max-sm:rounded-none bg-[linear-gradient(180deg,rgba(2,12,23,0.2)_0%,rgba(2,12,23,0.75)_55%,rgba(2,12,23,0.95)_100%)]"></div>
 
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
-            <h1 className="text-[56px] max-xl:text-[44px] max-md:text-[32px] font-extrabold text-center tracking-wide mb-3">
+            <h1 className="text-[56px] max-xl:text-[44px]  max-lg:text-[36px] max-md:text-[28px] max-sm:text-[22px] font-extrabold text-center tracking-wide mb-3">
               <span className="bg-gradient-to-r from-[#DCF836] via-white to-[#DCF836] bg-clip-text text-transparent" style={{ backgroundSize: '200% 200%', animation: 'shine 6s linear infinite' }}>
               {gameDetails?.title || name}
               </span>
@@ -223,11 +223,13 @@ export default function GameDetail({ gameDetails, name }) {
                 className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
                 width={200}
                 height={200}
+                priority                  
+                fetchPriority="high"    
+                loading="eager"
             />
             <button
               onClick={() => setShowIframe(true)}
-                className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer"
-            >
+                className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer">
               PLAY GAME
                 <span className="absolute inset-0 rounded-[60px]" style={{ boxShadow: '0 0 0 0 rgba(220,248,54,0.35)', animation: 'ring 2.4s ease-in-out infinite' }} />
             </button>
@@ -281,8 +283,7 @@ export default function GameDetail({ gameDetails, name }) {
                         onClick={() => {
                           try { screen.orientation?.lock?.('landscape'); } catch {}
                         }}
-                        className="mt-2 px-4 py-2 rounded-full bg-[#DCF836] text-black text-sm font-semibold active:scale-95"
-                      >
+                        className="mt-2 px-4 py-2 rounded-full bg-[#DCF836] text-black text-sm font-semibold active:scale-95">
                         Try landscape now
                       </button>
                     </div>
@@ -388,14 +389,12 @@ export default function GameDetail({ gameDetails, name }) {
                               setRetryCount(prev => prev + 1);
                               setIframeLoaded(false);
                             }}
-                            className="px-4 py-2 bg-[#DCF836] text-black rounded-lg font-semibold hover:bg-[#c4e030] transition-colors retry-button"
-                          >
+                            className="px-4 py-2 bg-[#DCF836] text-black rounded-lg font-semibold hover:bg-[#c4e030] transition-colors retry-button">
                             Retry Game
                           </button>
                           <button
                             onClick={handleCloseModal}
-                            className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-500 transition-colors"
-                          >
+                            className="px-4 py-2 bg-gray-600 text-white rounded-lg font-semibold hover:bg-gray-500 transition-colors">
                             Close
                           </button>
                         </div>
@@ -416,8 +415,7 @@ export default function GameDetail({ gameDetails, name }) {
                             try { iframeRef.current?.contentWindow?.focus?.(); } catch {}
                           }}
                           className="px-6 py-3 bg-[#DCF836] text-black rounded-full font-semibold active:scale-95 transition-transform"
-                          aria-label="Activate game"
-                        >
+                          aria-label="Activate game">
                           Start Game
                         </button>
                       </div>
@@ -444,8 +442,7 @@ export default function GameDetail({ gameDetails, name }) {
                     }}
                     aria-label="Close game"
                     className="absolute z-[10000] pointer-events-auto cursor-pointer top-4 right-4 bg-red-600 text-white w-10 h-10 flex justify-center items-center rounded-full text-base shadow-lg active:scale-95"
-                    style={{ WebkitTapHighlightColor: 'transparent', touchAction: 'manipulation' }}
-                  >
+                    style={{ WebkitTapHighlightColor: 'transparent', touchAction: 'manipulation' }}>
                     <IoClose />
                   </button>
                 </div>
