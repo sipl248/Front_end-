@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import Script from "next/script";
 import axios from "axios";
-import { useEffect, useState, useCallback, Suspense } from "react";
+import { useEffect, useState, useCallback, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { titleToSlug } from "@/utils/urlUtils";
+import AdSenseSlot from "@/components/AdSenseSlot";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
   ssr: false,
 });
@@ -28,9 +28,12 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [currentPath, setCurrentPath] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
   const [categoryData, setCategoryData] = useState({});
   const [loadingCategories, setLoadingCategories] = useState(false);
+  const [shouldLoadCategories, setShouldLoadCategories] = useState(false);
+  const categorySectionRef = useRef(null);
 
   // Debounce search input
   useEffect(() => {
@@ -42,13 +45,15 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
 
   useEffect(() => {
     setIsClient(true);
+    if (typeof window !== "undefined") {
+      setCurrentPath(window.location.pathname);
+    }
   }, []);
 
   const getGames = useCallback(async (pageNum = 1, searchValue = "", category = "", append = false) => {
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-      console.log('baseUrl :>> ', baseUrl);
       if (!baseUrl) {
         console.error("NEXT_PUBLIC_BASE_API_URL is not defined");
         setLoading(false);
@@ -95,8 +100,32 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   ];
 
   useEffect(() => {
+    if (!isClient) return;
+    if (currentPath !== "/") return;
+    if (shouldLoadCategories) return;
+    const node = categorySectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry?.isIntersecting) {
+          setShouldLoadCategories(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [isClient, currentPath, shouldLoadCategories]);
+
+  useEffect(() => {
+    if (!shouldLoadCategories) return;
+    if (currentPath !== "/") return;
+
     const fetchCategoryBlocks = async () => {
-      if (typeof window === 'undefined' || window.location.pathname !== '/') return;
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
       if (!baseUrl) return;
       setLoadingCategories(true);
@@ -118,17 +147,17 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
         setLoadingCategories(false);
       }
     };
+
     fetchCategoryBlocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [shouldLoadCategories, currentPath]);
 
   const handleNextPage = () => {
     if (hasNext && !loading) {
       const nextPage = page + 1;
       setPage(nextPage);
-      // On homepage we use Load more (append). On other pages, standard pagination
-      const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
-      getGames(nextPage, debouncedSearch, activeCategory, isHome);
+      const append = isClient && currentPath === "/";
+      getGames(nextPage, debouncedSearch, activeCategory, append);
     }
   };
 
@@ -156,7 +185,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   return (
     <div className={`${compact ? 'pt-3' : 'pt-20'} px-4 sm:px-6`}>
       {/* pop-up ads */}
-      {isClient && window.location.pathname === "/" && (
+      {isClient && currentPath === "/" && (
         <div className="flex flex-col items-center gap-4 pt-5">
           <h1 className="text-[36px] max-sm:text-[26px] font-extrabold text-center heading-glow">
             PLAY YOUR FAVORITE GAME
@@ -175,60 +204,32 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                   </div>
                   {/* Ad for this block */}
                   {idx === 0 && (
-                    <>
-                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="lazyOnload"/>
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="6963570616"></ins>
-                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                    </>
+                    <AdSenseSlot
+                      slot="6963570616"
+                      format="fluid"
+                      layoutKey="-gx-5+29-24-33"
+                    />
                   )}
                   {idx === 1 && (
-                    <>
-                     <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004" crossOrigin="anonymous" strategy="lazyOnload"/>
-                      <ins className="adsbygoogle" style={{ display: "block" }} data-ad-format="fluid" data-ad-layout-key="-gx-5+29-24-33" data-ad-client="ca-pub-7456682660420004" data-ad-slot="1807995596"></ins>
-                      <Script id={`ads-${idx}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                    </>
+                    <AdSenseSlot
+                      slot="1807995596"
+                      format="fluid"
+                      layoutKey="-gx-5+29-24-33"
+                    />
                   )}
                   {idx === 2 && (
-                    <>
-                      <Script
-                        async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                        crossOrigin="anonymous"
-                        strategy="lazyOnload"
-                      />
-                      <ins
-                        className="adsbygoogle"
-                        style={{ display: "block" }}
-                        data-ad-format="fluid"
-                        data-ad-layout-key="-gx-5+29-24-33"
-                        data-ad-client="ca-pub-7456682660420004"
-                        data-ad-slot="3619221978"
-                      ></ins>
-                      <Script id={`ads-${idx}`}>{`
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                      `}</Script>
-                    </>
+                    <AdSenseSlot
+                      slot="3619221978"
+                      format="fluid"
+                      layoutKey="-gx-5+29-24-33"
+                    />
                   )}
                   {idx === 3 && (
-                    <>
-                      <Script
-                        async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                        crossOrigin="anonymous"
-                        strategy="lazyOnload"
-                      />
-                      <ins
-                        className="adsbygoogle"
-                        style={{ display: "block" }}
-                        data-ad-format="fluid"
-                        data-ad-layout-key="-gx-5+29-24-33"
-                        data-ad-client="ca-pub-7456682660420004"
-                        data-ad-slot="4145835583"
-                      ></ins>
-                      <Script id={`ads-${idx}`}>{`
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                      `}</Script>
-                    </>
+                    <AdSenseSlot
+                      slot="4145835583"
+                      format="fluid"
+                      layoutKey="-gx-5+29-24-33"
+                    />
                   )}
                 </div>
               ))}
@@ -238,38 +239,23 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       )}
 
       {/* All Games title (only on /all) */}
-      {isClient && window.location.pathname === "/all" && (
-        <div className="px-[20.2rem] media_resp max-2xl:px-16 max-xl:px-12 max-lg:px-8 max-md:px-4 mt-2">
-          <h1 className="text-white text-[30px] max-lg:text-[26px] max-md:text-[22px] max-sm:text-[20px] font-semibold text-center">
+      {isClient && currentPath === "/all" && (
+        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-2">
+          <h1 className="text-white text-[30px] max-sm:text-[22px] font-semibold text-center">
             Explore All Games
           </h1>
           <p className="text-white/70 text-center mt-1 text-sm md:text-base max-md:text-sm">
             Search and discover 1000+ free games. No install, play instantly.
           </p>
           {/* GOOGLE ADS BELOW SECTION */}
-          <div className="w-full flex justify-center mt-6">
-            <Script
-                async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                crossOrigin="anonymous"
-                strategy="lazyOnload"
-              />
-              <ins
-                className="adsbygoogle"
-                style={{ display: "block" }}
-                data-ad-format="autorelaxed"
-                data-ad-client="ca-pub-7456682660420004"
-                data-ad-slot="5555120178"
-              ></ins>
-              <Script id="auto-relaxed-ad" strategy="lazyOnload">
-                {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-              </Script>
+          <div className="w-full flex justify-center">
+            <AdSenseSlot slot="5555120178" format="autorelaxed" />
           </div>
         </div>
       )}
 
       {/* Search Bar (controlled via showSearch) */}
-      {showSearch && isClient && window.location.pathname !== "/" && (
+      {showSearch && isClient && currentPath !== "/" && (
       <div className="flex justify-center mt-6">
         <div className="relative w-full max-w-[720px] px-5">
           <div className="absolute inset-0 rounded-2xl bg-[linear-gradient(180deg,rgba(220,248,54,0.08),rgba(220,248,54,0.02))] blur-[2px] -z-[1]" />
@@ -314,161 +300,119 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       ) : null}
 
       {/* Popular Categories with See more (min 20 items) */}
-      {isClient && window.location.pathname === "/" && !loadingCategories && (
-        <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
-          <div className="font-semibold text-2xl mb-1 heading-sub">Popular Categories</div>
-          <div className="line-glow mb-3" />
-          <div className="flex flex-col gap-4">
-            {categoryBuckets.map((cat) => (
-              cat.items.length >= 20 ? (
-                <div key={cat.key} className="basis-full">
-                  <div className="flex items-center justify-between">
-                    <div className="text-[#DCF836] font-semibold mt-4 mb-2">{cat.label}</div>
-                    <button
-                      className="text-sm text-white/90 underline hover:text-[#DCF836]"
-                      onClick={() => router.push(`/all?category=${encodeURIComponent(cat.key)}`)}
-                    >
-                      See more
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
-                    {cat.items.slice(0, 20).map((item, index) => (
-                      <div
-                        onClick={(e) => handleClick(e, item)}
-                        onKeyDown={(e) => { if (e.key === 'Enter') handleClick(e, item); }}
-                        role="link"
-                        tabIndex={0}
-                        aria-label={item?.title || 'Open game'}
-                        key={`${cat.key}-${index}`}
-                        className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
-                      >
-                        <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
-                          <Image
-                            width={200}
-                            height={200}
-                            alt="game-poster"
-                            className="w-full object-cover"
-                            src={item?.thumb || "/assets/pokii_game.webp"}
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
-                          <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
-                            <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
-                              <div
-                                className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
-                                title={item?.title}
-                                style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                              >
-                                {item?.title}
+      <div ref={categorySectionRef}>
+        {isClient && currentPath === "/" && shouldLoadCategories && (
+          loadingCategories ? (
+            <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6 animate-pulse space-y-4">
+              <div className="h-6 w-48 bg-[#0b1622] rounded-full" />
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                {Array.from({ length: 6 }).map((_, idx) => (
+                  <div key={idx} className="h-32 bg-[#0b1622] rounded-2xl" />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6">
+              <div className="font-semibold text-2xl mb-1 heading-sub">Popular Categories</div>
+              <div className="line-glow mb-3" />
+              <div className="flex flex-col gap-4">
+                {categoryBuckets.map((cat) => (
+                  cat.items.length >= 20 ? (
+                    <div key={cat.key} className="basis-full">
+                      <div className="flex items-center justify-between">
+                        <div className="text-[#DCF836] font-semibold mt-4 mb-2">{cat.label}</div>
+                        <button
+                          className="text-sm text-white/90 underline hover:text-[#DCF836]"
+                          onClick={() => router.push(`/all?category=${encodeURIComponent(cat.key)}`)}
+                        >
+                          See more
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                        {cat.items.slice(0, 20).map((item, index) => (
+                          <div
+                            onClick={(e) => handleClick(e, item)}
+                            onKeyDown={(e) => { if (e.key === 'Enter') handleClick(e, item); }}
+                            role="link"
+                            tabIndex={0}
+                            aria-label={item?.title || 'Open game'}
+                            key={`${cat.key}-${index}`}
+                            className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
+                          >
+                            <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
+                              <Image
+                                width={200}
+                                height={200}
+                                alt="game-poster"
+                                className="w-full object-cover"
+                                src={item?.thumb || "/assets/pokii_game.webp"}
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
+                              <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
+                                <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
+                                  <div
+                                    className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
+                                    title={item?.title}
+                                    style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+                                  >
+                                    {item?.title}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <div>
-                    {/* GOOGLE ADS UNDER CATEGORY */}
-                    {cat.key === "Action" && (
-                      <div className="w-full mt-4 flex justify-center">
-                        <Script
-                          async
-                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                          crossOrigin="anonymous"
-                          strategy="lazyOnload"
-                        />
-                        <ins
-                          className="adsbygoogle"
-                          style={{ display: "block" }}
-                          data-ad-format="autorelaxed"
-                          data-ad-client="ca-pub-7456682660420004"
-                          data-ad-slot="9418343560"
-                        ></ins>
-                        <Script id="ads-action">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                      <div>
+                        {/* GOOGLE ADS UNDER CATEGORY */}
+                        {cat.key === "Action" && (
+                          <div className="w-full flex justify-center ad-wrapper">
+                            <AdSenseSlot slot="7994995968" format="fluid" layout="in-article" />
+                          </div>
+                        )}
+                        {/* Puzzle */}
+                        {cat.key === "Puzzle" && (
+                          <div className="w-full flex justify-center ad-wrapper">
+                            <AdSenseSlot slot="7994995968" format="fluid" layout="in-article" />
+                          </div>
+                        )}
+                        {/* Racing */}
+                        {cat.key === "Racing" && (
+                          <div className="w-full flex justify-center ad-wrapper">
+                            <AdSenseSlot slot="7994995968" format="fluid" layout="in-article" />
+                          </div>
+                        )}
+                        {/* Hypercasual */}
+                        {cat.key === "Hypercasual" && (
+                          <div className="w-full flex justify-center ad-wrapper">
+                            <AdSenseSlot slot="7994995968" format="fluid" layout="in-article" />
+                          </div>
+                        )}
+                        {/* Arcade */}
+                        {cat.key === "Arcade" && (
+                          <div className="w-full flex justify-center ad-wrapper">
+                            <AdSenseSlot slot="7994995968" format="fluid" layout="in-article" />
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {/* Puzzle */}
-                    {cat.key === "Puzzle" && (
-                      <div className="w-full mt-4 flex justify-center">
-                        <Script
-                          async
-                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                          crossOrigin="anonymous"
-                          strategy="lazyOnload"
-                        />
-                        <ins
-                          className="adsbygoogle"
-                          style={{ display: "block" }}
-                          data-ad-format="autorelaxed"
-                          data-ad-client="ca-pub-7456682660420004"
-                          data-ad-slot="1967228950"
-                        ></ins>
-                        <Script id="ads-puzzle">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                      </div>
-                    )}
-                    {/* Racing */}
-                    {cat.key === "Racing" && (
-                      <div className="w-full mt-4 flex justify-center">
-                       <Script
-                          async
-                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                          crossOrigin="anonymous"
-                          strategy="lazyOnload"
-                        />
-                        <ins
-                          className="adsbygoogle"
-                          style={{ display: "block" }}
-                          data-ad-format="autorelaxed"
-                          data-ad-client="ca-pub-7456682660420004"
-                          data-ad-slot="8898526861"
-                        ></ins>
-                        <Script id="ads-racing">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                      </div>
-                    )}
-                    {/* Hypercasual */}
-                    {cat.key === "Hypercasual" && (
-                      <div className="w-full mt-4 flex justify-center">
-                        <Script
-                          async
-                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                          crossOrigin="anonymous"
-                          strategy="lazyOnload"
-                        />
-                        <ins
-                          className="adsbygoogle"
-                          style={{ display: "block" }}
-                          data-ad-format="autorelaxed"
-                          data-ad-client="ca-pub-7456682660420004"
-                          data-ad-slot="7913690204"
-                        ></ins>
-                        <Script id="ads-hypercasual">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                      </div>
-                    )}
-                    {/* Arcade */}
-                    {cat.key === "Arcade" && (
-                      <div className="w-full mt-4 flex justify-center">
-                        <Script
-                          async
-                          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-                          crossOrigin="anonymous"
-                          strategy="lazyOnload"
-                        />
-                        <ins
-                          className="adsbygoogle"
-                          style={{ display: "block" }}
-                          data-ad-format="autorelaxed"
-                          data-ad-client="ca-pub-7456682660420004"
-                          data-ad-slot="6600608530"
-                        ></ins>
-                        <Script id="ads-arcade">{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : null
-            ))}
+                    </div>
+                  ) : null
+                ))}
+              </div>
+            </div>
+          )
+        )}
+        {isClient && currentPath === "/" && !shouldLoadCategories && (
+          <div className="px-[20.2rem] media_resp max-lg:px-5 mt-6 animate-pulse space-y-4">
+            <div className="h-6 w-48 bg-[#0b1622] rounded-full" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="h-32 bg-[#0b1622] rounded-2xl" />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Game Grid */}
       <div className={`game_container ${compact ? 'pt-3' : 'pt-[32px]'} px-[20.2rem] media_resp max-lg:px-5`} style={{ minHeight: '600px' }}>
@@ -515,29 +459,17 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
         )}
       </div>
       {/* GOOGLE ADS ABOVE PAGINATION */}
-      <div className="w-full flex justify-center mb-4">
-       <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
+      <div className="w-full flex justify-center">
+        <AdSenseSlot
+          slot="1949975132"
+          format="autorelaxed"
         />
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-format="autorelaxed"
-          data-ad-client="ca-pub-7456682660420004"
-          data-ad-slot="1949975132"
-        ></ins>
-        <Script id="ads-pagination" strategy="lazyOnload">
-          {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-        </Script>
       </div>
 
       {/* Pagination / Load more */}
       {!disablePagination && (() => {
-        const isHome = typeof window !== 'undefined' && window.location.pathname === '/';
-        if (isHome) {
+        const isHomeView = isClient && currentPath === "/";
+        if (isHomeView) {
           return (
             <div className="flex justify-center items-center py-8">
               <button

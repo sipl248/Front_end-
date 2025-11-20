@@ -16,9 +16,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.pokiifuns.com/";
-
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.pokiifuns.com/";
+const GA_TRACKING_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-FGE8FDPWWR";
+const ADSENSE_ID =
+  process.env.NEXT_PUBLIC_ADSENSE_ID || "ca-pub-7456682660420004";
 export const metadata = {
   metadataBase: new URL(siteUrl),
   title: "Free Online Games at Pokiifuns | Play Fun Web Games Now",
@@ -101,37 +104,73 @@ export default function RootLayout({ children }) {
 
         {/* ⭐ Google Analytics */}
         <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-FGE8FDPWWR"
-        ></Script>
-        <Script id="google-analytics">
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-FGE8FDPWWR');
+            gtag('config', '${GA_TRACKING_ID}');
           `}
         </Script>
-
-        {/* ⭐ Google AdSense (main, no duplicates) */}
         <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7456682660420004"
+          id="adsense-primary"
+          strategy="lazyOnload"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
           crossOrigin="anonymous"
+        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-icon-180x180.png"
         />
 
         {/* ⭐ Icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* ⭐ SEO Meta */}
         <meta
           name="google-site-verification"
           content="e5ZBxpONbcJKU43Gd6trEKK_lenX9e-rYcAJ8Yqp6uQ"
         />
+        <meta
+          name="google-adsense-account"
+          content="ca-pub-7456682660420004"
+        ></meta>
+        <Script
+          id="adsense-secondary"
+          strategy="lazyOnload"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3785390617142950"
+          crossOrigin="anonymous"
+        />
+        {/* <script
+          src="https://cmp.gatekeeperconsent.com/min.js"
+          data-cfasync="false"
+        ></script>
+        <script
+          src="https://the.gatekeeperconsent.com/cmp.min.js"
+          data-cfasync="false"
+        ></script> */}
       </head>
-
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        {/* ✅ GTM fallback for non-JS users */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-5FC7Z8WT"
