@@ -65,7 +65,43 @@ body {
 }
 
 /* Ensure gameplay surface captures gestures on mobile */
-.modal-open iframe { touch-action: none; -ms-touch-action: none; }
+.modal-open iframe { 
+  touch-action: none; 
+  -ms-touch-action: none;
+}
+
+/* Smooth gameplay optimizations */
+.smooth-game-iframe {
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  
+  /* Performance optimizations */
+  image-rendering: optimizeSpeed;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Prevent layout shifts */
+  contain: layout style paint;
+  isolation: isolate;
+  
+  /* Smooth rendering */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  
+  /* Prevent unwanted interactions */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Optimize compositing */
+  position: relative;
+  z-index: 10;
+}
 
 /* Landscape emulation for devices/browsers that can't lock orientation (e.g., iOS Safari) */
 .emulate-landscape {
@@ -146,6 +182,18 @@ body {
     will-change: transform !important;
     backface-visibility: hidden !important;
     -webkit-backface-visibility: hidden !important;
+    /* Additional mobile performance */
+    image-rendering: optimizeSpeed !important;
+    text-rendering: optimizeSpeed !important;
+    contain: layout style paint !important;
+    isolation: isolate !important;
+    /* Prevent zoom and selection */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    /* Smooth scrolling */
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: none !important;
   }
   
   /* Ensure all interactive elements in game modal are touchable on mobile */

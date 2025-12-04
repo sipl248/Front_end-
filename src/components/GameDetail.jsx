@@ -174,6 +174,16 @@ export default function GameDetail({ gameDetails, name }) {
     } else {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
+      
+      // Restore body styles (especially for mobile)
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+      document.body.style.overscrollBehavior = '';
+      document.body.style.webkitOverflowScrolling = '';
+      document.body.style.willChange = '';
+      document.body.style.transform = '';
+      
       // restore hidden ads if any
       hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
       hiddenAdsRef.current = [];
@@ -188,6 +198,16 @@ export default function GameDetail({ gameDetails, name }) {
     return () => {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
+      
+      // Restore body styles
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+      document.body.style.overscrollBehavior = '';
+      document.body.style.webkitOverflowScrolling = '';
+      document.body.style.willChange = '';
+      document.body.style.transform = '';
+      
       hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
       hiddenAdsRef.current = [];
       observerRef.current?.disconnect?.();
@@ -294,7 +314,7 @@ export default function GameDetail({ gameDetails, name }) {
                     key={`game-${retryCount}`}
                     ref={iframeRef}
                     src={gameDetails?.url || "#"}
-                    className={`relative z-[10] w-full h-full rounded-none ${isMobile ? 'mobile-game-iframe' : ''}`}
+                    className={`relative z-[10] w-full h-full rounded-none ${isMobile ? 'mobile-game-iframe' : ''} smooth-game-iframe`}
                     allow="accelerometer; autoplay; clipboard-read; clipboard-write; encrypted-media; fullscreen; gamepad; gyroscope; picture-in-picture; xr-spatial-tracking"
                     allowFullScreen
                     loading="eager"
@@ -302,22 +322,86 @@ export default function GameDetail({ gameDetails, name }) {
                     mozallowfullscreen="true"
                     playsInline
                     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-top-navigation-by-user-activation"
+                    style={{
+                      border: 'none',
+                      outline: 'none',
+                      background: '#000',
+                      willChange: 'transform',
+                      transform: 'translateZ(0)',
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                      WebkitTransform: 'translateZ(0)',
+                      isolation: 'isolate',
+                      contain: 'layout style paint',
+                    }}
                     onLoad={() => {
                       setIframeLoaded(true);
                       setGameError(null);
                       setGameReady(true);
+                      
+                      // Performance optimizations for smoother gameplay
+                      try {
+                        const iframe = iframeRef.current;
+                        if (iframe) {
+                          // Force hardware acceleration
+                          iframe.style.transform = 'translate3d(0, 0, 0)';
+                          iframe.style.webkitTransform = 'translate3d(0, 0, 0)';
+                          iframe.style.willChange = 'transform';
+                          iframe.style.backfaceVisibility = 'hidden';
+                          iframe.style.webkitBackfaceVisibility = 'hidden';
+                          iframe.style.isolation = 'isolate';
+                          
+                          // Optimize rendering
+                          iframe.style.imageRendering = 'optimizeSpeed';
+                          iframe.style.textRendering = 'optimizeSpeed';
+                          
+                          // Prevent layout shifts
+                          iframe.style.contain = 'layout style paint';
+                        }
+                      } catch {}
+                      
+                      // Performance optimizations for all devices
+                      try {
+                        // Optimize document rendering
+                        document.body.style.willChange = 'auto';
+                        document.body.style.transform = 'translateZ(0)';
+                        
+                        // Reduce repaints
+                        const style = document.createElement('style');
+                        style.textContent = `
+                          * {
+                            -webkit-font-smoothing: antialiased;
+                            -moz-osx-font-smoothing: grayscale;
+                            text-rendering: optimizeSpeed;
+                          }
+                        `;
+                        document.head.appendChild(style);
+                      } catch {}
                       
                       // Mobile-specific optimizations
                       if (isMobile) {
                         // Prevent scroll bounce on iOS
                         document.body.style.overscrollBehavior = 'none';
                         document.body.style.webkitOverflowScrolling = 'touch';
+                        document.body.style.position = 'fixed';
+                        document.body.style.width = '100%';
+                        document.body.style.height = '100%';
                         
                         // Optimize touch handling
                         try {
-                          iframeRef.current?.style?.setProperty('touch-action', 'manipulation', 'important');
-                          iframeRef.current?.style?.setProperty('-webkit-touch-callout', 'none', 'important');
-                          iframeRef.current?.style?.setProperty('-webkit-user-select', 'none', 'important');
+                          const iframe = iframeRef.current;
+                          if (iframe) {
+                            iframe.style.setProperty('touch-action', 'manipulation', 'important');
+                            iframe.style.setProperty('-webkit-touch-callout', 'none', 'important');
+                            iframe.style.setProperty('-webkit-user-select', 'none', 'important');
+                            iframe.style.setProperty('user-select', 'none', 'important');
+                            iframe.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
+                            
+                            // Force GPU acceleration
+                            iframe.style.setProperty('transform', 'translate3d(0, 0, 0)', 'important');
+                            iframe.style.setProperty('-webkit-transform', 'translate3d(0, 0, 0)', 'important');
+                            iframe.style.setProperty('will-change', 'transform', 'important');
+                          }
                         } catch {}
                         
                         // Ensure all interactive elements are touchable
@@ -357,17 +441,82 @@ export default function GameDetail({ gameDetails, name }) {
                         iframeRef.current._touchInterval = interval;
                       }
                       
+                      // Performance: Optimize iframe content rendering
                       try {
-                        // Give the iframe focus for keyboard/touch controls
-                        iframeRef.current?.contentWindow?.focus?.();
+                        const iframe = iframeRef.current;
+                        if (iframe && iframe.contentWindow) {
+                          // Request animation frame optimization
+                          const win = iframe.contentWindow;
+                          if (win.requestAnimationFrame) {
+                            // Throttle to 60fps for smoother performance
+                            let lastFrame = 0;
+                            const originalRAF = win.requestAnimationFrame;
+                            win.requestAnimationFrame = function(callback) {
+                              const now = performance.now();
+                              const timeToCall = Math.max(0, 16 - (now - lastFrame));
+                              const id = setTimeout(() => {
+                                lastFrame = now + timeToCall;
+                                callback(lastFrame);
+                              }, timeToCall);
+                              return id;
+                            };
+                          }
+                          
+                          // Optimize document rendering inside iframe
+                          try {
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            if (iframeDoc) {
+                              iframeDoc.body.style.willChange = 'auto';
+                              iframeDoc.body.style.transform = 'translateZ(0)';
+                              
+                              // Reduce layout thrashing
+                              iframeDoc.body.style.contain = 'layout style paint';
+                            }
+                          } catch {}
+                        }
                       } catch {}
                       
                       try {
-                        // Best-effort fullscreen request on the container so overlay controls remain visible
+                        // Give the iframe focus for keyboard/touch controls
+                        iframeRef.current?.contentWindow?.focus?.();
+                        
+                        // Ensure focus stays on iframe for better input handling
+                        setTimeout(() => {
+                          try {
+                            iframeRef.current?.contentWindow?.focus?.();
+                          } catch {}
+                        }, 100);
+                      } catch {}
+                      
+                      // Performance: Optimize modal container
+                      try {
                         const el = modalContainerRef.current;
-                        if (el && document.fullscreenElement == null) {
-                          const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-                          if (typeof req === 'function') req.call(el);
+                        if (el) {
+                          // Force hardware acceleration on container
+                          el.style.willChange = 'transform';
+                          el.style.transform = 'translateZ(0)';
+                          el.style.backfaceVisibility = 'hidden';
+                          el.style.webkitBackfaceVisibility = 'hidden';
+                          
+                          // Best-effort fullscreen request
+                          if (document.fullscreenElement == null) {
+                            const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+                            if (typeof req === 'function') {
+                              req.call(el).catch(() => {
+                                // Silently fail if fullscreen not available
+                              });
+                            }
+                          }
+                        }
+                      } catch {}
+                      
+                      // Performance: Reduce browser reflows
+                      try {
+                        // Use requestIdleCallback if available for non-critical updates
+                        if (window.requestIdleCallback) {
+                          requestIdleCallback(() => {
+                            // Any non-critical optimizations can go here
+                          }, { timeout: 2000 });
                         }
                       } catch {}
                     }}
