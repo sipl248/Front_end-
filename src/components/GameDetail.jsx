@@ -250,8 +250,8 @@ export default function GameDetail({ gameDetails, name }) {
                     <Image src="/assets/pokii_game.webp" alt="Pokiifuns" width={56} height={36} className="h-9 w-auto rounded-md shadow-[0_0_20px_rgba(220,248,54,0.45)] animate-[glowPulse_2.2s_ease-in-out_infinite]" />
                   </div>
 
-                  {/* bottom-right horizontal site tag (hidden on mobile) */}
-                  <div className="hidden md:block pointer-events-none absolute right-3 bottom-3 z-[30]">
+                  {/* top-left horizontal site tag (hidden on mobile) */}
+                  <div className="hidden md:block pointer-events-none absolute left-3 top-3 z-[30]">
                     <div className="px-3 py-1 rounded-full border border-[#DCF836] text-[#DCF836] text-xs font-semibold tracking-wider bg-[rgba(7,18,28,0.45)] shadow-[0_0_16px_rgba(220,248,54,0.35)] animate-[tagSlideIn_650ms_ease-out_1,tagFloat_6s_ease-in-out_infinite_800ms]">
                       Pokiifuns.com
                     </div>
