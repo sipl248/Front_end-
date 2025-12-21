@@ -69,7 +69,30 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       }
       const response = await axios.get(url);
       const newGames = response?.data?.data?.games || [];
-      setGames((prev) => (append ? [...prev, ...newGames] : newGames));
+      
+      // Filter out mobile-incompatible games on mobile devices
+      const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
+      const filteredGames = isMobileDevice 
+        ? newGames.filter(game => {
+            // Filter out games that are known to not work on mobile
+            const title = (game?.title || '').toLowerCase();
+            const category = (game?.category || '').toLowerCase();
+            const url = (game?.url || '').toLowerCase();
+            
+            // Filter Unity WebGL games that explicitly don't support mobile
+            if (url.includes('unity') && (title.includes('webgl') || url.includes('webgl'))) {
+              // Check if game explicitly says it doesn't support mobile
+              if (title.includes('desktop only') || title.includes('pc only')) {
+                return false;
+              }
+            }
+            
+            // Keep all other games - let them try to load
+            return true;
+          })
+        : newGames;
+      
+      setGames((prev) => (append ? [...prev, ...filteredGames] : filteredGames));
       setHasNext(response?.data?.data?.pagination?.hasNext);
       setHasPrev(pageNum > 1);
     } catch (error) {
@@ -136,7 +159,25 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
             try {
               const url = `${baseUrl}games?page=1&limit=20&category=${encodeURIComponent(cat.key)}`;
               const resp = await axios.get(url);
-              results[cat.key] = resp?.data?.data?.games || [];
+              const categoryGames = resp?.data?.data?.games || [];
+              
+              // Filter out mobile-incompatible games on mobile devices
+              const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
+              results[cat.key] = isMobileDevice
+                ? categoryGames.filter(game => {
+                    const title = (game?.title || '').toLowerCase();
+                    const url = (game?.url || '').toLowerCase();
+                    
+                    // Filter Unity WebGL games that explicitly don't support mobile
+                    if (url.includes('unity') && (title.includes('webgl') || url.includes('webgl'))) {
+                      if (title.includes('desktop only') || title.includes('pc only')) {
+                        return false;
+                      }
+                    }
+                    
+                    return true;
+                  })
+                : categoryGames;
             } catch {
               results[cat.key] = [];
             }
