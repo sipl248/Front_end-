@@ -35,6 +35,38 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
   const [shouldLoadCategories, setShouldLoadCategories] = useState(false);
   const categorySectionRef = useRef(null);
 
+  // Helper function to check if game is mobile compatible
+  const isMobileCompatible = useCallback((game) => {
+    if (!game) return true;
+    
+    const title = (game?.title || '').toLowerCase();
+    const url = (game?.url || '').toLowerCase();
+    const description = (game?.description || '').toLowerCase();
+    
+    // Filter Unity WebGL games that don't support mobile
+    if (url.includes('unity') || title.includes('unity') || description.includes('unity')) {
+      // Unity WebGL games generally don't work well on mobile
+      if (url.includes('webgl') || title.includes('webgl') || description.includes('webgl')) {
+        // Only keep if explicitly says mobile compatible
+        if (!title.includes('mobile') && !description.includes('mobile compatible') && 
+            !title.includes('mobile-friendly') && !description.includes('mobile-friendly')) {
+          return false; // Filter out Unity WebGL games
+        }
+      }
+    }
+    
+    // Filter games that explicitly say desktop/PC only
+    if (title.includes('desktop only') || title.includes('pc only') || 
+        title.includes('desktop-only') || title.includes('pc-only') ||
+        description.includes('desktop only') || description.includes('pc only') ||
+        description.includes('not available on mobile') || description.includes('mobile not supported')) {
+      return false;
+    }
+    
+    // Keep all other games - they should work on mobile
+    return true;
+  }, []);
+
   // Debounce search input
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -73,23 +105,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
       // Filter out mobile-incompatible games on mobile devices
       const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
       const filteredGames = isMobileDevice 
-        ? newGames.filter(game => {
-            // Filter out games that are known to not work on mobile
-            const title = (game?.title || '').toLowerCase();
-            const category = (game?.category || '').toLowerCase();
-            const url = (game?.url || '').toLowerCase();
-            
-            // Filter Unity WebGL games that explicitly don't support mobile
-            if (url.includes('unity') && (title.includes('webgl') || url.includes('webgl'))) {
-              // Check if game explicitly says it doesn't support mobile
-              if (title.includes('desktop only') || title.includes('pc only')) {
-                return false;
-              }
-            }
-            
-            // Keep all other games - let them try to load
-            return true;
-          })
+        ? newGames.filter(game => isMobileCompatible(game))
         : newGames;
       
       setGames((prev) => (append ? [...prev, ...filteredGames] : filteredGames));
@@ -164,19 +180,7 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
               // Filter out mobile-incompatible games on mobile devices
               const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
               results[cat.key] = isMobileDevice
-                ? categoryGames.filter(game => {
-                    const title = (game?.title || '').toLowerCase();
-                    const url = (game?.url || '').toLowerCase();
-                    
-                    // Filter Unity WebGL games that explicitly don't support mobile
-                    if (url.includes('unity') && (title.includes('webgl') || url.includes('webgl'))) {
-                      if (title.includes('desktop only') || title.includes('pc only')) {
-                        return false;
-                      }
-                    }
-                    
-                    return true;
-                  })
+                ? categoryGames.filter(game => isMobileCompatible(game))
                 : categoryGames;
             } catch {
               results[cat.key] = [];
