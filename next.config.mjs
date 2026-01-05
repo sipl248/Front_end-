@@ -11,6 +11,8 @@ const nextConfig = {
       { protocol: "https", hostname: "blogcafeai.s3.amazonaws.com" },
     ],
     formats: ["image/avif", "image/webp"],
+    // Allow unoptimized images for local games
+    unoptimized: false,
   },
   async headers() {
     return [

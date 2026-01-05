@@ -594,13 +594,27 @@ export default function GameDetail({ gameDetails, name }) {
     >
       <div className="py-20  px-[20.2rem]  max-lg:px-5 max-md:px-0">
         <div className="relative flex justify-between items-center sm:border-transparent  max-md:flex-col max-lg:gap-10 max-xl:gap-4 max-sm:!gap-0">
-          <Image
-            src={gameDetails?.thumb || "/assets/pokii_game.webp"}
-            alt="background-poster"
-            className="absolute inset-0 w-full h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] object-cover rounded-[20px] max-sm:rounded-none"
-            width={600}
-            height={600}
-          />
+          {gameDetails?.isCustom ? (
+            <img
+              src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
+              alt="background-poster"
+              className="absolute inset-0 w-full h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] object-cover rounded-[20px] max-sm:rounded-none"
+              onError={(e) => {
+                e.target.src = "/assets/pokii_game.webp";
+              }}
+            />
+          ) : (
+            <Image
+              src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
+              alt="background-poster"
+              className="absolute inset-0 w-full h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] object-cover rounded-[20px] max-sm:rounded-none"
+              width={600}
+              height={600}
+              onError={(e) => {
+                e.target.src = "/assets/pokii_game.webp";
+              }}
+            />
+          )}
           <div className="absolute inset-0 h-[580px] max-xl:h-[520px] max-lg:h-[460px] max-md:h-[360px] max-sm:h-[300px] rounded-[20px] max-sm:rounded-none bg-[linear-gradient(180deg,rgba(2,12,23,0.2)_0%,rgba(2,12,23,0.75)_55%,rgba(2,12,23,0.95)_100%)]"></div>
 
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
@@ -610,13 +624,27 @@ export default function GameDetail({ gameDetails, name }) {
               </span>
             </h1>
             <div className="rounded-[22px] border border-[rgba(220,248,54,0.25)] bg-[rgba(7,18,28,0.55)] backdrop-blur-md p-4 flex flex-col items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-            <Image
-              src={gameDetails?.thumb || "/assets/pokii_game.webp"}
+            {gameDetails?.isCustom ? (
+              <img
+                src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
+                alt="game-poster"
+                className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
+                onError={(e) => {
+                  e.target.src = "/assets/pokii_game.webp";
+                }}
+              />
+            ) : (
+              <Image
+                src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
                 alt="game-poster"
                 className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
                 width={200}
                 height={200}
-            />
+                onError={(e) => {
+                  e.target.src = "/assets/pokii_game.webp";
+                }}
+              />
+            )}
             <button
               onClick={() => setShowIframe(true)}
                 className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer"
@@ -693,7 +721,16 @@ export default function GameDetail({ gameDetails, name }) {
                   <iframe
                     key={`game-${retryCount}`}
                     ref={iframeRef}
-                    src={gameDetails?.url || "#"}
+                    src={(() => {
+                      // Handle custom games vs API games
+                      if (gameDetails?.isCustom) {
+                        // Custom games: use the URL directly (should be /games/{folder}/index.html)
+                        return gameDetails?.url || "#";
+                      } else {
+                        // API games: use the provided URL
+                        return gameDetails?.url || "#";
+                      }
+                    })()}
                     className={`relative z-[10] w-full h-full rounded-none ${isMobile ? 'mobile-game-iframe' : ''} smooth-game-iframe ${prefersLandscape && isPortrait && isMobile ? 'landscape-rotate' : ''}`}
                     allow="accelerometer; autoplay; clipboard-read; clipboard-write; encrypted-media; fullscreen; gamepad; gyroscope; microphone; camera; picture-in-picture; xr-spatial-tracking; payment; geolocation"
                     allowFullScreen

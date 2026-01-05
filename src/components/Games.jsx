@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { titleToSlug } from "@/utils/urlUtils";
 import AdSenseSlot from "@/components/AdSenseSlot";
+import { loadCustomGames, getCustomGamesByCategory, mergeGames } from "@/utils/customGames";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
   ssr: false,
 });
@@ -86,31 +87,65 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
     setLoading(true);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-      if (!baseUrl) {
-        console.error("NEXT_PUBLIC_BASE_API_URL is not defined");
-        setLoading(false);
-        return;
-      }
-
-      let url = `${baseUrl}games?page=${pageNum}&limit=24`;
+      let newGames = [];
+      
+      // Load custom games
+      const customGames = loadCustomGames();
+      let relevantCustomGames = customGames;
+      
+      // Filter custom games by search term if provided
       if (searchValue) {
-        url += `&search=${encodeURIComponent(searchValue)}`;
+        const searchLower = searchValue.toLowerCase();
+        relevantCustomGames = customGames.filter(game => 
+          game.title.toLowerCase().includes(searchLower) ||
+          (game.description && game.description.toLowerCase().includes(searchLower)) ||
+          (game.tags && game.tags.toLowerCase().includes(searchLower))
+        );
       }
+      
+      // Filter custom games by category if provided
       if (category) {
-        url += `&category=${encodeURIComponent(category)}`;
+        relevantCustomGames = relevantCustomGames.filter(game => 
+          game.category && game.category.toLowerCase() === category.toLowerCase()
+        );
       }
-      const response = await axios.get(url);
-      const newGames = response?.data?.data?.games || [];
+      
+      // Fetch from API if available
+      if (baseUrl) {
+        try {
+          let url = `${baseUrl}games?page=${pageNum}&limit=24`;
+          if (searchValue) {
+            url += `&search=${encodeURIComponent(searchValue)}`;
+          }
+          if (category) {
+            url += `&category=${encodeURIComponent(category)}`;
+          }
+          const response = await axios.get(url);
+          newGames = response?.data?.data?.games || [];
+          setHasNext(response?.data?.data?.pagination?.hasNext);
+          setHasPrev(pageNum > 1);
+        } catch (error) {
+          console.log("API error:", error);
+          // If API fails, only show custom games
+          setHasNext(false);
+          setHasPrev(false);
+        }
+      } else {
+        // No API, only custom games
+        setHasNext(false);
+        setHasPrev(false);
+      }
+      
+      // Merge custom games with API games (custom games first, then API games)
+      const mergedGames = mergeGames(newGames, relevantCustomGames);
       
       // Filter out mobile-incompatible games on mobile devices
       const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
       const filteredGames = isMobileDevice 
-        ? newGames.filter(game => isMobileCompatible(game))
-        : newGames;
+        ? mergedGames.filter(game => isMobileCompatible(game))
+        : mergedGames;
       
       setGames((prev) => (append ? [...prev, ...filteredGames] : filteredGames));
-      setHasNext(response?.data?.data?.pagination?.hasNext);
-      setHasPrev(pageNum > 1);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -166,22 +201,40 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
 
     const fetchCategoryBlocks = async () => {
       const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-      if (!baseUrl) return;
       setLoadingCategories(true);
       try {
         const results = {};
+        
+        // Load custom games
+        const customGames = loadCustomGames();
+        
         await Promise.all(
           categoryDefs.map(async (cat) => {
             try {
-              const url = `${baseUrl}games?page=1&limit=20&category=${encodeURIComponent(cat.key)}`;
-              const resp = await axios.get(url);
-              const categoryGames = resp?.data?.data?.games || [];
+              let categoryGames = [];
+              
+              // Fetch from API if available
+              if (baseUrl) {
+                try {
+                  const url = `${baseUrl}games?page=1&limit=20&category=${encodeURIComponent(cat.key)}`;
+                  const resp = await axios.get(url);
+                  categoryGames = resp?.data?.data?.games || [];
+                } catch (err) {
+                  console.log(`Failed to fetch ${cat.key} games from API:`, err);
+                }
+              }
+              
+              // Get custom games for this category
+              const customGamesInCategory = getCustomGamesByCategory(cat.key);
+              
+              // Merge custom games with API games (custom games first)
+              const mergedGames = mergeGames(categoryGames, customGamesInCategory);
               
               // Filter out mobile-incompatible games on mobile devices
               const isMobileDevice = typeof window !== 'undefined' && window.innerWidth < 768;
               results[cat.key] = isMobileDevice
-                ? categoryGames.filter(game => isMobileCompatible(game))
-                : categoryGames;
+                ? mergedGames.filter(game => isMobileCompatible(game))
+                : mergedGames;
             } catch {
               results[cat.key] = [];
             }
@@ -384,14 +437,27 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                             key={`${cat.key}-${index}`}
                             className="cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
                           >
-                            <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
-                              <Image
-                                width={200}
-                                height={200}
-                                alt="game-poster"
-                                className="w-full object-cover"
-                                src={item?.thumb || "/assets/pokii_game.webp"}
-                              />
+                            <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full" style={{ aspectRatio: '512/384' }}>
+                              {item?.isCustom ? (
+                                <img
+                                  alt="game-poster"
+                                  width={512}
+                                  height={384}
+                                  className="w-full h-full object-cover"
+                                  src={item?.thumb || "/assets/pokii_game.webp"}
+                                  onError={(e) => {
+                                    e.target.src = "/assets/pokii_game.webp";
+                                  }}
+                                />
+                              ) : (
+                                <Image
+                                  width={512}
+                                  height={384}
+                                  alt="game-poster"
+                                  className="w-full h-full object-cover"
+                                  src={item?.thumb || "/assets/pokii_game.webp"}
+                                />
+                              )}
                               <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
                               <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
                                 <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
@@ -474,17 +540,30 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
               tabIndex={0}
               aria-label={item?.title || 'Open game'}
               key={index}
-              className="justify-between gap-5 cursor-pointer w-full h-full focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
+              className="justify-between cursor-pointer w-full h-full focus:outline-none focus:ring-2 focus:ring-[#DCF836] rounded-[20px]"
             >
               <div className="relative group w-full h-full">
-                <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full">
-                  <Image
-                    width={200}
-                    height={200}
-                    alt="game-poster"
-                    className="w-full object-cover"
-                    src={item?.thumb || "/assets/pokii_game.webp"}
-                  />
+                <div className="relative group overflow-hidden border-4 border-transparent rounded-[20px] transform transition-transform hover:scale-[1.02] hover:border-4 hover:border-[#DCF836] duration-300 w-full h-full" style={{ aspectRatio: '512/384' }}>
+                  {item?.isCustom ? (
+                    <img
+                      alt="game-poster"
+                      width={512}
+                      height={384}
+                      className="w-full h-full object-cover"
+                      src={item?.thumb || "/assets/pokii_game.webp"}
+                      onError={(e) => {
+                        e.target.src = "/assets/pokii_game.webp";
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      width={512}
+                      height={384}
+                      alt="game-poster"
+                      className="w-full h-full object-cover"
+                      src={item?.thumb || "/assets/pokii_game.webp"}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[rgba(2,12,23,0.92)] via-[rgba(2,12,23,0.55)] to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-2 left-2 right-2 translate-y-0 md:translate-y-3 md:group-hover:translate-y-0 transition-transform duration-300">
                     <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
