@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": " set PORT=3001 & next dev --turbopack",
-    "build": "node scripts/setup-games.js && next build",
+    "dev": "node scripts/setup-games.js && node scripts/generate-games-config.js && set PORT=3001 & next dev --turbopack",
+    "build": "node scripts/setup-games.js && node scripts/generate-games-config.js && next build",
     "start": "next start",
     "lint": "next lint",
-    "setup-games": "node scripts/setup-games.js"
+    "setup-games": "node scripts/setup-games.js",
+    "discover-games": "node scripts/auto-discover-games.js",
+    "generate-config": "node scripts/generate-games-config.js"
   },
   "dependencies": {
     "axios": "^1.10.0",

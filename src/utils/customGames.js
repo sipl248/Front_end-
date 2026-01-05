@@ -110,44 +110,44 @@ export function generateInstructions(gameName, category = '') {
 
 /**
  * Get custom games configuration
- * This is where you add your custom games
- * Each game should have a folder in the /games directory
+ * 
+ * AUTOMATED: Games are now auto-discovered from the games folder!
  * 
  * To add a new game:
  * 1. Place your game files in /games/your-game-folder/
- * 2. Add a configuration object below following the pattern
- * 3. The game will automatically appear on the site!
+ * 2. Make sure it has an index.html file
+ * 3. Run: npm run setup-games (to copy to public folder)
+ * 4. That's it! The game will automatically appear on the site.
+ * 
+ * No manual configuration needed!
  */
 export function getCustomGamesConfig() {
-    return [
-        {
-            // Game folder name (must match the folder in /games directory)
-            folder: 'feed-the-frog',
-            // Game display name
-            title: 'Feed The Frog',
-            // Optional: Override category (will auto-detect if not provided)
-            category: 'Puzzle',
-            // Optional: Custom thumbnail (defaults to /games/{folder}/icons/icon-256.png)
-            thumb: '/games/feed-the-frog/icons/icon-256.png',
-            // Optional: Custom description (will auto-generate if not provided)
-            // description: 'Custom description here',
-            // Optional: Custom tags (will auto-generate if not provided)
-            // tags: 'Custom, Tags, Here',
-            // Optional: Custom instructions (will auto-generate if not provided)
-            // instructions: 'Custom instructions here',
-            // Optional: Game dimensions
-            width: '1920',
-            height: '1080',
-        },
-        // Add more custom games here following the same pattern:
-        // {
-        //   folder: 'your-game-folder',
-        //   title: 'Your Game Name',
-        //   category: 'Action', // Optional - defaults to 'Arcade'
-        //   thumb: '/games/your-game-folder/icon.png', // Optional
-        //   // All other fields are optional and will be auto-generated
-        // },
-    ];
+    // Try to load from generated config file (works on both server and client)
+    try {
+        const config = require('./games-config.json');
+        if (config && config.games && config.games.length > 0) {
+            return config.games;
+        }
+    } catch (error) {
+        // Config file doesn't exist yet - will be generated on next build
+    }
+
+    // Try auto-discovery (server-side only)
+    if (typeof window === 'undefined') {
+        try {
+            const { getAutoDiscoveredGamesConfig } = require('./autoDiscoverGames');
+            const discovered = getAutoDiscoveredGamesConfig();
+            if (discovered && discovered.length > 0) {
+                return discovered;
+            }
+        } catch (error) {
+            // Auto-discovery not available
+        }
+    }
+
+    // Fallback: Return empty array
+    // Run 'npm run generate-config' to generate the config file
+    return [];
 }
 
 /**
