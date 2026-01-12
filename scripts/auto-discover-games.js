@@ -141,3 +141,4 @@ if (require.main === module) {
 
 module.exports = { autoDiscoverGames, folderToTitle, detectCategory, findThumbnail };
 
+
