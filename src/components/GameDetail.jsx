@@ -652,6 +652,14 @@ export default function GameDetail({ gameDetails, name }) {
               PLAY GAME
                 <span className="absolute inset-0 rounded-[60px]" style={{ boxShadow: '0 0 0 0 rgba(220,248,54,0.35)', animation: 'ring 2.4s ease-in-out infinite' }} />
             </button>
+            {/* Google AdSense unit near Play button (slot 2901531827) */}
+            <div className="w-full flex justify-center mt-4 ad-wrapper">
+              <AdSenseSlot
+                slot="2901531827"
+                format="auto"
+                fullWidthResponsive={true}
+              />
+            </div>
             </div>
             <div className="pointer-events-none absolute inset-0 -z-0">
               <span className="absolute left-[12%] top-[20%] w-2 h-2 rounded-full bg-[#DCF836] opacity-70" style={{ animation: 'float1 8s ease-in-out infinite' }} />
