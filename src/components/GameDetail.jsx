@@ -7,6 +7,10 @@ import { IoClose } from "react-icons/io5";
 
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
+  const [showAdModal, setShowAdModal] = useState(false);
+  const [adLoaded, setAdLoaded] = useState(false);
+  const [adCanContinue, setAdCanContinue] = useState(false);
+  const [skipSeconds, setSkipSeconds] = useState(0);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [gameError, setGameError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -14,6 +18,7 @@ export default function GameDetail({ gameDetails, name }) {
   const [gameReady, setGameReady] = useState(false);
   const iframeRef = useRef(null);
   const modalContainerRef = useRef(null);
+  const adContainerRef = useRef(null);
   const [isPortrait, setIsPortrait] = useState(true);
   const [needsTap, setNeedsTap] = useState(false);
   const modalOpenRef = useRef(false);
@@ -64,6 +69,72 @@ export default function GameDetail({ gameDetails, name }) {
   const router = useRouter();
   const hiddenAdsRef = useRef([]);
   const observerRef = useRef(null);
+
+  const handlePlayClick = () => {
+    // First open ad modal, reset its state and start countdown, then game will open after user skips
+    setAdLoaded(false);
+    setAdCanContinue(false);
+    setSkipSeconds(5);
+    setShowAdModal(true);
+  };
+
+  // When ad modal opens, observe AdSense render and run a short countdown before allowing skip
+  useEffect(() => {
+    if (!showAdModal) return;
+
+    let intervalId;
+    let observer;
+
+    const target = adContainerRef.current;
+    if (target) {
+      observer = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+          const hasAdIframe =
+            Array.from(m.addedNodes || []).some(
+              (n) =>
+                n instanceof HTMLIFrameElement ||
+                (n instanceof HTMLElement &&
+                  (n.matches("iframe") ||
+                    n.querySelector("iframe, ins.adsbygoogle")))
+            ) ||
+            target.querySelector("iframe, ins.adsbygoogle");
+
+          if (hasAdIframe) {
+            setAdLoaded(true);
+            // We only mark "loaded"; actual skip allowed is controlled by countdown below
+            if (observer) observer.disconnect();
+            break;
+          }
+        }
+      });
+
+      observer.observe(target, { childList: true, subtree: true });
+
+      // In case ad already rendered before observer attached
+      const alreadyHasAd = target.querySelector("iframe, ins.adsbygoogle");
+      if (alreadyHasAd) {
+        setAdLoaded(true);
+        if (observer) observer.disconnect();
+      }
+    }
+
+    // Countdown before user can skip ad and start game
+    intervalId = setInterval(() => {
+      setSkipSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalId);
+          setAdCanContinue(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+      if (observer) observer.disconnect();
+    };
+  }, [showAdModal]);
 
   const handleCloseModal = React.useCallback(() => {
     modalOpenRef.current = false; // Update ref when closing
@@ -646,20 +717,12 @@ export default function GameDetail({ gameDetails, name }) {
               />
             )}
             <button
-              onClick={() => setShowIframe(true)}
+              onClick={handlePlayClick}
                 className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer"
             >
               PLAY GAME
                 <span className="absolute inset-0 rounded-[60px]" style={{ boxShadow: '0 0 0 0 rgba(220,248,54,0.35)', animation: 'ring 2.4s ease-in-out infinite' }} />
             </button>
-            {/* Google AdSense unit near Play button (slot 2901531827) */}
-            <div className="w-full flex justify-center mt-4 ad-wrapper">
-              <AdSenseSlot
-                slot="2901531827"
-                format="auto"
-                fullWidthResponsive={true}
-              />
-            </div>
             </div>
             <div className="pointer-events-none absolute inset-0 -z-0">
               <span className="absolute left-[12%] top-[20%] w-2 h-2 rounded-full bg-[#DCF836] opacity-70" style={{ animation: 'float1 8s ease-in-out infinite' }} />
@@ -667,6 +730,44 @@ export default function GameDetail({ gameDetails, name }) {
               <span className="absolute left-[45%] bottom-[18%] w-2 h-2 rounded-full bg-white opacity-70" style={{ animation: 'float3 9s ease-in-out infinite' }} />
             </div>
             {/* Iframe Modal */}
+            {showAdModal && (
+              <div className="fixed top-0 left-0 z-[9000] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center">
+                <div className="relative w-full max-w-3xl mx-4 bg-[rgba(7,18,28,0.95)] border border-[rgba(220,248,54,0.35)] rounded-2xl p-4 md:p-6 shadow-[0_18px_60px_rgba(0,0,0,0.75)]">
+                  <div className="flex items-center justify-between mb-3 md:mb-4">
+                    <h2 className="text-lg md:text-xl font-semibold text-[#DCF836]">
+                      Advertisement
+                    </h2>
+                    {adCanContinue ? (
+                      <button
+                        onClick={() => {
+                          setShowAdModal(false);
+                          setShowIframe(true);
+                        }}
+                        className="text-xs md:text-sm px-3 py-1 rounded-full bg-[#DCF836] text-black font-semibold hover:bg-[#c4e030] transition-colors cursor-pointer"
+                      >
+                        Skip Ad & Play Game
+                      </button>
+                    ) : (
+                      <div className="text-xs md:text-sm px-3 py-1 rounded-full bg-gray-700 text-white opacity-90">
+                        Skip in {skipSeconds}s
+                      </div>
+                    )}
+                  </div>
+
+                  <div
+                    ref={adContainerRef}
+                    className="w-full flex justify-center items-center min-h-[120px] md:min-h-[180px] ad-wrapper"
+                  >
+                    <AdSenseSlot
+                      slot="2901531827"
+                      format="auto"
+                      fullWidthResponsive={true}
+                      style={{ display: "block" }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             {showIframe && (
               <div className="fixed top-0 left-0 z-[9999] w-full h-full bg-black/90 backdrop-blur-sm flex justify-center items-center game-modal-container" style={{ pointerEvents: 'auto', touchAction: 'auto' }}>
                 <div ref={modalContainerRef} className="relative w-[100%] h-[100%] max-w-full" style={{ pointerEvents: 'auto', touchAction: 'auto' }}>
