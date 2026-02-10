@@ -19,6 +19,7 @@ export default function GameDetail({ gameDetails, name }) {
   const iframeRef = useRef(null);
   const modalContainerRef = useRef(null);
   const adContainerRef = useRef(null);
+  const adInsRef = useRef(null);
   const [isPortrait, setIsPortrait] = useState(true);
   const [needsTap, setNeedsTap] = useState(false);
   const modalOpenRef = useRef(false);
@@ -38,15 +39,15 @@ export default function GameDetail({ gameDetails, name }) {
         const isMobileDevice = window.innerWidth < 768;
         setIsPortrait(isPortraitMode);
         setIsMobile(isMobileDevice);
-        
+
         // If game prefers landscape and we're in portrait, try to lock orientation
         if (prefersLandscape && isPortraitMode && isMobileDevice && showIframe) {
           setTimeout(() => {
             try {
               if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(() => {});
+                screen.orientation.lock('landscape').catch(() => { });
               }
-            } catch {}
+            } catch { }
           }, 100);
         }
       }
@@ -118,6 +119,45 @@ export default function GameDetail({ gameDetails, name }) {
       }
     }
 
+    // Load and render AdSense ad for the Play button modal (slot 7721673653)
+    const client = "ca-pub-7456682660420004";
+    const loadAdScriptAndShowAd = () => {
+      if (typeof window === "undefined" || !adInsRef.current) return;
+
+      const pushAd = () => {
+        try {
+          if (!adInsRef.current._pushed) {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            adInsRef.current._pushed = true;
+          }
+        } catch { }
+      };
+
+      const src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+      let script = document.querySelector(`script[src="${src}"]`);
+
+      if (!script) {
+        script = document.createElement("script");
+        script.async = true;
+        script.src = src;
+        script.crossOrigin = "anonymous";
+        script.addEventListener("load", () => {
+          script.setAttribute("data-loaded", "true");
+          pushAd();
+        });
+        script.addEventListener("error", () => { });
+        document.head.appendChild(script);
+      } else {
+        if (script.getAttribute("data-loaded") === "true") {
+          pushAd();
+        } else {
+          script.addEventListener("load", pushAd, { once: true });
+        }
+      }
+    };
+
+    loadAdScriptAndShowAd();
+
     // Countdown before user can skip ad and start game
     intervalId = setInterval(() => {
       setSkipSeconds((prev) => {
@@ -151,53 +191,53 @@ export default function GameDetail({ gameDetails, name }) {
     const errorString = typeof error === 'string' ? error : error?.toString() || '';
     const stackString = error?.stack || '';
     const fullError = (errorString + ' ' + stackString).toLowerCase();
-    
+
     // Suppress non-critical errors that don't affect gameplay
     if (errorString || stackString) {
       // Handle Unity WebGL mobile warnings - allow user to continue
       if (fullError.includes('unity webgl') && fullError.includes('not currently supported on mobiles')) {
         return; // Don't show error, let user continue
       }
-      
+
       // CRITICAL: Suppress ALL gamepad permission errors - these are completely non-blocking
-      if (fullError.includes('gamepad') || 
-          fullError.includes('getgamepads') ||
-          fullError.includes('access to the feature "gamepad"') ||
-          fullError.includes('permissions policy') && fullError.includes('gamepad') ||
-          fullError.includes('securityerror') && fullError.includes('gamepad') ||
-          fullError.includes('_emscripten_get_num_gamepads') ||
-          fullError.includes('failed to execute') && fullError.includes('gamepad')) {
+      if (fullError.includes('gamepad') ||
+        fullError.includes('getgamepads') ||
+        fullError.includes('access to the feature "gamepad"') ||
+        fullError.includes('permissions policy') && fullError.includes('gamepad') ||
+        fullError.includes('securityerror') && fullError.includes('gamepad') ||
+        fullError.includes('_emscripten_get_num_gamepads') ||
+        fullError.includes('failed to execute') && fullError.includes('gamepad')) {
         // Gamepad errors are completely non-critical - games work perfectly without gamepad
         // Prevent error from showing in console
         event.preventDefault?.();
         event.stopPropagation?.();
         return; // Completely suppress these errors
       }
-      
+
       // Suppress shader warnings - Unity specific, non-blocking
-      if (fullError.includes('shader unsupported') || 
-          (fullError.includes('shader') && fullError.includes('standard'))) {
+      if (fullError.includes('shader unsupported') ||
+        (fullError.includes('shader') && fullError.includes('standard'))) {
         return; // Shader warnings don't block gameplay
       }
-      
+
       // Suppress ad loader errors - non-critical
-      if (fullError.includes('adsloaderpromise') || 
-          fullError.includes('adsloader') ||
-          fullError.includes('ad loader')) {
+      if (fullError.includes('adsloaderpromise') ||
+        fullError.includes('adsloader') ||
+        fullError.includes('ad loader')) {
         return; // Ad errors don't affect gameplay
       }
-      
+
       // Suppress UnityLoader.js errors related to gamepad
       if (fullError.includes('unityloader') && fullError.includes('gamepad')) {
         event.preventDefault?.();
         event.stopPropagation?.();
         return;
       }
-      
+
       // Handle other SecurityErrors (only non-gamepad ones)
-      if (fullError.includes('securityerror') && 
-          !fullError.includes('gamepad') &&
-          !fullError.includes('getgamepads')) {
+      if (fullError.includes('securityerror') &&
+        !fullError.includes('gamepad') &&
+        !fullError.includes('getgamepads')) {
         // Only show non-gamepad SecurityErrors
         console.warn('Game error caught:', errorString);
         if (!fullError.includes('gamepad')) {
@@ -227,7 +267,7 @@ export default function GameDetail({ gameDetails, name }) {
                 iframe.focus();
                 iframe.contentWindow?.focus?.();
               }
-            } catch {}
+            } catch { }
           }, 100);
         }
       } catch { setNeedsTap(false); }
@@ -239,7 +279,7 @@ export default function GameDetail({ gameDetails, name }) {
         if (!window.history.state?.modalOpen) {
           window.history.pushState({ modalOpen: true }, '', window.location.href);
         }
-        
+
         // Listen for popstate (back button)
         const handlePopState = () => {
           // Only close modal if it's actually open (check ref for current state)
@@ -248,9 +288,9 @@ export default function GameDetail({ gameDetails, name }) {
             handleCloseModal();
           }
         };
-        
+
         window.addEventListener('popstate', handlePopState);
-        
+
         // Store cleanup in a way we can access it
         window._gameModalPopStateHandler = handlePopState;
       }
@@ -261,40 +301,40 @@ export default function GameDetail({ gameDetails, name }) {
         const errorString = typeof error === 'string' ? error : error?.toString() || '';
         const stackString = error?.stack || '';
         const fullError = (errorString + ' ' + stackString).toLowerCase();
-        
+
         // Completely suppress gamepad errors
-        if (fullError.includes('gamepad') || 
-            fullError.includes('getgamepads') ||
-            fullError.includes('access to the feature "gamepad"') ||
-            fullError.includes('_emscripten_get_num_gamepads') ||
-            (fullError.includes('securityerror') && fullError.includes('gamepad'))) {
+        if (fullError.includes('gamepad') ||
+          fullError.includes('getgamepads') ||
+          fullError.includes('access to the feature "gamepad"') ||
+          fullError.includes('_emscripten_get_num_gamepads') ||
+          (fullError.includes('securityerror') && fullError.includes('gamepad'))) {
           event.preventDefault?.();
           event.stopPropagation?.();
           event.stopImmediatePropagation?.();
           return false; // Prevent error from propagating
         }
-        
+
         // Call original handler for other errors
         handleConsoleError(event);
       };
-      
+
       window.addEventListener('error', errorHandler, true); // Use capture phase
       window.addEventListener('unhandledrejection', errorHandler, true);
-      
+
       // Also override console.error to suppress gamepad errors
       const originalConsoleError = console.error;
       console.error = (...args) => {
         const errorMsg = args.join(' ').toLowerCase();
-        if (errorMsg.includes('gamepad') || 
-            errorMsg.includes('getgamepads') ||
-            errorMsg.includes('access to the feature "gamepad"') ||
-            errorMsg.includes('_emscripten_get_num_gamepads')) {
+        if (errorMsg.includes('gamepad') ||
+          errorMsg.includes('getgamepads') ||
+          errorMsg.includes('access to the feature "gamepad"') ||
+          errorMsg.includes('_emscripten_get_num_gamepads')) {
           // Suppress gamepad errors in console
           return;
         }
         originalConsoleError.apply(console, args);
       };
-      
+
       // Store original for cleanup
       window._originalConsoleError = originalConsoleError;
       window._gameErrorHandler = errorHandler;
@@ -308,19 +348,19 @@ export default function GameDetail({ gameDetails, name }) {
             if (iframe) {
               // Focus the iframe to enable user activation
               iframe.focus();
-              
+
               // Try to focus the content window
               try {
                 iframe.contentWindow?.focus();
               } catch (e) {
                 // Cross-origin restriction, that's okay
               }
-              
+
               // Ensure pointer events are enabled
               iframe.style.pointerEvents = 'auto';
               iframe.style.touchAction = 'auto';
             }
-          } catch {}
+          } catch { }
         };
 
         const handleTouchStart = (e) => {
@@ -329,18 +369,18 @@ export default function GameDetail({ gameDetails, name }) {
             if (iframe) {
               const rect = iframe.getBoundingClientRect();
               const touch = e.touches[0] || e.changedTouches[0];
-              if (touch && rect.left <= touch.clientX && touch.clientX <= rect.right && 
-                  rect.top <= touch.clientY && touch.clientY <= rect.bottom) {
+              if (touch && rect.left <= touch.clientX && touch.clientX <= rect.right &&
+                rect.top <= touch.clientY && touch.clientY <= rect.bottom) {
                 // Activate iframe on first touch
                 activateIframe();
-                
+
                 // CRITICAL: Forward touch to iframe content for click handling
                 try {
                   if (iframe.contentDocument) {
                     const doc = iframe.contentDocument;
                     const x = touch.clientX - rect.left;
                     const y = touch.clientY - rect.top;
-                    
+
                     // Find element at touch point
                     const elementAtPoint = doc.elementFromPoint(x, y);
                     if (elementAtPoint) {
@@ -355,13 +395,13 @@ export default function GameDetail({ gameDetails, name }) {
                       elementAtPoint.dispatchEvent(mouseDown);
                     }
                   }
-                } catch {}
-                
+                } catch { }
+
                 // Don't prevent default to allow iframe to handle the event
                 // The iframe needs to receive the actual touch event
               }
             }
-          } catch {}
+          } catch { }
         };
 
         const handleTouchEnd = (e) => {
@@ -369,7 +409,7 @@ export default function GameDetail({ gameDetails, name }) {
             const iframe = iframeRef.current;
             if (iframe) {
               activateIframe();
-              
+
               // CRITICAL: Forward touch end to iframe content for click handling
               try {
                 const rect = iframe.getBoundingClientRect();
@@ -378,7 +418,7 @@ export default function GameDetail({ gameDetails, name }) {
                   const doc = iframe.contentDocument;
                   const x = touch.clientX - rect.left;
                   const y = touch.clientY - rect.top;
-                  
+
                   // Find element at touch point
                   const elementAtPoint = doc.elementFromPoint(x, y);
                   if (elementAtPoint) {
@@ -397,7 +437,7 @@ export default function GameDetail({ gameDetails, name }) {
                       clientY: touch.clientY,
                       view: iframe.contentWindow
                     });
-                    
+
                     elementAtPoint.dispatchEvent(mouseUp);
                     setTimeout(() => {
                       elementAtPoint.dispatchEvent(click);
@@ -406,13 +446,13 @@ export default function GameDetail({ gameDetails, name }) {
                         if (elementAtPoint.click) {
                           elementAtPoint.click();
                         }
-                      } catch {}
+                      } catch { }
                     }, 10);
                   }
                 }
-              } catch {}
+              } catch { }
             }
-          } catch {}
+          } catch { }
         };
 
         const handleClickEvent = (e) => {
@@ -420,12 +460,12 @@ export default function GameDetail({ gameDetails, name }) {
             const iframe = iframeRef.current;
             if (iframe && iframe.contentWindow) {
               const rect = iframe.getBoundingClientRect();
-              if (rect.left <= e.clientX && e.clientX <= rect.right && 
-                  rect.top <= e.clientY && e.clientY <= rect.bottom) {
+              if (rect.left <= e.clientX && e.clientX <= rect.right &&
+                rect.top <= e.clientY && e.clientY <= rect.bottom) {
                 activateIframe();
               }
             }
-          } catch {}
+          } catch { }
         };
 
         // Add event listeners with capture phase to ensure they fire
@@ -433,11 +473,11 @@ export default function GameDetail({ gameDetails, name }) {
         document.addEventListener('touchend', handleTouchEnd, { passive: true, capture: true });
         document.addEventListener('touchmove', handleTouchStart, { passive: true, capture: true });
         document.addEventListener('click', handleClickEvent, { passive: true, capture: true });
-        
+
         // Also activate on modal open
         setTimeout(activateIframe, 100);
         setTimeout(activateIframe, 500);
-        
+
         return () => {
           document.removeEventListener('touchstart', handleTouchStart, { capture: true });
           document.removeEventListener('touchend', handleTouchEnd, { capture: true });
@@ -454,7 +494,7 @@ export default function GameDetail({ gameDetails, name }) {
         link.href = `${u.protocol}//${u.host}`;
         link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
-      } catch (_) {}
+      } catch (_) { }
 
       // Hide any existing ad layers and keep hiding newly injected ones while modal is open
       const adSelectors = [
@@ -482,7 +522,7 @@ export default function GameDetail({ gameDetails, name }) {
               try {
                 if (n instanceof HTMLElement) n.style.display = 'none';
                 n.querySelectorAll?.('*').forEach(c => { if (c instanceof HTMLElement) c.style.display = 'none'; });
-              } catch {}
+              } catch { }
             }
           });
         }
@@ -502,29 +542,29 @@ export default function GameDetail({ gameDetails, name }) {
                 try {
                   await screen.orientation.unlock();
                   await screen.orientation.lock('landscape');
-                } catch {}
+                } catch { }
               }
             }
             // Also try legacy method
             if (screen.lockOrientation) {
               try {
                 screen.lockOrientation('landscape');
-              } catch {}
+              } catch { }
             }
             if (screen.mozLockOrientation) {
               try {
                 screen.mozLockOrientation('landscape');
-              } catch {}
+              } catch { }
             }
             if (screen.msLockOrientation) {
               try {
                 screen.msLockOrientation('landscape');
-              } catch {}
+              } catch { }
             }
           }
-        } catch {}
+        } catch { }
       };
-      
+
       // Lock landscape immediately if needed - CRITICAL for mobile gameplay
       if (prefersLandscape && isMobile) {
         // Try multiple times to ensure landscape lock
@@ -533,7 +573,7 @@ export default function GameDetail({ gameDetails, name }) {
         setTimeout(lockLandscape, 600);
         setTimeout(lockLandscape, 1000);
         setTimeout(lockLandscape, 2000);
-        
+
         // Also try on orientation change
         const handleOrientationChange = () => {
           if (isPortrait && showIframe) {
@@ -541,7 +581,7 @@ export default function GameDetail({ gameDetails, name }) {
           }
         };
         window.addEventListener('orientationchange', handleOrientationChange);
-        
+
         // Store cleanup
         if (!window._landscapeLockHandler) {
           window._landscapeLockHandler = handleOrientationChange;
@@ -551,7 +591,7 @@ export default function GameDetail({ gameDetails, name }) {
       modalOpenRef.current = false; // Update ref when modal closes
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
-      
+
       // Restore body styles (especially for mobile)
       document.body.style.position = '';
       document.body.style.width = '';
@@ -560,18 +600,18 @@ export default function GameDetail({ gameDetails, name }) {
       document.body.style.webkitOverflowScrolling = '';
       document.body.style.willChange = '';
       document.body.style.transform = '';
-      
+
       // restore hidden ads if any
-      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
+      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch { } });
       hiddenAdsRef.current = [];
       observerRef.current?.disconnect?.();
-      
+
       // Clean up mobile touch interval
       if (iframeRef.current?._touchInterval) {
         clearInterval(iframeRef.current._touchInterval);
         iframeRef.current._touchInterval = null;
       }
-      
+
       // Clean up iframe touch handlers
       if (iframeRef.current?._touchHandlers) {
         try {
@@ -581,15 +621,15 @@ export default function GameDetail({ gameDetails, name }) {
           iframe.removeEventListener('touchend', handler);
           iframe.removeEventListener('touchmove', handler);
           iframe._touchHandlers = null;
-        } catch {}
+        } catch { }
       }
-      
+
       // Clean up dialog observer
       if (iframeRef.current?._dialogObserver) {
         iframeRef.current._dialogObserver.disconnect();
         iframeRef.current._dialogObserver = null;
       }
-      
+
       // Clean up popstate listener
       if (typeof window !== 'undefined' && window._gameModalPopStateHandler) {
         window.removeEventListener('popstate', window._gameModalPopStateHandler);
@@ -599,7 +639,7 @@ export default function GameDetail({ gameDetails, name }) {
     return () => {
       document.body.classList.remove('overflow-hidden');
       document.body.classList.remove('modal-open');
-      
+
       // Restore body styles
       document.body.style.position = '';
       document.body.style.width = '';
@@ -608,8 +648,8 @@ export default function GameDetail({ gameDetails, name }) {
       document.body.style.webkitOverflowScrolling = '';
       document.body.style.willChange = '';
       document.body.style.transform = '';
-      
-      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch {} });
+
+      hiddenAdsRef.current.forEach(({ el, prev }) => { try { el.style.display = prev; } catch { } });
       hiddenAdsRef.current = [];
       observerRef.current?.disconnect?.();
       // Clean up error listeners
@@ -619,38 +659,38 @@ export default function GameDetail({ gameDetails, name }) {
         window.removeEventListener('unhandledrejection', window._gameErrorHandler, true);
         delete window._gameErrorHandler;
       }
-      
+
       // Restore original console.error
       if (window._originalConsoleError) {
         console.error = window._originalConsoleError;
         delete window._originalConsoleError;
       }
-      
+
       // Clean up popstate listener
       if (typeof window !== 'undefined' && window._gameModalPopStateHandler) {
         window.removeEventListener('popstate', window._gameModalPopStateHandler);
         delete window._gameModalPopStateHandler;
       }
-      
+
       // Clean up landscape lock handler
       if (typeof window !== 'undefined' && window._landscapeLockHandler) {
         window.removeEventListener('orientationchange', window._landscapeLockHandler);
         delete window._landscapeLockHandler;
       }
-      
+
       // Unlock orientation when modal closes
       try {
         if (screen.orientation && screen.orientation.unlock) {
           screen.orientation.unlock();
         }
-      } catch {}
-      
+      } catch { }
+
       // Clean up dialog observer
       if (iframeRef.current?._dialogObserver) {
         iframeRef.current._dialogObserver.disconnect();
         iframeRef.current._dialogObserver = null;
       }
-      
+
       // Clean up touch interval
       if (iframeRef.current?._touchInterval) {
         clearInterval(iframeRef.current._touchInterval);
@@ -691,38 +731,38 @@ export default function GameDetail({ gameDetails, name }) {
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
             <h1 className="text-[56px] max-xl:text-[44px] max-md:text-[32px] font-extrabold text-center tracking-wide mb-3">
               <span className="bg-gradient-to-r from-[#DCF836] via-white to-[#DCF836] bg-clip-text text-transparent" style={{ backgroundSize: '200% 200%', animation: 'shine 6s linear infinite' }}>
-              {gameDetails?.title || name}
+                {gameDetails?.title || name}
               </span>
             </h1>
             <div className="rounded-[22px] border border-[rgba(220,248,54,0.25)] bg-[rgba(7,18,28,0.55)] backdrop-blur-md p-4 flex flex-col items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-            {gameDetails?.isCustom ? (
-              <img
-                src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
-                alt="game-poster"
-                className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
-                onError={(e) => {
-                  e.target.src = "/assets/pokii_game.webp";
-                }}
-              />
-            ) : (
-              <Image
-                src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
-                alt="game-poster"
-                className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
-                width={200}
-                height={200}
-                onError={(e) => {
-                  e.target.src = "/assets/pokii_game.webp";
-                }}
-              />
-            )}
-            <button
-              onClick={handlePlayClick}
+              {gameDetails?.isCustom ? (
+                <img
+                  src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
+                  alt="game-poster"
+                  className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
+                  onError={(e) => {
+                    e.target.src = "/assets/pokii_game.webp";
+                  }}
+                />
+              ) : (
+                <Image
+                  src={gameDetails?.thumb || gameDetails?.poster || "/assets/pokii_game.webp"}
+                  alt="game-poster"
+                  className="w-[200px] h-[200px] max-md:h-[160px] max-md:w-[160px] max-sm:h-[130px] max-sm:w-[150px] rounded-[16px] transition-transform duration-500 will-change-transform hover:rotate-1 hover:scale-[1.02]"
+                  width={200}
+                  height={200}
+                  onError={(e) => {
+                    e.target.src = "/assets/pokii_game.webp";
+                  }}
+                />
+              )}
+              <button
+                onClick={handlePlayClick}
                 className="relative px-8 py-3 rounded-[60px] font-semibold bg-[#DCF836] text-black hover:bg-[#c4e030] transition-colors cursor-pointer"
-            >
-              PLAY GAME
+              >
+                PLAY GAME
                 <span className="absolute inset-0 rounded-[60px]" style={{ boxShadow: '0 0 0 0 rgba(220,248,54,0.35)', animation: 'ring 2.4s ease-in-out infinite' }} />
-            </button>
+              </button>
             </div>
             <div className="pointer-events-none absolute inset-0 -z-0">
               <span className="absolute left-[12%] top-[20%] w-2 h-2 rounded-full bg-[#DCF836] opacity-70" style={{ animation: 'float1 8s ease-in-out infinite' }} />
@@ -758,11 +798,14 @@ export default function GameDetail({ gameDetails, name }) {
                     ref={adContainerRef}
                     className="w-full flex justify-center items-center min-h-[120px] md:min-h-[180px] ad-wrapper"
                   >
-                    <AdSenseSlot
-                      slot="2901531827"
-                      format="auto"
-                      fullWidthResponsive={true}
-                      style={{ display: "block" }}
+                    <ins
+                      ref={adInsRef}
+                      className="adsbygoogle"
+                      style={{ display: "block", width: "100%" }}
+                      data-ad-client="ca-pub-7456682660420004"
+                      data-ad-slot="7721673653"
+                      data-ad-format="auto"
+                      data-full-width-responsive="true"
                     />
                   </div>
                 </div>
@@ -775,12 +818,12 @@ export default function GameDetail({ gameDetails, name }) {
 
                   {/* bottom-left glow logo - smaller on mobile */}
                   <div className="pointer-events-none absolute left-2 bottom-2 md:left-3 md:bottom-3 z-[30] flex items-center gap-1 md:gap-2">
-                    <Image 
-                      src="/assets/pokii_game.webp" 
-                      alt="Pokiifuns" 
-                      width={56} 
-                      height={36} 
-                      className="h-5 w-auto md:h-9 rounded-md shadow-[0_0_20px_rgba(220,248,54,0.45)] animate-[glowPulse_2.2s_ease-in-out_infinite]" 
+                    <Image
+                      src="/assets/pokii_game.webp"
+                      alt="Pokiifuns"
+                      width={56}
+                      height={36}
+                      className="h-5 w-auto md:h-9 rounded-md shadow-[0_0_20px_rgba(220,248,54,0.45)] animate-[glowPulse_2.2s_ease-in-out_infinite]"
                     />
                   </div>
 
@@ -874,7 +917,7 @@ export default function GameDetail({ gameDetails, name }) {
                       setGameError(null);
                       setGameReady(true);
                       setNeedsTap(false); // Hide any tap overlay - games play directly
-                      
+
                       // Immediate mobile activation - CRITICAL for smooth gameplay
                       if (isMobile) {
                         // Multiple immediate activation attempts
@@ -886,20 +929,20 @@ export default function GameDetail({ gameDetails, name }) {
                               iframe.focus();
                               try {
                                 iframe.contentWindow?.focus?.();
-                              } catch {}
-                              
+                              } catch { }
+
                               // Ensure touch events are enabled
                               iframe.style.pointerEvents = 'auto';
                               iframe.style.touchAction = 'auto';
-                              
+
                               // Force activation
                               try {
                                 iframe.click();
-                              } catch {}
+                              } catch { }
                             }
-                          } catch {}
+                          } catch { }
                         };
-                        
+
                         // Try immediately and multiple times
                         activateMobile();
                         setTimeout(activateMobile, 50);
@@ -907,7 +950,7 @@ export default function GameDetail({ gameDetails, name }) {
                         setTimeout(activateMobile, 200);
                         setTimeout(activateMobile, 500);
                       }
-                      
+
                       // Performance optimizations for smoother gameplay
                       try {
                         const iframe = iframeRef.current;
@@ -919,22 +962,22 @@ export default function GameDetail({ gameDetails, name }) {
                           iframe.style.backfaceVisibility = 'hidden';
                           iframe.style.webkitBackfaceVisibility = 'hidden';
                           iframe.style.isolation = 'isolate';
-                          
+
                           // Optimize rendering
                           iframe.style.imageRendering = 'optimizeSpeed';
                           iframe.style.textRendering = 'optimizeSpeed';
-                          
+
                           // Prevent layout shifts
                           iframe.style.contain = 'layout style paint';
                         }
-                      } catch {}
-                      
+                      } catch { }
+
                       // Performance optimizations for all devices
                       try {
                         // Optimize document rendering
                         document.body.style.willChange = 'auto';
                         document.body.style.transform = 'translateZ(0)';
-                        
+
                         // Reduce repaints
                         const style = document.createElement('style');
                         style.textContent = `
@@ -945,8 +988,8 @@ export default function GameDetail({ gameDetails, name }) {
                           }
                         `;
                         document.head.appendChild(style);
-                      } catch {}
-                      
+                      } catch { }
+
                       // Mobile-specific optimizations
                       if (isMobile) {
                         // Prevent scroll bounce on iOS
@@ -955,7 +998,7 @@ export default function GameDetail({ gameDetails, name }) {
                         document.body.style.position = 'fixed';
                         document.body.style.width = '100%';
                         document.body.style.height = '100%';
-                        
+
                         // Optimize touch handling - CRITICAL: Allow touch events to pass through
                         try {
                           const iframe = iframeRef.current;
@@ -966,20 +1009,20 @@ export default function GameDetail({ gameDetails, name }) {
                             iframe.style.setProperty('-webkit-user-select', 'none', 'important');
                             iframe.style.setProperty('user-select', 'none', 'important');
                             iframe.style.setProperty('-webkit-tap-highlight-color', 'transparent', 'important');
-                            
+
                             // CRITICAL: Ensure pointer events are enabled
                             iframe.style.setProperty('pointer-events', 'auto', 'important');
-                            
+
                             // Force GPU acceleration for smooth gameplay
                             iframe.style.setProperty('transform', 'translate3d(0, 0, 0)', 'important');
                             iframe.style.setProperty('-webkit-transform', 'translate3d(0, 0, 0)', 'important');
                             iframe.style.setProperty('will-change', 'transform', 'important');
-                            
+
                             // Optimize for smooth rendering
                             iframe.style.setProperty('image-rendering', 'optimizeSpeed', 'important');
                             iframe.style.setProperty('backface-visibility', 'hidden', 'important');
                             iframe.style.setProperty('-webkit-backface-visibility', 'hidden', 'important');
-                            
+
                             // Focus the iframe to enable user activation - multiple attempts for reliability
                             const focusAttempts = [50, 100, 200, 500, 1000];
                             focusAttempts.forEach((delay) => {
@@ -991,12 +1034,12 @@ export default function GameDetail({ gameDetails, name }) {
                                   if (delay === 100) {
                                     try {
                                       iframe.click();
-                                    } catch {}
+                                    } catch { }
                                   }
-                                } catch {}
+                                } catch { }
                               }, delay);
                             });
-                            
+
                             // If landscape game, try to lock orientation - multiple attempts for mobile
                             if (prefersLandscape && isMobile) {
                               const lockAttempts = [200, 500, 1000, 2000];
@@ -1004,26 +1047,26 @@ export default function GameDetail({ gameDetails, name }) {
                                 setTimeout(() => {
                                   try {
                                     if (screen.orientation && screen.orientation.lock) {
-                                      screen.orientation.lock('landscape').catch(() => {});
+                                      screen.orientation.lock('landscape').catch(() => { });
                                     } else if (screen.lockOrientation) {
                                       screen.lockOrientation('landscape');
                                     } else if (screen.mozLockOrientation) {
                                       screen.mozLockOrientation('landscape');
                                     }
-                                  } catch {}
+                                  } catch { }
                                 }, delay);
                               });
                             }
                           }
-                        } catch {}
-                        
+                        } catch { }
+
                         // CRITICAL: Ensure all interactive elements are touchable and clickable
                         const makeElementsTouchable = () => {
                           try {
                             const iframe = iframeRef.current;
                             if (iframe && iframe.contentDocument) {
                               const doc = iframe.contentDocument;
-                              
+
                               // CRITICAL: Enable ALL elements for clicks - especially canvas and game elements
                               const allElements = doc.querySelectorAll('*');
                               allElements.forEach(el => {
@@ -1032,26 +1075,26 @@ export default function GameDetail({ gameDetails, name }) {
                                 el.style.webkitTouchCallout = 'auto';
                                 el.style.webkitUserSelect = 'auto';
                                 el.style.userSelect = 'auto';
-                                
+
                                 // CRITICAL: Remove any pointer-events: none
                                 const computedStyle = window.getComputedStyle(el);
                                 if (el.style.pointerEvents === 'none' || computedStyle.pointerEvents === 'none') {
                                   el.style.pointerEvents = 'auto';
                                 }
-                                
+
                                 // CRITICAL: Enable click events on all elements - AGGRESSIVE approach
                                 try {
                                   // Add click event listener if not already present
                                   if (!el._clickEnabled) {
                                     el._clickEnabled = true;
-                                    
+
                                     // Enable touch to click conversion - multiple methods
                                     el.addEventListener('touchstart', (e) => {
                                       // Don't prevent default - let game handle it
                                       el._touchStart = true;
                                       el._touchX = e.touches[0].clientX;
                                       el._touchY = e.touches[0].clientY;
-                                      
+
                                       // Also trigger mousedown immediately
                                       try {
                                         const mouseDown = new MouseEvent('mousedown', {
@@ -1062,14 +1105,14 @@ export default function GameDetail({ gameDetails, name }) {
                                           clientY: el._touchY
                                         });
                                         el.dispatchEvent(mouseDown);
-                                      } catch {}
+                                      } catch { }
                                     }, { passive: true });
-                                    
+
                                     el.addEventListener('touchmove', (e) => {
                                       if (el._touchStart) {
                                         el._touchX = e.touches[0].clientX;
                                         el._touchY = e.touches[0].clientY;
-                                        
+
                                         // Trigger mousemove
                                         try {
                                           const mouseMove = new MouseEvent('mousemove', {
@@ -1080,20 +1123,20 @@ export default function GameDetail({ gameDetails, name }) {
                                             clientY: el._touchY
                                           });
                                           el.dispatchEvent(mouseMove);
-                                        } catch {}
+                                        } catch { }
                                       }
                                     }, { passive: true });
-                                    
+
                                     el.addEventListener('touchend', (e) => {
                                       if (el._touchStart) {
                                         el._touchStart = false;
-                                        
+
                                         // Convert touch to click - AGGRESSIVE multiple methods
                                         try {
                                           const touch = e.changedTouches[0];
                                           const clientX = touch.clientX;
                                           const clientY = touch.clientY;
-                                          
+
                                           // Method 1: MouseEvent click
                                           const clickEvent = new MouseEvent('click', {
                                             bubbles: true,
@@ -1103,7 +1146,7 @@ export default function GameDetail({ gameDetails, name }) {
                                             clientX: clientX,
                                             clientY: clientY
                                           });
-                                          
+
                                           // Method 2: MouseEvent mousedown + mouseup + click sequence
                                           const mouseDown = new MouseEvent('mousedown', {
                                             bubbles: true,
@@ -1119,39 +1162,39 @@ export default function GameDetail({ gameDetails, name }) {
                                             clientX: clientX,
                                             clientY: clientY
                                           });
-                                          
+
                                           // Dispatch all events
                                           el.dispatchEvent(mouseDown);
                                           setTimeout(() => {
                                             el.dispatchEvent(mouseUp);
                                             el.dispatchEvent(clickEvent);
-                                            
+
                                             // Method 3: Direct click if available
                                             if (el.click) {
                                               try {
                                                 el.click();
-                                              } catch {}
+                                              } catch { }
                                             }
                                           }, 10);
-                                        } catch {}
+                                        } catch { }
                                       }
                                     }, { passive: true });
                                   }
-                                } catch {}
+                                } catch { }
                               });
-                              
+
                               // CRITICAL: Specifically enable canvas elements for games
                               const gameCanvasElements = doc.querySelectorAll('canvas');
                               gameCanvasElements.forEach(canvas => {
                                 canvas.style.pointerEvents = 'auto';
                                 canvas.style.touchAction = 'auto';
                                 canvas.style.cursor = 'pointer';
-                                
+
                                 // Enable touch events on canvas
                                 try {
                                   if (!canvas._gameClickEnabled) {
                                     canvas._gameClickEnabled = true;
-                                    
+
                                     canvas.addEventListener('touchstart', (e) => {
                                       canvas._touchActive = true;
                                       // Also trigger mousedown
@@ -1163,7 +1206,7 @@ export default function GameDetail({ gameDetails, name }) {
                                       });
                                       canvas.dispatchEvent(mouseDown);
                                     }, { passive: true });
-                                    
+
                                     canvas.addEventListener('touchmove', (e) => {
                                       if (canvas._touchActive) {
                                         // Trigger mousemove
@@ -1176,7 +1219,7 @@ export default function GameDetail({ gameDetails, name }) {
                                         canvas.dispatchEvent(mouseMove);
                                       }
                                     }, { passive: true });
-                                    
+
                                     canvas.addEventListener('touchend', (e) => {
                                       if (canvas._touchActive) {
                                         canvas._touchActive = false;
@@ -1198,9 +1241,9 @@ export default function GameDetail({ gameDetails, name }) {
                                       }
                                     }, { passive: true });
                                   }
-                                } catch {}
+                                } catch { }
                               });
-                              
+
                               // CRITICAL: Specifically target buttons and clickable elements - especially SKIP button
                               const clickableElements = doc.querySelectorAll('button, [role="button"], a, input, select, textarea, [onclick], div[style*="cursor: pointer"], div[style*="cursor:pointer"], canvas, [class*="game"], [id*="game"], [class*="skip"], [id*="skip"], [class*="button"], [class*="btn"], div[class*="ad"], div[class*="overlay"]');
                               clickableElements.forEach(btn => {
@@ -1212,19 +1255,19 @@ export default function GameDetail({ gameDetails, name }) {
                                 btn.style.cursor = 'pointer';
                                 btn.style.zIndex = '99999'; // Ensure on top
                                 btn.style.position = 'relative';
-                                
+
                                 // Add padding if it's a button
                                 if (btn.tagName === 'BUTTON' || btn.getAttribute('role') === 'button' || btn.classList.toString().toLowerCase().includes('skip') || btn.classList.toString().toLowerCase().includes('button')) {
                                   if (!btn.style.padding || btn.style.padding === '0px') {
                                     btn.style.padding = '12px 16px';
                                   }
                                 }
-                                
+
                                 // Force enable touch events on buttons
                                 try {
                                   btn.addEventListener('touchstart', (e) => {
                                     // Don't stop propagation - let it bubble to iframe
-                                    e.stopImmediatePropagation = () => {}; // Allow event to continue
+                                    e.stopImmediatePropagation = () => { }; // Allow event to continue
                                   }, { passive: true, capture: false });
                                   btn.addEventListener('touchend', (e) => {
                                     // Trigger click on touchend for better mobile response
@@ -1232,11 +1275,11 @@ export default function GameDetail({ gameDetails, name }) {
                                       if (btn.click) {
                                         btn.click();
                                       }
-                                    } catch {}
+                                    } catch { }
                                   }, { passive: true, capture: false });
-                                } catch {}
+                                } catch { }
                               });
-                              
+
                               // CRITICAL: Specifically target SKIP button and ad overlay buttons - AGGRESSIVE approach
                               // Find all possible skip buttons by class, id, and text content
                               const allPossibleButtons = doc.querySelectorAll('button, [role="button"], div[onclick], span[onclick], a, [class*="button"], [class*="btn"], [class*="skip"], [id*="skip"], div[style*="cursor"], span[style*="cursor"], div, span, p, h1, h2, h3, h4, h5, h6');
@@ -1244,11 +1287,11 @@ export default function GameDetail({ gameDetails, name }) {
                                 const text = (btn.textContent || btn.innerText || btn.value || '').toUpperCase().trim();
                                 const className = (btn.className || '').toLowerCase();
                                 const id = (btn.id || '').toLowerCase();
-                                
+
                                 // Check if it's a skip/close button
-                                if (text.includes('SKIP') || text.includes('CLOSE') || text === 'X' || 
-                                    className.includes('skip') || id.includes('skip') ||
-                                    className.includes('close') || id.includes('close')) {
+                                if (text.includes('SKIP') || text.includes('CLOSE') || text === 'X' ||
+                                  className.includes('skip') || id.includes('skip') ||
+                                  className.includes('close') || id.includes('close')) {
                                   // Make it highly clickable
                                   btn.style.pointerEvents = 'auto';
                                   btn.style.touchAction = 'auto';
@@ -1263,45 +1306,45 @@ export default function GameDetail({ gameDetails, name }) {
                                   btn.style.display = 'block';
                                   btn.style.visibility = 'visible';
                                   btn.style.opacity = '1';
-                                  
+
                                   // Remove any pointer-events: none
                                   if (btn.style.pointerEvents === 'none' || window.getComputedStyle(btn).pointerEvents === 'none') {
                                     btn.style.pointerEvents = 'auto';
                                   }
-                                  
+
                                   // CRITICAL: Force click on touch - multiple aggressive methods
                                   try {
                                     // Remove old listeners if any
                                     if (btn._skipClickHandler) {
                                       btn.removeEventListener('touchend', btn._skipClickHandler);
                                     }
-                                    
+
                                     const handleTouch = (e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
                                       e.stopImmediatePropagation();
-                                      
+
                                       // Try ALL click methods aggressively
                                       try {
                                         // Method 1: Direct click
                                         if (btn.click) {
                                           btn.click();
                                         }
-                                        
+
                                         // Method 2: onclick handler
                                         if (btn.onclick) {
                                           btn.onclick(e);
                                         }
-                                        
+
                                         // Method 3: MouseEvent click
-                                        const clickEvent = new MouseEvent('click', { 
-                                          bubbles: true, 
-                                          cancelable: true, 
+                                        const clickEvent = new MouseEvent('click', {
+                                          bubbles: true,
+                                          cancelable: true,
                                           view: window,
                                           detail: 1
                                         });
                                         btn.dispatchEvent(clickEvent);
-                                        
+
                                         // Method 4: MouseEvent mousedown + mouseup + click sequence
                                         const mouseDown = new MouseEvent('mousedown', {
                                           bubbles: true,
@@ -1318,34 +1361,34 @@ export default function GameDetail({ gameDetails, name }) {
                                           btn.dispatchEvent(mouseUp);
                                           btn.dispatchEvent(clickEvent);
                                         }, 10);
-                                        
+
                                         // Method 5: Try parent click if button doesn't work
                                         if (btn.parentElement) {
                                           try {
                                             btn.parentElement.click();
-                                          } catch {}
+                                          } catch { }
                                         }
-                                      } catch {}
+                                      } catch { }
                                     };
-                                    
+
                                     btn._skipClickHandler = handleTouch;
                                     btn.addEventListener('touchend', handleTouch, { passive: false, capture: true });
                                     btn.addEventListener('touchstart', (e) => {
                                       e.preventDefault();
                                       e.stopPropagation();
                                     }, { passive: false, capture: true });
-                                    
+
                                     // Also add click listener as backup
                                     btn.addEventListener('click', (e) => {
                                       // Ensure click works
                                     }, { passive: true, capture: true });
-                                  } catch {}
+                                  } catch { }
                                 }
                               });
-                              
+
                               // Ensure canvas elements are touchable (for games) - already handled above
                               // Canvas elements are already enabled in the main loop above
-                              
+
                               // Auto-handle Unity WebGL dialog - automatically click OK button
                               const handleUnityDialog = () => {
                                 try {
@@ -1358,7 +1401,7 @@ export default function GameDetail({ gameDetails, name }) {
                                       const text = (btn.textContent || btn.value || '').toLowerCase().trim();
                                       return text === 'ok' || text === 'okay' || text.includes('continue') || text.includes('proceed');
                                     });
-                                    
+
                                     if (okButton) {
                                       // Auto-click OK button after short delay
                                       setTimeout(() => {
@@ -1370,49 +1413,49 @@ export default function GameDetail({ gameDetails, name }) {
                                           try {
                                             const event = new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
                                             okButton.dispatchEvent(event);
-                                          } catch {}
+                                          } catch { }
                                           // Also try touch event for mobile
                                           try {
                                             const touchEvent = new TouchEvent('touchend', { bubbles: true, cancelable: true });
                                             okButton.dispatchEvent(touchEvent);
-                                          } catch {}
+                                          } catch { }
                                         }
                                       }, 200);
                                     }
                                   }
-                                } catch {}
+                                } catch { }
                               };
-                              
+
                               // Check for dialog immediately and periodically
                               handleUnityDialog();
-                              
+
                               // Watch for dialog appearance
                               const dialogObserver = new MutationObserver(() => {
                                 handleUnityDialog();
                               });
-                              
+
                               dialogObserver.observe(doc.body || doc.documentElement, {
                                 childList: true,
                                 subtree: true,
                                 characterData: true
                               });
-                              
+
                               // Store observer for cleanup
                               if (!iframeRef.current._dialogObserver) {
                                 iframeRef.current._dialogObserver = dialogObserver;
                               }
                             }
-                          } catch {}
+                          } catch { }
                         };
-                        
+
                         // Run immediately and then more frequently for mobile
                         makeElementsTouchable();
                         // Run more frequently on mobile for better touch handling
                         const interval = setInterval(makeElementsTouchable, isMobile ? 1000 : 2000);
-                        
+
                         // Store interval for cleanup
                         iframeRef.current._touchInterval = interval;
-                        
+
                         // Also ensure iframe itself is always touchable
                         try {
                           const iframe = iframeRef.current;
@@ -1420,19 +1463,19 @@ export default function GameDetail({ gameDetails, name }) {
                             // Force enable touch on iframe
                             iframe.style.pointerEvents = 'auto';
                             iframe.style.touchAction = 'auto';
-                            
+
                             // Add touch event listeners to iframe
                             iframe.addEventListener('touchstart', (e) => {
                               // Allow touch events to pass through
                             }, { passive: true });
-                            
+
                             iframe.addEventListener('touchend', (e) => {
                               // Allow touch events to pass through
                             }, { passive: true });
                           }
-                        } catch {}
+                        } catch { }
                       }
-                      
+
                       // Performance: Optimize iframe content rendering
                       try {
                         const iframe = iframeRef.current;
@@ -1443,7 +1486,7 @@ export default function GameDetail({ gameDetails, name }) {
                             // Throttle to 60fps for smoother performance
                             let lastFrame = 0;
                             const originalRAF = win.requestAnimationFrame;
-                            win.requestAnimationFrame = function(callback) {
+                            win.requestAnimationFrame = function (callback) {
                               const now = performance.now();
                               const timeToCall = Math.max(0, 16 - (now - lastFrame));
                               const id = setTimeout(() => {
@@ -1453,33 +1496,33 @@ export default function GameDetail({ gameDetails, name }) {
                               return id;
                             };
                           }
-                          
+
                           // Optimize document rendering inside iframe
                           try {
                             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                             if (iframeDoc) {
                               iframeDoc.body.style.willChange = 'auto';
                               iframeDoc.body.style.transform = 'translateZ(0)';
-                              
+
                               // Reduce layout thrashing
                               iframeDoc.body.style.contain = 'layout style paint';
                             }
-                          } catch {}
+                          } catch { }
                         }
-                      } catch {}
-                      
+                      } catch { }
+
                       try {
                         // Give the iframe focus for keyboard/touch controls
                         iframeRef.current?.contentWindow?.focus?.();
-                        
+
                         // Ensure focus stays on iframe for better input handling
                         setTimeout(() => {
                           try {
                             iframeRef.current?.contentWindow?.focus?.();
-                          } catch {}
+                          } catch { }
                         }, 100);
-                      } catch {}
-                      
+                      } catch { }
+
                       // Performance: Optimize modal container
                       try {
                         const el = modalContainerRef.current;
@@ -1489,7 +1532,7 @@ export default function GameDetail({ gameDetails, name }) {
                           el.style.transform = 'translateZ(0)';
                           el.style.backfaceVisibility = 'hidden';
                           el.style.webkitBackfaceVisibility = 'hidden';
-                          
+
                           // Best-effort fullscreen request
                           if (document.fullscreenElement == null) {
                             const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
@@ -1500,8 +1543,8 @@ export default function GameDetail({ gameDetails, name }) {
                             }
                           }
                         }
-                      } catch {}
-                      
+                      } catch { }
+
                       // Performance: Reduce browser reflows
                       try {
                         // Use requestIdleCallback if available for non-critical updates
@@ -1510,7 +1553,7 @@ export default function GameDetail({ gameDetails, name }) {
                             // Any non-critical optimizations can go here
                           }, { timeout: 2000 });
                         }
-                      } catch {}
+                      } catch { }
                     }}
                     onError={() => {
                       setGameError('Failed to load game. Please try again.');
@@ -1599,15 +1642,15 @@ export default function GameDetail({ gameDetails, name }) {
         <div className="flex justify-start items-center flex-wrap gap-3 mt-8 max-lg:px-5">
           {(Array.isArray(gameDetails?.tags) ? gameDetails.tags : (typeof gameDetails?.tags === 'string' ? gameDetails.tags.split(/[,|]/).map(t => t.trim()).filter(Boolean) : []))
             .map((tag, index) => (
-            <div
-              key={index}
-              className="px-4 py-1 rounded-[16px] border border-[rgba(220,248,54,0.25)] text-[#DCF836] bg-[rgba(7,18,28,0.45)]"
-            >
-              {tag}
-            </div>
-          ))}
+              <div
+                key={index}
+                className="px-4 py-1 rounded-[16px] border border-[rgba(220,248,54,0.25)] text-[#DCF836] bg-[rgba(7,18,28,0.45)]"
+              >
+                {tag}
+              </div>
+            ))}
         </div>
-        
+
         {/* GOOGLE ADS BELOW TAGS */}
         <div className="w-full flex justify-center ad-wrapper">
           <AdSenseSlot
