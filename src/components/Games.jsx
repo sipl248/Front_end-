@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState, useCallback, Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import { titleToSlug } from "@/utils/urlUtils";
+import { titleToSlug, formatGameTitle } from "@/utils/urlUtils";
 import AdSenseSlot from "@/components/AdSenseSlot";
 import { loadCustomGames, getCustomGamesByCategory, mergeGames } from "@/utils/customGames";
 const AdsterraAd = dynamic(() => import("@/components/AdsterraAd"), {
@@ -463,10 +463,10 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                                 <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
                                   <div
                                     className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
-                                    title={item?.title}
+                                    title={formatGameTitle(item?.title)}
                                     style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
                                   >
-                                    {item?.title}
+                                    {formatGameTitle(item?.title)}
                                   </div>
                                 </div>
                               </div>
@@ -569,10 +569,10 @@ function GamesInner({ showSearch = true, compact = false, sectionTitle = "", dis
                     <div className="backdrop-blur-[2px] inline-block max-w-full px-2 py-1 rounded-md">
                       <div
                         className="text-[#DCF836] drop-shadow-[0_0_10px_rgba(220,248,54,0.55)] font-extrabold tracking-wide leading-snug text-[12px] md:text-sm"
-                        title={item?.title}
+                        title={formatGameTitle(item?.title)}
                         style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
                       >
-                        {item?.title}
+                        {formatGameTitle(item?.title)}
                       </div>
                     </div>
                   </div>

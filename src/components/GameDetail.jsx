@@ -4,6 +4,7 @@ import AdSenseSlot from "@/components/AdSenseSlot";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IoClose } from "react-icons/io5";
+import { formatGameTitle } from "@/utils/urlUtils";
 
 export default function GameDetail({ gameDetails, name }) {
   const [showIframe, setShowIframe] = useState(false);
@@ -731,7 +732,7 @@ export default function GameDetail({ gameDetails, name }) {
           <div className="relative z-[5] w-full py-24 max-md:py-6 flex justify-center items-center flex-col">
             <h1 className="text-[56px] max-xl:text-[44px] max-md:text-[32px] font-extrabold text-center tracking-wide mb-3">
               <span className="bg-gradient-to-r from-[#DCF836] via-white to-[#DCF836] bg-clip-text text-transparent" style={{ backgroundSize: '200% 200%', animation: 'shine 6s linear infinite' }}>
-                {gameDetails?.title || name}
+                {formatGameTitle(gameDetails?.title || name)}
               </span>
             </h1>
             <div className="rounded-[22px] border border-[rgba(220,248,54,0.25)] bg-[rgba(7,18,28,0.55)] backdrop-blur-md p-4 flex flex-col items-center gap-4 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">

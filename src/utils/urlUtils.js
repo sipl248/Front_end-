@@ -33,6 +33,30 @@ export function slugToTitle(slug) {
 }
 
 /**
+ * Format game name for display - converts underscores/hyphens to spaces and applies title case
+ * Examples: "Gun_flip" -> "Gun Flip", "Mini_golf" -> "Mini Golf", "Snake game" -> "Snake Game"
+ * @param {string} gameName - The game name (can have underscores, hyphens, or spaces)
+ * @returns {string} - Formatted title with proper capitalization
+ */
+export function formatGameTitle(gameName) {
+    if (!gameName) return '';
+
+    return gameName
+        // Replace underscores and hyphens with spaces
+        .replace(/[_-]/g, ' ')
+        // Split by spaces
+        .split(/\s+/)
+        // Capitalize first letter of each word, lowercase the rest
+        .map(word => {
+            if (!word) return '';
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        })
+        // Join with single spaces
+        .join(' ')
+        .trim();
+}
+
+/**
  * Normalize a string for loose comparisons (case-insensitive, alphanumeric only, single spaces)
  * @param {string} value
  * @returns {string}
